@@ -29,17 +29,6 @@ import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 300;
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    padding: '0 2px 2px 30px',
-    marginTop: '65px',
-    height: '70px',
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: 'space-between'
-}));
-
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open'
 })(({ theme, open }) => ({
@@ -71,19 +60,6 @@ const MyToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
         '&.Mui-selected:hover': {
             backgroundColor: '#013f56'
         }
-    }
-}));
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: '#f7f7f7',
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    boxShadow: 'none',
-    '&:hover': {
-        // transform: 'skew(15deg,10deg)'
-        // border: 'solid 1px #1bd7a0',
-        // borderRadius: '5px'
     }
 }));
 
