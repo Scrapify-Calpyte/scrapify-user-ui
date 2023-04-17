@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -16,10 +17,13 @@ import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import img from '/src/assets/images/product.png';
-import { styled } from '@mui/material/styles';
 import { useState } from 'react';
+import { Map ,GoogleApiWrapper } from 'google-maps-react';
+import MapContainer from './MapContainer';
+import { styled, useTheme } from '@mui/material/styles';
 
-export default function BuyerScreen() {
+
+function BuyerScreen() {
     const [selectedProduct, setSelectedProduct] = useState([]);
     const drawerWidth = 300;
 
@@ -44,24 +48,10 @@ export default function BuyerScreen() {
     };
 
     return (
-        <Box sx={{ display: 'flex', width: '100%' }}>
-            <Drawer
-                sx={{
-                    width: drawerWidth,
-                    flexShrink: 0,
-                    '& .MuiDrawer-paper': {
-                        width: drawerWidth,
-                        boxSizing: 'border-box'
-                    },
-                    zIndex: 0
-                }}
-                style={{ boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px' }}
-                variant="persistent"
-                anchor="left"
-                open={true}
-            >
-                <Divider sx={{ paddingTop: '20%' }} />
-                <Box sx={{ flexGrow: 0 }}>
+    <>
+        <Stack flexDirection="row">
+             <Box sx={{width : '300px !important' ,height : window.innerHeight - 65 ,position : 'relative' , boxShadow :'rgba(149, 157, 165, 0.2) 0px 8px 24px' ,  backgroundColor: 'white'}}>
+                <Box sx={{ flexGrow: 1 , backgroundColor: 'white'}}>
                     <List dense={true}>
                         <ListItem
                             secondaryAction={
@@ -84,7 +74,7 @@ export default function BuyerScreen() {
                         </ListItem>
                     </List>
                 </Box>
-                <Box sx={{ flexGrow: 0, backgroundColor: '#f7f7f7', padding: '1%' }}>
+                <Box sx={{ flexGrow: 1, backgroundColor: '#f7f7f7', padding: '1%' }}>
                     <Grid container spacing={1}>
                         {products.map((e, index) => {
                             return (
@@ -108,10 +98,17 @@ export default function BuyerScreen() {
                         })}
                     </Grid>
                 </Box>
-            </Drawer>
-            <Box sx={{ width: '100%', backgroundColor: 'red' }}>
-                <p>works</p>
-            </Box>
-        </Box>
+             </Box>
+          <MapContainer/>
+         </Stack>
+    </>
+        
+        
     );
 }
+
+
+export default BuyerScreen;
+// GoogleApiWrapper({
+//     apiKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY'
+//   })(BuyerScreen);

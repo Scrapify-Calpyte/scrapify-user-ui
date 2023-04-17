@@ -124,7 +124,11 @@ export default function MenuProvider({ handleDrawer }) {
                                 edge="start"
                                 sx={{ mr: 2 }}
                             >
-                                {open ? <CloseIcon fontSize="large" /> : <ListIcon fontSize="large" />}
+                                {open ? (
+                                    <CloseIcon fontSize="large" sx={{ transform: 'rotate(90deg) 2s' }} />
+                                ) : (
+                                    <ListIcon fontSize="large" sx={{ transform: 'rotate(90deg) 2s' }} />
+                                )}
                             </IconButton>
                             <Typography variant="h5" noWrap component="div">
                                 Scrapify
