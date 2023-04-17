@@ -18,7 +18,7 @@ const MainLayout = ({ google }) => {
 
     const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
         flexGrow: 1,
-        padding: '1%',
+        // padding: '1%',
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen
@@ -53,7 +53,6 @@ const MainLayout = ({ google }) => {
             <MenuProvider handleDrawer={handleDrawerToggle} />
             <Main open={open}>
                 <DrawerHeader />
-                <p>Page Content</p>
                 <Outlet />
             </Main>
         </Box>

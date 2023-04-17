@@ -8,34 +8,24 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { useEffect } from 'react';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
 import ListIcon from '@mui/icons-material/List';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { Card, CardContent, Grid } from '@mui/material';
 import { Stack } from '../../../../node_modules/@mui/material/index';
 import Paper from '@mui/material/Paper';
-import img from '../../../assets/images/product.png';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
-import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
 import Divider from '@mui/material/Divider';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
 import './menu.css';
+import CloseIcon from '@mui/icons-material/Close';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
+import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
+import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 300;
 
@@ -98,32 +88,51 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function MenuProvider({ handleDrawer }) {
-    const [open, setOpen] = useState(true);
-    const [menus, setMenus] = useState([]);
-    const [toggle, setToggle] = React.useState('web');
+    const [open, setOpen] = useState(false);
+    const [toggle, setToggle] = React.useState('buyer');
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [selectedProduct, setSelectedProduct] = useState([]);
+    const navigate = useNavigate();
 
-    const products = ['Bottles', 'Cartons', 'Metals', 'Magazines', 'Books', 'e-waste', 'Glasses'];
+    const handleListItemClick = (event, index) => {
+        setSelectedIndex(index);
+        setOpen(!open);
+    };
 
     const handleDrawerToggle = () => {
         setOpen(!open);
         handleDrawer();
     };
 
+    const menus = [
+        {
+            icon: <HomeOutlinedIcon />,
+            label: 'Home',
+            link: '/home'
+        },
+        {
+            icon: <CallOutlinedIcon />,
+            label: 'Scrap Rates',
+            link: '/scrap-rates'
+        },
+        {
+            icon: <PersonAddAltOutlinedIcon />,
+            label: 'Become A Buyer',
+            link: '/become-buyer'
+        },
+        {
+            icon: <CurrencyExchangeOutlinedIcon />,
+            label: 'Refer & Earn',
+            link: '/refer-earn'
+        },
+        {
+            icon: <CallOutlinedIcon />,
+            label: 'Contact',
+            link: '/contatc'
+        }
+    ];
     useEffect(() => {
         setToggle('buyer');
     }, []);
-
-    const handleSelectedProduct = (index) => {
-        setSelectedProduct((oldArray) => {
-            if (oldArray.includes(index)) {
-                return [...oldArray.filter((e) => e != index)];
-            } else {
-                return [...oldArray, index];
-            }
-        });
-    };
 
     return (
         <>
@@ -139,7 +148,7 @@ export default function MenuProvider({ handleDrawer }) {
                                 edge="start"
                                 sx={{ mr: 2 }}
                             >
-                                <ListIcon fontSize="large" />
+                                {open ? <CloseIcon fontSize="large" /> : <ListIcon fontSize="large" />}
                             </IconButton>
                             <Typography variant="h5" noWrap component="div">
                                 Scrapify
@@ -149,6 +158,7 @@ export default function MenuProvider({ handleDrawer }) {
                             value={toggle}
                             onChange={(event, value) => {
                                 value ? setToggle(value) : setToggle(toggle);
+                                navigate(value == 'seller' ? '/seller' : '/buyer');
                             }}
                             exclusive
                             aria-label="Platform"
@@ -174,10 +184,8 @@ export default function MenuProvider({ handleDrawer }) {
                 className="drawer"
                 PaperProps={{
                     sx: {
-                        boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
-                        // paddingTop: '65px'
-                        top: '65px',
-                        height: window.innerHeight - 65
+                        paddingTop: '65px',
+                        boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'
                     }
                 }}
                 sx={{
@@ -199,107 +207,27 @@ export default function MenuProvider({ handleDrawer }) {
                         filter: 'blur'
                     }
                 }}
-                variant="persistent"
+                variant="temporary"
                 anchor="left"
-                open={true}
+                open={open}
             >
-                <Box sx={{ flexGrow: 0 }}>
-                    <List dense={true}>
-                        <ListItem
-                            secondaryAction={
-                                <Tooltip title="Locate me">
-                                    <IconButton edge="end" onClick={() => alert('Locate me hitted')}>
-                                        <GpsFixedIcon style={{ color: '#1bd7a0' }} />
-                                    </IconButton>
-                                </Tooltip>
-                            }
-                        >
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <LocationOnIcon style={{ color: '#013f56' }} />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={<Typography style={{ color: '#013f56', fontWeight: 'bold' }}>Location Name</Typography>}
-                                secondary={<Typography style={{ color: '#1bd7a0', fontSize: '12px' }}>Change Location</Typography>}
-                            />
-                        </ListItem>
-                    </List>
-                </Box>
-                <Box sx={{ flexGrow: 0, backgroundColor: '#f7f7f7', padding: '1%' }}>
-                    <Grid container spacing={1}>
-                        {products.map((e, index) => {
-                            return (
-                                <Grid item xs={4} key={index}>
-                                    <Item key={index}>
-                                        <IconButton
-                                            onClick={() => handleSelectedProduct(index)}
-                                            aria-haspopup="true"
-                                            sx={
-                                                selectedProduct.includes(index)
-                                                    ? { backgroundColor: '#A3E4D7' }
-                                                    : { backgroundColor: 'none' }
-                                            }
-                                        >
-                                            <Avatar alt="img" src={img} sx={{ width: '60px', height: '60px' }} />
-                                        </IconButton>
-                                        {e}
-                                    </Item>
-                                </Grid>
-                            );
-                        })}
-                    </Grid>
-                </Box>
-                <Box sx={{ flexGrow: 0, bgcolor: 'background.paper' }}>
-                    <Stack flexDirection="row" justifyContent="space-between" padding="5%">
-                        <Typography style={{ color: '#013f56', fontWeight: 'bold' }}>Buyers Near By</Typography>
-                        <Typography style={{ color: '#013f56', fontWeight: 'bold' }}>View All</Typography>
-                    </Stack>
+                <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     <List component="nav" aria-label="main mailbox folders">
-                        {['list one', 'List two', 'list one'].map((e, index) => {
+                        {menus.map((menu, index) => {
                             return (
-                                <>
-                                    <ListItemButton key={index} selected={selectedIndex === index} onClick={() => setSelectedIndex(index)}>
-                                        <ListItemIcon>
-                                            <Avatar variant="square">
-                                                <PersonAdd />
-                                            </Avatar>
-                                        </ListItemIcon>
-
-                                        <ListItemText
-                                            primary={
-                                                <>
-                                                    <Stack direction="row" spacing={1}>
-                                                        <Stack spacing={1}>
-                                                            <Typography style={{ color: '#013f56', fontWeight: 'bold', fontSize: 'small' }}>
-                                                                {e}
-                                                            </Typography>
-                                                            <Stack direction="row" spacing={1}>
-                                                                <Tooltip title={e}>
-                                                                    <div className="chip"> {e}</div>
-                                                                </Tooltip>
-                                                                <Tooltip title={e}>
-                                                                    <div className="chip"> {e}</div>
-                                                                </Tooltip>
-                                                            </Stack>
-                                                        </Stack>
-                                                    </Stack>
-                                                </>
-                                            }
-                                            // secondary={e}
-                                        />
-                                        <ListItemText
-                                            sx={{ textAlign: 'right', alignItems: 'center' }}
-                                            primary="3 km"
-                                            secondary="300 kg processed"
-                                        />
-                                    </ListItemButton>
-                                </>
+                                <ListItemButton
+                                    key={index}
+                                    selected={selectedIndex === index}
+                                    onClick={(event) => handleListItemClick(event, index)}
+                                >
+                                    <ListItemIcon>{menu?.icon}</ListItemIcon>
+                                    <ListItemText primary={menu?.label} />
+                                </ListItemButton>
                             );
                         })}
                     </List>
+                    <Divider />
                 </Box>
-                {/* <SwipeableDrawer anchor={true} open={true}></SwipeableDrawer> */}
             </Drawer>
         </>
     );
