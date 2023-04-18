@@ -88,7 +88,7 @@ function BuyerScreen() {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={<Typography style={{ color: '#013f56', fontWeight: 'bold' }}>Location Name</Typography>}
+                                    primary={<Typography style={{ color: '#013f56', fontWeight: 'bold' }}>Chennai</Typography>}
                                     secondary={<Typography style={{ color: '#1bd7a0', fontSize: '12px' }}>Change Location</Typography>}
                                 />
                             </ListItem>
@@ -120,11 +120,11 @@ function BuyerScreen() {
                     </Box>
                     <Box sx={{ flexGrow: 0, bgcolor: 'background.paper' }}>
                         <Stack flexDirection="row" justifyContent="space-between" padding="5%">
-                            <Typography style={{ color: '#013f56', fontWeight: 'bold' }}>Buyers Near By</Typography>
+                            <Typography style={{ color: '#013f56', fontWeight: 'bold' }}>Sellers Near By</Typography>
                             <Typography style={{ color: '#013f56', fontWeight: 'bold' }}>View All</Typography>
                         </Stack>
                         <List component="nav" aria-label="main mailbox folders">
-                            {['list one', 'List two', 'list one', 'list four'].map((e, index) => {
+                            {['Dinesh', 'Kishore', 'Arun', 'Ranjith'].map((e, index) => {
                                 return (
                                     <ListItemButton
                                         key={index}
@@ -149,10 +149,7 @@ function BuyerScreen() {
                                                             </Typography>
                                                             <Stack direction="row" spacing={1}>
                                                                 <Tooltip title={e}>
-                                                                    <div className="chip"> {e}</div>
-                                                                </Tooltip>
-                                                                <Tooltip title={e}>
-                                                                    <div className="chip"> {e}</div>
+                                                                    <div className="chip">Bottles</div>
                                                                 </Tooltip>
                                                             </Stack>
                                                         </Stack>
@@ -162,8 +159,8 @@ function BuyerScreen() {
                                         />
                                         <ListItemText
                                             sx={{ textAlign: 'right', alignItems: 'center' }}
-                                            primary="3 km"
-                                            secondary="300 kg processed"
+                                            primary="10 km"
+                                            secondary={(Math.random() * 100).toFixed(2) + ' kg processed'}
                                         />
                                     </ListItemButton>
                                 );

@@ -61,12 +61,12 @@ function MapComponent() {
             lng: 80.2707
         },
         {
-            lat: 11.0168,
-            lng: 76.9558
+            lat: 13.0418,
+            lng: 80.2341
         },
         {
-            lat: 9.9252,
-            lng: 78.1198
+            lat: 13.0694,
+            lng: 80.1948
         }
     ];
 
@@ -104,7 +104,7 @@ function MapComponent() {
             )}
             <Circle
                 center={location}
-                radius={50000}
+                radius={10 * 1000}
                 options={{
                     fillColor: '#ff0000',
                     strokeColor: '#ff0000',
