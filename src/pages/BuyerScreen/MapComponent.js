@@ -16,12 +16,19 @@ function MapComponent() {
     const [location, setLocation] = useState(null);
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition((position) => {
-            setLocation({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            });
-        });
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                setLocation({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                });
+            },
+            (error) => {
+                setLocation(center);
+                console.log(error);
+                alert('Location is not enabled and default location is chennai');
+            }
+        );
     }, []);
 
     const onMarkerClick = (marker) => {
@@ -54,38 +61,42 @@ function MapComponent() {
             lng: 80.2707
         },
         {
-            lat: 11.0168,
-            lng: 76.9558
+            lat: 13.0418,
+            lng: 80.2341
         },
         {
-            lat: 9.9252,
-            lng: 78.1198
+            lat: 13.0694,
+            lng: 80.1948
         }
     ];
 
-    // const markerOptions = {
-    //     icon: {
-    //         url: LocationOnIcon,
-    //         // 'https://e7.pngegg.com/pngimages/508/387/png-clipart-google-maps-google-map-maker-pritchard-community-center-marker-pen-map-blue-globe.png',
-    //         scaledSize: {
-    //             width: 32,
-    //             height: 32
-    //         }
-    //     }
-    // };
+    const markerOptions = {
+        icon: {
+            url: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+            scaledSize: {
+                width: 40,
+                height: 40
+            }
+        }
+    };
 
     const mapOptions = {
         minZoom: 5,
         maxZoom: 15,
-        zoom: 3
+        zoom: 8
     };
 
     return isLoaded ? (
         <GoogleMap mapContainerStyle={containerStyle} options={mapOptions} center={location} onLoad={onLoad} onUnmount={onUnmount}>
             {markers.map((marker, index) => (
-                <Marker key={index} position={{ lat: marker?.lat, lng: marker?.lng }} onClick={() => onMarkerClick(marker)} />
+                <Marker
+                    options={markerOptions}
+                    key={index}
+                    position={{ lat: marker?.lat, lng: marker?.lng }}
+                    onClick={() => onMarkerClick(marker)}
+                />
             ))}
-            {location && <Marker position={location} />}
+            {location ? <Marker position={location} /> : <></>}
             {selectedMarker && (
                 <InfoWindow position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }} onCloseClick={onCloseClick}>
                     <div>Info Window Content</div>
@@ -93,7 +104,7 @@ function MapComponent() {
             )}
             <Circle
                 center={location}
-                radius={50000}
+                radius={10 * 1000}
                 options={{
                     fillColor: '#ff0000',
                     strokeColor: '#ff0000',
