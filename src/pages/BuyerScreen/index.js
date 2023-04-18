@@ -1,7 +1,5 @@
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Divider from '@mui/material/Divider';
 import * as React from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import List from '@mui/material/List';
@@ -22,10 +20,21 @@ import MapComponent from './MapComponent';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import PersonAdd from '@mui/icons-material/PersonAdd';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import Slide from '@mui/material/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function BuyerScreen() {
     const [selectedProduct, setSelectedProduct] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [dialog, setDialog] = useState(false);
     const drawerWidth = 300;
 
     const products = ['Bottles', 'Cartons', 'Metals', 'Magazines', 'Books', 'e-waste', 'Glasses'];
@@ -117,7 +126,14 @@ function BuyerScreen() {
                         <List component="nav" aria-label="main mailbox folders">
                             {['list one', 'List two', 'list one', 'list four'].map((e, index) => {
                                 return (
-                                    <ListItemButton key={index} selected={selectedIndex === index} onClick={() => setSelectedIndex(index)}>
+                                    <ListItemButton
+                                        key={index}
+                                        selected={selectedIndex === index}
+                                        onClick={() => {
+                                            setSelectedIndex(index);
+                                            setDialog(true);
+                                        }}
+                                    >
                                         <ListItemIcon>
                                             <Avatar variant="square">
                                                 <PersonAdd />
@@ -159,6 +175,35 @@ function BuyerScreen() {
                     <MapComponent />
                 </Box>
             </Stack>
+            <Dialog
+                PaperProps={
+                    {
+                        // sx: {
+                        // }
+                    }
+                }
+                fullWidth
+                maxWidth="xs"
+                scroll="paper"
+                TransitionComponent={Transition}
+                open={dialog}
+                onClose={() => setDialog(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
+                        <p>Seller Details</p>
+                    </Stack>
+                </DialogTitle>
+                <DialogContent className="row col-12">
+                    <p>Content</p>
+                </DialogContent>
+                <DialogActions>
+                    <Button type="submit">Ok</Button>
+                    <Button onClick={() => setDialog(false)}>Cancel</Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 }

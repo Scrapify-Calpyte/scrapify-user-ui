@@ -27,6 +27,7 @@ import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
 import { useNavigate } from 'react-router-dom';
 import { Squash as Hamburger } from 'hamburger-react';
+import { useLocation } from 'react-router-dom';
 
 const drawerWidth = 300;
 
@@ -64,20 +65,16 @@ const MyToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     }
 }));
 
-export default function MenuProvider({ handleDrawer }) {
+export default function MenuProvider() {
     const [open, setOpen] = useState(false);
     const [toggle, setToggle] = React.useState('buyer');
     const [selectedIndex, setSelectedIndex] = useState(0);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
         setOpen(!open);
-    };
-
-    const handleDrawerToggle = () => {
-        setOpen(!open);
-        handleDrawer();
     };
 
     const menus = [
@@ -108,7 +105,7 @@ export default function MenuProvider({ handleDrawer }) {
         }
     ];
     useEffect(() => {
-        setToggle('buyer');
+        if (location.pathname === '/seller') setToggle('seller');
     }, []);
 
     return (
@@ -117,7 +114,7 @@ export default function MenuProvider({ handleDrawer }) {
                 <AppBar position="fixed" open={open}>
                     <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Stack flexDirection="row" alignItems="center" gap={1}>
-                            <Hamburger onToggle={handleDrawerToggle} rounded toggled={open} size={25} />
+                            <Hamburger onToggle={() => setOpen(!open)} rounded toggled={open} size={25} />
                             <Typography variant="h5" noWrap component="div">
                                 Scrapify
                             </Typography>
@@ -144,7 +141,7 @@ export default function MenuProvider({ handleDrawer }) {
                                     src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80"
                                 />
                             </IconButton>
-                        </Tooltip> */}
+                        </Tooltip>*/}
                     </Toolbar>
                 </AppBar>
             </Box>
