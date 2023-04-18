@@ -85,7 +85,7 @@ function BuyerScreen() {
                             </ListItem>
                         </List>
                     </Box>
-                    <Box sx={{ flexGrow: 1, backgroundColor: '#f7f7f7', padding: '1%' }}>
+                    <Box sx={{ flexGrow: 1, backgroundColor: '#f7f7f7', padding: '0' }}>
                         <Grid container spacing={1}>
                             {products.map((e, index) => {
                                 return (
