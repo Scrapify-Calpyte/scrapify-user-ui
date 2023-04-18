@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow, Circle } from '@react-google-maps/api';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import MyLocationIcon from '@mui/icons-material/MyLocation';
 
 const containerStyle = {
     width: '100%',
@@ -65,16 +63,16 @@ function MapComponent() {
         }
     ];
 
-    const markerOptions = {
-        icon: {
-            url: LocationOnIcon,
-            // 'https://e7.pngegg.com/pngimages/508/387/png-clipart-google-maps-google-map-maker-pritchard-community-center-marker-pen-map-blue-globe.png',
-            scaledSize: {
-                width: 32,
-                height: 32
-            }
-        }
-    };
+    // const markerOptions = {
+    //     icon: {
+    //         url: LocationOnIcon,
+    //         // 'https://e7.pngegg.com/pngimages/508/387/png-clipart-google-maps-google-map-maker-pritchard-community-center-marker-pen-map-blue-globe.png',
+    //         scaledSize: {
+    //             width: 32,
+    //             height: 32
+    //         }
+    //     }
+    // };
 
     const mapOptions = {
         minZoom: 5,
@@ -87,16 +85,7 @@ function MapComponent() {
             {markers.map((marker, index) => (
                 <Marker key={index} position={{ lat: marker?.lat, lng: marker?.lng }} onClick={() => onMarkerClick(marker)} />
             ))}
-            {location && (
-                <Marker
-                    position={location}
-                    icon={{
-                        url: MyLocationIcon,
-                        scaledSize: new window.google.maps.Size(40, 40),
-                        anchor: new window.google.maps.Point(20, 40)
-                    }}
-                />
-            )}
+            {location && <Marker position={location} />}
             {selectedMarker && (
                 <InfoWindow position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }} onCloseClick={onCloseClick}>
                     <div>Info Window Content</div>
