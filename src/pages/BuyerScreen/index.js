@@ -117,48 +117,39 @@ function BuyerScreen() {
                         <List component="nav" aria-label="main mailbox folders">
                             {['list one', 'List two', 'list one', 'list four'].map((e, index) => {
                                 return (
-                                    <>
-                                        <ListItemButton
-                                            key={index}
-                                            selected={selectedIndex === index}
-                                            onClick={() => setSelectedIndex(index)}
-                                        >
-                                            <ListItemIcon>
-                                                <Avatar variant="square">
-                                                    <PersonAdd />
-                                                </Avatar>
-                                            </ListItemIcon>
-                                            <ListItemText
-                                                primary={
-                                                    <>
-                                                        <Stack direction="row" spacing={1}>
-                                                            <Stack spacing={1}>
-                                                                <Typography
-                                                                    style={{ color: '#013f56', fontWeight: 'bold', fontSize: 'small' }}
-                                                                >
-                                                                    {e}
-                                                                </Typography>
-                                                                <Stack direction="row" spacing={1}>
-                                                                    <Tooltip title={e}>
-                                                                        <div className="chip"> {e}</div>
-                                                                    </Tooltip>
-                                                                    <Tooltip title={e}>
-                                                                        <div className="chip"> {e}</div>
-                                                                    </Tooltip>
-                                                                </Stack>
+                                    <ListItemButton key={index} selected={selectedIndex === index} onClick={() => setSelectedIndex(index)}>
+                                        <ListItemIcon>
+                                            <Avatar variant="square">
+                                                <PersonAdd />
+                                            </Avatar>
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={
+                                                <>
+                                                    <Stack direction="row" spacing={1}>
+                                                        <Stack spacing={1}>
+                                                            <Typography style={{ color: '#013f56', fontWeight: 'bold', fontSize: 'small' }}>
+                                                                {e}
+                                                            </Typography>
+                                                            <Stack direction="row" spacing={1}>
+                                                                <Tooltip title={e}>
+                                                                    <div className="chip"> {e}</div>
+                                                                </Tooltip>
+                                                                <Tooltip title={e}>
+                                                                    <div className="chip"> {e}</div>
+                                                                </Tooltip>
                                                             </Stack>
                                                         </Stack>
-                                                    </>
-                                                }
-                                                // secondary={e}
-                                            />
-                                            <ListItemText
-                                                sx={{ textAlign: 'right', alignItems: 'center' }}
-                                                primary="3 km"
-                                                secondary="300 kg processed"
-                                            />
-                                        </ListItemButton>
-                                    </>
+                                                    </Stack>
+                                                </>
+                                            }
+                                        />
+                                        <ListItemText
+                                            sx={{ textAlign: 'right', alignItems: 'center' }}
+                                            primary="3 km"
+                                            secondary="300 kg processed"
+                                        />
+                                    </ListItemButton>
                                 );
                             })}
                         </List>
