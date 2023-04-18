@@ -58,10 +58,10 @@ function MapComponent() {
         maxZoom: 15,
         zoom: 3
         // zoomControlOptions: {
-        //     position: window.google.maps.ControlPosition.RIGHT_CENTER
+        //     position: new window.google.maps.ControlPosition.RIGHT_CENTER()
         // },
         // mapTypeControlOptions: {
-        //     position: window.google.maps.ControlPosition.BOTTOM_CENTER
+        //     position: new window.google.maps.ControlPosition.BOTTOM_CENTER()
         // }
     };
 
