@@ -26,6 +26,7 @@ import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
 import { useNavigate } from 'react-router-dom';
+import { Squash as Hamburger } from 'hamburger-react';
 
 const drawerWidth = 300;
 
@@ -115,21 +116,8 @@ export default function MenuProvider({ handleDrawer }) {
             <Box sx={{ flexGrow: 0, zIndex: 1 }}>
                 <AppBar position="fixed" open={open}>
                     <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Stack flexDirection="row" alignItems="center">
-                            <IconButton
-                                size="small"
-                                color="inherit"
-                                aria-label="open drawer"
-                                onClick={handleDrawerToggle}
-                                edge="start"
-                                sx={{ mr: 2 }}
-                            >
-                                {open ? (
-                                    <CloseIcon fontSize="large" sx={{ transform: 'rotate(90deg) 2s' }} />
-                                ) : (
-                                    <ListIcon fontSize="large" sx={{ transform: 'rotate(90deg) 2s' }} />
-                                )}
-                            </IconButton>
+                        <Stack flexDirection="row" alignItems="center" gap={1}>
+                            <Hamburger onToggle={handleDrawerToggle} rounded toggled={open} size={25} />
                             <Typography variant="h5" noWrap component="div">
                                 Scrapify
                             </Typography>
