@@ -4,7 +4,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import MenuProvider from './MenuProvider';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Map, GoogleApiWrapper } from 'google-maps-react';
 
 const MainLayout = ({ google }) => {
     const drawerWidth = 300;
@@ -56,6 +55,8 @@ const MainLayout = ({ google }) => {
     );
 };
 
-export default GoogleApiWrapper({
-    apiKey: 'AIzaSyA4F9JYoct7v7oGvirzAx7_oK6XkNyL1oM'
-})(MainLayout);
+export default MainLayout;
+
+// ({
+//     apiKey: 'AIzaSyA4F9JYoct7v7oGvirzAx7_oK6XkNyL1oM'
+// })(MainLayout);
