@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -18,13 +17,15 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import img from '/src/assets/images/product.png';
 import { useState } from 'react';
-import { Map ,GoogleApiWrapper } from 'google-maps-react';
-import MapContainer from './MapContainer';
-import { styled, useTheme } from '@mui/material/styles';
-
+import { styled } from '@mui/material/styles';
+import MapComponent from './MapComponent';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import PersonAdd from '@mui/icons-material/PersonAdd';
 
 function BuyerScreen() {
     const [selectedProduct, setSelectedProduct] = useState([]);
+    const [selectedIndex, setSelectedIndex] = useState(0);
     const drawerWidth = 300;
 
     const products = ['Bottles', 'Cartons', 'Metals', 'Magazines', 'Books', 'e-waste', 'Glasses'];
@@ -48,65 +49,128 @@ function BuyerScreen() {
     };
 
     return (
-    <>
-        <Stack flexDirection="row">
-             <Box sx={{width : '300px !important' ,height : window.innerHeight - 65 ,position : 'relative' , boxShadow :'rgba(149, 157, 165, 0.2) 0px 8px 24px' ,  backgroundColor: 'white'}}>
-                <Box sx={{ flexGrow: 1 , backgroundColor: 'white'}}>
-                    <List dense={true}>
-                        <ListItem
-                            secondaryAction={
-                                <Tooltip title="Locate me">
-                                    <IconButton edge="end" onClick={() => alert('Locate me hitted')}>
-                                        <GpsFixedIcon style={{ color: '#1bd7a0' }} />
-                                    </IconButton>
-                                </Tooltip>
-                            }
-                        >
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <LocationOnIcon style={{ color: '#013f56' }} />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={<Typography style={{ color: '#013f56', fontWeight: 'bold' }}>Location Name</Typography>}
-                                secondary={<Typography style={{ color: '#1bd7a0', fontSize: '12px' }}>Change Location</Typography>}
-                            />
-                        </ListItem>
-                    </List>
-                </Box>
-                <Box sx={{ flexGrow: 1, backgroundColor: '#f7f7f7', padding: '1%' }}>
-                    <Grid container spacing={1}>
-                        {products.map((e, index) => {
-                            return (
-                                <Grid item xs={4} key={index}>
-                                    <Item key={index}>
-                                        <IconButton
-                                            onClick={() => handleSelectedProduct(index)}
-                                            aria-haspopup="true"
-                                            sx={
-                                                selectedProduct.includes(index)
-                                                    ? { backgroundColor: '#A3E4D7' }
-                                                    : { backgroundColor: 'none' }
-                                            }
-                                        >
-                                            <Avatar alt="img" src={img} sx={{ width: '60px', height: '60px' }} />
+        <>
+            <Stack flexDirection="row">
+                <Box
+                    sx={{
+                        width: '300px !important',
+                        height: '100%',
+                        position: 'fixed',
+                        boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+                        backgroundColor: 'white',
+                        overflow: 'auto',
+                        paddingBottom: '65px'
+                    }}
+                >
+                    <Box sx={{ flexGrow: 1, backgroundColor: 'white' }}>
+                        <List dense={true}>
+                            <ListItem
+                                secondaryAction={
+                                    <Tooltip title="Locate me">
+                                        <IconButton edge="end" onClick={() => alert('Locate me hitted')}>
+                                            <GpsFixedIcon style={{ color: '#1bd7a0' }} />
                                         </IconButton>
-                                        {e}
-                                    </Item>
-                                </Grid>
-                            );
-                        })}
-                    </Grid>
+                                    </Tooltip>
+                                }
+                            >
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        <LocationOnIcon style={{ color: '#013f56' }} />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={<Typography style={{ color: '#013f56', fontWeight: 'bold' }}>Location Name</Typography>}
+                                    secondary={<Typography style={{ color: '#1bd7a0', fontSize: '12px' }}>Change Location</Typography>}
+                                />
+                            </ListItem>
+                        </List>
+                    </Box>
+                    <Box sx={{ flexGrow: 1, backgroundColor: '#f7f7f7', padding: '1%' }}>
+                        <Grid container spacing={1}>
+                            {products.map((e, index) => {
+                                return (
+                                    <Grid item xs={4} key={index}>
+                                        <Item key={index}>
+                                            <IconButton
+                                                onClick={() => handleSelectedProduct(index)}
+                                                aria-haspopup="true"
+                                                sx={
+                                                    selectedProduct.includes(index)
+                                                        ? { backgroundColor: '#A3E4D7' }
+                                                        : { backgroundColor: 'none' }
+                                                }
+                                            >
+                                                <Avatar alt="img" src={img} sx={{ width: '60px', height: '60px' }} />
+                                            </IconButton>
+                                            {e}
+                                        </Item>
+                                    </Grid>
+                                );
+                            })}
+                        </Grid>
+                    </Box>
+                    <Box sx={{ flexGrow: 0, bgcolor: 'background.paper' }}>
+                        <Stack flexDirection="row" justifyContent="space-between" padding="5%">
+                            <Typography style={{ color: '#013f56', fontWeight: 'bold' }}>Buyers Near By</Typography>
+                            <Typography style={{ color: '#013f56', fontWeight: 'bold' }}>View All</Typography>
+                        </Stack>
+                        <List component="nav" aria-label="main mailbox folders">
+                            {['list one', 'List two', 'list one', 'list four'].map((e, index) => {
+                                return (
+                                    <>
+                                        <ListItemButton
+                                            key={index}
+                                            selected={selectedIndex === index}
+                                            onClick={() => setSelectedIndex(index)}
+                                        >
+                                            <ListItemIcon>
+                                                <Avatar variant="square">
+                                                    <PersonAdd />
+                                                </Avatar>
+                                            </ListItemIcon>
+                                            <ListItemText
+                                                primary={
+                                                    <>
+                                                        <Stack direction="row" spacing={1}>
+                                                            <Stack spacing={1}>
+                                                                <Typography
+                                                                    style={{ color: '#013f56', fontWeight: 'bold', fontSize: 'small' }}
+                                                                >
+                                                                    {e}
+                                                                </Typography>
+                                                                <Stack direction="row" spacing={1}>
+                                                                    <Tooltip title={e}>
+                                                                        <div className="chip"> {e}</div>
+                                                                    </Tooltip>
+                                                                    <Tooltip title={e}>
+                                                                        <div className="chip"> {e}</div>
+                                                                    </Tooltip>
+                                                                </Stack>
+                                                            </Stack>
+                                                        </Stack>
+                                                    </>
+                                                }
+                                                // secondary={e}
+                                            />
+                                            <ListItemText
+                                                sx={{ textAlign: 'right', alignItems: 'center' }}
+                                                primary="3 km"
+                                                secondary="300 kg processed"
+                                            />
+                                        </ListItemButton>
+                                    </>
+                                );
+                            })}
+                        </List>
+                    </Box>
                 </Box>
-             </Box>
-          <MapContainer/>
-         </Stack>
-    </>
-        
-        
+                <Box sx={{ height: 'auto', width: '100%', marginLeft: '300px', backgroundColor: 'yellow' }}>
+                    <MapComponent />
+                </Box>
+            </Stack>
+        </>
     );
 }
-
 
 export default BuyerScreen;
 // GoogleApiWrapper({
