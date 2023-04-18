@@ -155,7 +155,7 @@ function BuyerScreen() {
                         </List>
                     </Box>
                 </Box>
-                <Box sx={{ height: 'auto', width: '100%', marginLeft: '300px', backgroundColor: 'yellow' }}>
+                <Box sx={{ height: 'auto', width: '100%', marginLeft: '300px' }}>
                     <MapComponent />
                 </Box>
             </Stack>
