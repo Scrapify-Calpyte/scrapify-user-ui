@@ -26,6 +26,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Slide from '@mui/material/Slide';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Divider from '@mui/material/Divider';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -37,6 +40,14 @@ function BuyerScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [dialog, setDialog] = useState(false);
     const drawerWidth = 300;
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     const products = [
         {
@@ -157,7 +168,13 @@ function BuyerScreen() {
                                             }}
                                             aria-haspopup="true"
                                         >
-                                            <Avatar sx={{ width: '60px', height: '60px', bgcolor: 'white' }}>
+                                            <Avatar
+                                                sx={{
+                                                    width: '60px',
+                                                    height: '60px',
+                                                    bgcolor: 'white'
+                                                }}
+                                            >
                                                 {productLength == 5 ? (
                                                     <p style={{ color: '#013f56' }}>
                                                         {'+ ' + (products.length >= 5 ? products.length - 5 : 0)}
@@ -186,9 +203,10 @@ function BuyerScreen() {
                                     <ListItemButton
                                         key={index}
                                         selected={selectedIndex === index}
-                                        onClick={() => {
+                                        onClick={(event) => {
                                             setSelectedIndex(index);
-                                            setDialog(true);
+                                            handleClick(event);
+                                            // setDialog(true);
                                         }}
                                     >
                                         <ListItemIcon>
@@ -229,7 +247,89 @@ function BuyerScreen() {
                     <MapComponent />
                 </Box>
             </Stack>
-            <Dialog
+            <Menu
+                // anchorEl={anchorEl}
+                anchorReference="anchorPosition"
+                anchorPosition={{ top: 120, left: 310 }}
+                id="account-menu"
+                open={open}
+                onClose={handleClose}
+                onClick={handleClose}
+                PaperProps={{
+                    elevation: 1,
+                    style: {
+                        width: '20%', // set maximum width
+                        height: '80%', // set maximum height
+                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))'
+                    }
+                    // sx: {
+                    //     overflow: 'visible',
+                    //     filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                    //     mt: 1.5,
+                    //     '& .MuiAvatar-root': {
+                    //         // maxWidth: 250,
+                    //         // minHeight: 320,
+                    //         ml: -0.5,
+                    //         mr: 1
+                    //     },
+                    //     '&:before': {
+                    //         content: '""',
+                    //         display: 'block',
+                    //         position: 'absolute',
+                    //         top: 30,
+                    //         left: 0,
+                    //         width: 15,
+                    //         height: 15,
+                    //         bgcolor: 'background.paper',
+                    //         transform: 'translateY(-50%) rotate(45deg)',
+                    //         zIndex: 0
+                    //     }
+                    // }
+                }}
+                transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+                {/* <MenuItem onClick={handleClose}> */}
+                PRofile
+                <p>sdfsdffdgs</p>
+                <br></br>
+                <p>sdfsdffdgs</p>
+                <br></br>
+                <p>sdfsdffdgs</p>
+                <br></br>
+                <p>sdfsdffdgs</p>
+                <br></br>
+                <p>sdfsdffdgs</p>
+                <br></br>
+                <p>sdfsdffdgs</p>
+                <br></br>
+                <p>sdfsdffdgs</p>
+                <p>sdfsdffdgs</p>
+                <br></br>
+                <p>sdfsdffdgs</p>
+                <br></br>
+                <p>sdfsdffdgs</p>
+                <p>sdfsdffdgs</p>
+                PRofile
+                <p>sdfsdffdgs</p>
+                <p>sdfsdffdgs</p>
+                <p>sdfsdffdgs</p>
+                <p>sdfsdffdgs</p>
+                <p>sdfsdffdgs</p>
+                <p>sdfsdffdgs</p>
+                <br></br>
+                <p>sdfsdffdgs</p>
+                <p>sdfsdffdgs</p>
+                <p>sdfsdffdgs</p>
+                <p>sdfsdffdgs</p>
+                <br></br>
+                <p>sdfsdffdgs</p>
+                <br></br>
+                <p>sdfsdffdgs</p>
+                <p>sdfsdffdgs</p>
+                {/* </MenuItem> */}
+            </Menu>
+            {/* <Dialog
                 PaperProps={
                     {
                         // sx: {
@@ -257,7 +357,7 @@ function BuyerScreen() {
                     <Button type="submit">Ok</Button>
                     <Button onClick={() => setDialog(false)}>Cancel</Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog> */}
         </>
     );
 }
