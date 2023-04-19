@@ -22,7 +22,11 @@ const ThemeRoutes = () => {
                 },
                 {
                     path: '/seller',
-                    element: <SellerScreen />
+                    element: (
+                        <PrivateRoute>
+                            <SellerScreen />
+                        </PrivateRoute>
+                    )
                 },
                 {
                     path: '/home',
