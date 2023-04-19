@@ -72,7 +72,7 @@ function MapComponent() {
 
     const markerOptions = {
         icon: {
-            url: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+            url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
             scaledSize: {
                 width: 40,
                 height: 40
@@ -106,8 +106,8 @@ function MapComponent() {
                 center={location}
                 radius={10 * 1000}
                 options={{
-                    fillColor: '#ff0000',
-                    strokeColor: '#ff0000',
+                    fillColor: '#1bd7a0',
+                    strokeColor: '#1bd7a0',
                     strokeWeight: 0
                 }}
             />

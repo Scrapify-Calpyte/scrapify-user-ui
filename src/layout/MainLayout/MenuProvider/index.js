@@ -28,6 +28,7 @@ import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOu
 import { useNavigate } from 'react-router-dom';
 import { Squash as Hamburger } from 'hamburger-react';
 import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 300;
 
@@ -131,7 +132,10 @@ export default function MenuProvider() {
                             <ToggleButton value="buyer">Buyer</ToggleButton>
                             <ToggleButton value="seller">Seller</ToggleButton>
                         </MyToggleButtonGroup>
-                        <Button sx={{ backgroundColor: '#013f56', color: 'white', borderRadius: '30px', padding: '5px 15px' }}>
+                        <Button
+                            onClick={() => navigate('/login')}
+                            sx={{ backgroundColor: '#013f56', color: 'white', borderRadius: '30px', padding: '5px 15px' }}
+                        >
                             Login
                         </Button>
                         {/* <Tooltip title="Account settings">
@@ -149,7 +153,7 @@ export default function MenuProvider() {
                 className="drawer"
                 PaperProps={{
                     sx: {
-                        paddingTop: '65px',
+                        paddingTop: '60px',
                         boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'
                     }
                 }}
@@ -181,12 +185,19 @@ export default function MenuProvider() {
                         {menus.map((menu, index) => {
                             return (
                                 <ListItemButton
+                                    component={Link}
+                                    to={menu.link}
                                     key={index}
                                     selected={selectedIndex === index}
                                     onClick={(event) => handleListItemClick(event, index)}
                                 >
-                                    <ListItemIcon>{menu?.icon}</ListItemIcon>
-                                    <ListItemText primary={menu?.label} />
+                                    <ListItemIcon sx={selectedIndex === index ? { color: '#1bd7a0' } : { color: '#013f56' }}>
+                                        {menu?.icon}
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        sx={selectedIndex === index ? { color: '#1bd7a0' } : { color: '#013f56' }}
+                                        primary={menu?.label}
+                                    />
                                 </ListItemButton>
                             );
                         })}

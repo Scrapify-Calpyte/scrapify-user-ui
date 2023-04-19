@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import img from '/src/assets/images/product.png';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import MapComponent from './MapComponent';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -33,11 +33,43 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function BuyerScreen() {
     const [selectedProduct, setSelectedProduct] = useState([]);
+    const [productLength, setProductLength] = useState(5);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [dialog, setDialog] = useState(false);
     const drawerWidth = 300;
 
-    const products = ['Bottles', 'Cartons', 'Metals', 'Magazines', 'Books', 'e-waste', 'Glasses'];
+    const products = [
+        {
+            id: 0,
+            name: 'Bottles'
+        },
+        {
+            id: 1,
+            name: 'Cartons'
+        },
+        {
+            id: 2,
+            name: 'Metals'
+        },
+        {
+            id: 3,
+            name: 'Magazines'
+        },
+        {
+            id: 4,
+            name: 'e-waste'
+        },
+        {
+            id: 5,
+            name: 'Glasses'
+        },
+        {
+            id: 6,
+            name: 'Books'
+        }
+    ];
+
+    useEffect(() => {}, []);
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: '#f7f7f7',
@@ -96,7 +128,7 @@ function BuyerScreen() {
                     </Box>
                     <Box sx={{ flexGrow: 1, backgroundColor: '#f7f7f7', padding: '0' }}>
                         <Grid container spacing={1}>
-                            {products.map((e, index) => {
+                            {products.slice(0, productLength).map((e, index) => {
                                 return (
                                     <Grid item xs={4} key={index}>
                                         <Item key={index}>
@@ -111,11 +143,36 @@ function BuyerScreen() {
                                             >
                                                 <Avatar alt="img" src={img} sx={{ width: '60px', height: '60px' }} />
                                             </IconButton>
-                                            {e}
+                                            {e?.name}
                                         </Item>
                                     </Grid>
                                 );
                             })}
+                            {products.length > 5 ? (
+                                <Grid item xs={4}>
+                                    <Item>
+                                        <IconButton
+                                            onClick={() => {
+                                                setProductLength(productLength == 5 ? products?.length : 5);
+                                            }}
+                                            aria-haspopup="true"
+                                        >
+                                            <Avatar sx={{ width: '60px', height: '60px', bgcolor: 'white' }}>
+                                                {productLength == 5 ? (
+                                                    <p style={{ color: '#013f56' }}>
+                                                        {'+ ' + (products.length >= 5 ? products.length - 5 : 0)}
+                                                    </p>
+                                                ) : (
+                                                    <p style={{ fontSize: '10px', fontWeight: 'bold', color: '#013f56' }}>o o o</p>
+                                                )}
+                                            </Avatar>
+                                        </IconButton>
+                                        {productLength == 5 ? 'More' : 'Less'}
+                                    </Item>
+                                </Grid>
+                            ) : (
+                                <></>
+                            )}
                         </Grid>
                     </Box>
                     <Box sx={{ flexGrow: 0, bgcolor: 'background.paper' }}>
