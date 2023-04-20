@@ -111,7 +111,7 @@ export default function MenuProvider() {
 
     return (
         <>
-            <Box sx={{ flexGrow: 0, zIndex: 1 }}>
+            <Box sx={{ flexGrow: 0, zIndex: 3 }}>
                 <AppBar position="fixed" open={open}>
                     <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Stack flexDirection="row" alignItems="center" gap={1}>
@@ -158,7 +158,7 @@ export default function MenuProvider() {
                     }
                 }}
                 sx={{
-                    zIndex: 0,
+                    zIndex: 2,
                     width: drawerWidth,
                     flexShrink: 0,
                     '& .MuiDrawer-paper': {
