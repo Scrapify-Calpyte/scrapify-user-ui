@@ -2,14 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow, Circle } from '@react-google-maps/api';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import List from '@mui/material/List';
-import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 const containerStyle = {
@@ -132,15 +126,15 @@ function MapComponent({ handlePopOver }) {
                                 </div>
                             </div>
                             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                                <Tooltip title={'Dinesh'}>
+                                <Tooltip title={'Dinesh'} arrow>
                                     <div className="chip">Bottles</div>
                                 </Tooltip>
                                 &nbsp;
-                                <Tooltip title={'Dinesh'}>
+                                <Tooltip title={'Dinesh'} arrow>
                                     <div className="chip">Bottles</div>
                                 </Tooltip>{' '}
                                 &nbsp;
-                                <Tooltip title={'Dinesh'}>
+                                <Tooltip title={'Dinesh'} arrow>
                                     <div className="chip">Bottles</div>
                                 </Tooltip>{' '}
                                 &nbsp;
