@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow, Circle } from '@react-google-maps/api';
-
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import List from '@mui/material/List';
+import ListItemText from '@mui/material/ListItemText';
+import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 const containerStyle = {
     width: '100%',
     height: window.innerHeight - 65
@@ -11,9 +22,11 @@ const center = {
     lng: 80.2707
 };
 
-function MapComponent() {
+function MapComponent({ handlePopOver }) {
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [location, setLocation] = useState(null);
+    const [map, setMap] = React.useState(null);
+    const [infoOptions, setInfoOptions] = useState({});
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -31,23 +44,15 @@ function MapComponent() {
         );
     }, []);
 
-    const onMarkerClick = (marker) => {
-        setSelectedMarker(marker);
-    };
-
-    const onCloseClick = () => {
-        setSelectedMarker(null);
-    };
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: 'AIzaSyA4F9JYoct7v7oGvirzAx7_oK6XkNyL1oM'
     });
 
-    const [map, setMap] = React.useState(null);
-
     const onLoad = React.useCallback(function callback(map) {
-        // const bounds = new window.google.maps.LatLngBounds(center);
-        // map.fitBounds(bounds);
+        setInfoOptions({
+            pixelOffset: new window.google.maps.Size(0, -30)
+        });
         setMap(map);
     }, []);
 
@@ -71,35 +76,92 @@ function MapComponent() {
     ];
 
     const markerOptions = {
+        clickable: true,
+        draggable: false,
         icon: {
             url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
             scaledSize: {
                 width: 40,
                 height: 40
             }
-        }
+        },
+        position: center,
+        style: { pointerEvents: 'none' }
     };
 
     const mapOptions = {
         minZoom: 5,
-        maxZoom: 15,
-        zoom: 8
+        maxZoom: 15
     };
 
     return isLoaded ? (
-        <GoogleMap mapContainerStyle={containerStyle} options={mapOptions} center={location} onLoad={onLoad} onUnmount={onUnmount}>
+        <GoogleMap zoom={8} mapContainerStyle={containerStyle} options={mapOptions} center={location} onLoad={onLoad} onUnmount={onUnmount}>
             {markers.map((marker, index) => (
                 <Marker
                     options={markerOptions}
                     key={index}
                     position={{ lat: marker?.lat, lng: marker?.lng }}
-                    onClick={() => onMarkerClick(marker)}
+                    onClick={(e) => setSelectedMarker(marker)}
                 />
             ))}
             {location ? <Marker position={location} /> : <></>}
             {selectedMarker && (
-                <InfoWindow position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }} onCloseClick={onCloseClick}>
-                    <div>Info Window Content</div>
+                <InfoWindow
+                    options={infoOptions}
+                    position={selectedMarker}
+                    onCloseClick={() => {
+                        setSelectedMarker(null);
+                        handlePopOver(false);
+                    }}
+                >
+                    <ListItemButton sx={{ padding: 0, width: 300 }} selected={false} onClick={(event) => handlePopOver(true)}>
+                        <ListItemIcon>
+                            <Avatar
+                                src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
+                                variant="square"
+                                alt="P"
+                                sx={{ height: 50, width: 50 }}
+                            ></Avatar>
+                        </ListItemIcon>
+                        <div className="container" style={{ lineHeight: 1.5 }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <div style={{ color: '#013f56', fontWeight: 'bold' }}>Dinesh</div>
+                                <div style={{ color: 'grey', fontWeight: 'bold' }}>
+                                    <LocationOnIcon style={{ fontSize: '15px' }} />
+                                    20km
+                                </div>
+                            </div>
+                            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                                <Tooltip title={'Dinesh'}>
+                                    <div className="chip">Bottles</div>
+                                </Tooltip>
+                                &nbsp;
+                                <Tooltip title={'Dinesh'}>
+                                    <div className="chip">Bottles</div>
+                                </Tooltip>{' '}
+                                &nbsp;
+                                <Tooltip title={'Dinesh'}>
+                                    <div className="chip">Bottles</div>
+                                </Tooltip>{' '}
+                                &nbsp;
+                            </div>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    fontSize: '11px'
+                                }}
+                            >
+                                <div style={{ color: '#013f56', fontWeight: 'bold', display: 'flex', alignItems: 'end' }}>
+                                    <StarRateRoundedIcon sx={{ color: 'orange' }} style={{ fontSize: '20px' }} />
+                                    &nbsp; 4.0
+                                </div>
+                                <div style={{ color: 'grey' }}>58K Reviews</div>
+                                <div style={{ color: '#1bd7a0' }}>View Details</div>
+                            </div>
+                        </div>
+                    </ListItemButton>
                 </InfoWindow>
             )}
             <Circle

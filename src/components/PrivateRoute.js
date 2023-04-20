@@ -34,6 +34,7 @@ export default function PrivateRoute(props) {
     if (!keycloak.authenticated) {
         return keycloak.login();
     } else {
+        // console.log(keycloak.token);
         // eslint-disable-next-line react/prop-types
         return <>{props.children}</>;
     }

@@ -9,5 +9,6 @@
     padding: 1px 5px;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis 
+    text-overflow: ellipsis;
+    border : solid 1px #85C1E9;
 }

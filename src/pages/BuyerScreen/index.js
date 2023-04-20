@@ -20,15 +20,11 @@ import MapComponent from './MapComponent';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import PersonAdd from '@mui/icons-material/PersonAdd';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
 import Slide from '@mui/material/Slide';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Popover from '@mui/material/Popover';
+import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import Divider from '@mui/material/Divider';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -38,16 +34,7 @@ function BuyerScreen() {
     const [selectedProduct, setSelectedProduct] = useState([]);
     const [productLength, setProductLength] = useState(5);
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [dialog, setDialog] = useState(false);
-    const drawerWidth = 300;
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const [open, setOpen] = React.useState(false);
 
     const products = [
         {
@@ -100,18 +87,22 @@ function BuyerScreen() {
         });
     };
 
+    const handlePopOver = (open) => {
+        setOpen(open);
+    };
+
     return (
         <>
             <Stack flexDirection="row">
                 <Box
                     sx={{
                         width: '300px !important',
-                        height: '100%',
+                        height: '92%',
                         position: 'fixed',
                         boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
                         backgroundColor: 'white',
-                        overflow: 'auto',
-                        paddingBottom: '65px'
+                        overflow: 'auto'
+                        // paddingBottom: '65px'
                     }}
                 >
                     <Box sx={{ flexGrow: 1, backgroundColor: 'white' }}>
@@ -197,167 +188,230 @@ function BuyerScreen() {
                             <Typography style={{ color: '#013f56', fontWeight: 'bold' }}>Sellers Near By</Typography>
                             <Typography style={{ color: '#013f56', fontWeight: 'bold' }}>View All</Typography>
                         </Stack>
-                        <List component="nav" aria-label="main mailbox folders">
+                        <List>
                             {['Dinesh', 'Kishore', 'Arun', 'Ranjith'].map((e, index) => {
                                 return (
-                                    <ListItemButton
-                                        key={index}
-                                        selected={selectedIndex === index}
-                                        onClick={(event) => {
-                                            setSelectedIndex(index);
-                                            handleClick(event);
-                                            // setDialog(true);
-                                        }}
-                                    >
-                                        <ListItemIcon>
-                                            <Avatar variant="square">
-                                                <PersonAdd />
-                                            </Avatar>
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={
-                                                <>
-                                                    <Stack direction="row" spacing={1}>
-                                                        <Stack spacing={1}>
-                                                            <Typography style={{ color: '#013f56', fontWeight: 'bold', fontSize: 'small' }}>
-                                                                {e}
-                                                            </Typography>
-                                                            <Stack direction="row" spacing={1}>
-                                                                <Tooltip title={e}>
-                                                                    <div className="chip">Bottles</div>
+                                    <>
+                                        <ListItemButton
+                                            key={index}
+                                            selected={selectedIndex === index}
+                                            onClick={(event) => {
+                                                setSelectedIndex(index);
+                                                setOpen(true);
+                                            }}
+                                            sx={{
+                                                padding: 0,
+                                                width: '100%',
+                                                borderRight: selectedIndex === index ? 'solid 3px #013f56' : 'default'
+                                            }}
+                                        >
+                                            <ListItemIcon>
+                                                <Avatar
+                                                    src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
+                                                    variant="square"
+                                                    alt="P"
+                                                    sx={{ height: 50, width: 50 }}
+                                                ></Avatar>
+                                            </ListItemIcon>
+                                            <div className="container" style={{ lineHeight: 1.5, fontSize: '12px', padding: '5px' }}>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                    <div style={{ color: '#013f56', fontWeight: 'bold' }}>{e}</div>
+                                                    <div style={{ color: 'grey', fontWeight: 'bold' }}>
+                                                        <LocationOnIcon style={{ fontSize: '15px' }} />
+                                                        20km
+                                                    </div>
+                                                </div>
+                                                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                                                    {products.slice(0, 3).map((product, index) => {
+                                                        return (
+                                                            <>
+                                                                <Tooltip title={product?.name}>
+                                                                    <div className="chip">{product?.name}</div>
                                                                 </Tooltip>
-                                                            </Stack>
-                                                        </Stack>
-                                                    </Stack>
-                                                </>
-                                            }
-                                        />
-                                        <ListItemText
-                                            sx={{ textAlign: 'right', alignItems: 'center' }}
-                                            primary="10 km"
-                                            secondary={(Math.random() * 100).toFixed(2) + ' kg processed'}
-                                        />
-                                    </ListItemButton>
+                                                                &nbsp;
+                                                            </>
+                                                        );
+                                                    })}
+                                                </div>
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
+                                                        fontSize: '11px'
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            color: '#013f56',
+                                                            fontWeight: 'bold',
+                                                            display: 'flex',
+                                                            alignItems: 'end'
+                                                        }}
+                                                    >
+                                                        <StarRateRoundedIcon sx={{ color: 'orange' }} style={{ fontSize: '20px' }} />
+                                                        &nbsp; 4.0
+                                                    </div>
+                                                    <div style={{ color: 'grey' }}>58K Reviews</div>
+                                                    <div style={{ color: '#1bd7a0' }}>View Details</div>
+                                                </div>
+                                            </div>
+                                        </ListItemButton>
+                                        <Divider />
+                                    </>
                                 );
                             })}
                         </List>
                     </Box>
                 </Box>
                 <Box sx={{ height: 'auto', width: '100%', marginLeft: '300px' }}>
-                    <MapComponent />
+                    <MapComponent handlePopOver={handlePopOver} />
                 </Box>
             </Stack>
-            <Menu
-                // anchorEl={anchorEl}
+            <Popover
                 anchorReference="anchorPosition"
                 anchorPosition={{ top: 120, left: 310 }}
                 id="account-menu"
                 open={open}
-                onClose={handleClose}
-                onClick={handleClose}
+                onClose={() => setOpen(false)}
+                // onClick={() => setOpen(false)}
                 PaperProps={{
-                    elevation: 1,
+                    elevation: 0,
                     style: {
                         width: '20%', // set maximum width
                         height: '80%', // set maximum height
-                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))'
+                        boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+                        borderRadius: '20px',
+                        overflow: 'hidden',
+                        position: 'absolute'
                     }
-                    // sx: {
-                    //     overflow: 'visible',
-                    //     filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                    //     mt: 1.5,
-                    //     '& .MuiAvatar-root': {
-                    //         // maxWidth: 250,
-                    //         // minHeight: 320,
-                    //         ml: -0.5,
-                    //         mr: 1
-                    //     },
-                    //     '&:before': {
-                    //         content: '""',
-                    //         display: 'block',
-                    //         position: 'absolute',
-                    //         top: 30,
-                    //         left: 0,
-                    //         width: 15,
-                    //         height: 15,
-                    //         bgcolor: 'background.paper',
-                    //         transform: 'translateY(-50%) rotate(45deg)',
-                    //         zIndex: 0
-                    //     }
-                    // }
                 }}
                 transformOrigin={{ vertical: 'top', horizontal: 'left' }}
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             >
-                {/* <MenuItem onClick={handleClose}> */}
-                PRofile
-                <p>sdfsdffdgs</p>
-                <br></br>
-                <p>sdfsdffdgs</p>
-                <br></br>
-                <p>sdfsdffdgs</p>
-                <br></br>
-                <p>sdfsdffdgs</p>
-                <br></br>
-                <p>sdfsdffdgs</p>
-                <br></br>
-                <p>sdfsdffdgs</p>
-                <br></br>
-                <p>sdfsdffdgs</p>
-                <p>sdfsdffdgs</p>
-                <br></br>
-                <p>sdfsdffdgs</p>
-                <br></br>
-                <p>sdfsdffdgs</p>
-                <p>sdfsdffdgs</p>
-                PRofile
-                <p>sdfsdffdgs</p>
-                <p>sdfsdffdgs</p>
-                <p>sdfsdffdgs</p>
-                <p>sdfsdffdgs</p>
-                <p>sdfsdffdgs</p>
-                <p>sdfsdffdgs</p>
-                <br></br>
-                <p>sdfsdffdgs</p>
-                <p>sdfsdffdgs</p>
-                <p>sdfsdffdgs</p>
-                <p>sdfsdffdgs</p>
-                <br></br>
-                <p>sdfsdffdgs</p>
-                <br></br>
-                <p>sdfsdffdgs</p>
-                <p>sdfsdffdgs</p>
-                {/* </MenuItem> */}
-            </Menu>
-            {/* <Dialog
-                PaperProps={
-                    {
-                        // sx: {
-                        // }
-                    }
-                }
-                fullWidth
-                maxWidth="xs"
-                scroll="paper"
-                TransitionComponent={Transition}
-                open={dialog}
-                onClose={() => setDialog(false)}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
-                        <p>Seller Details</p>
-                    </Stack>
-                </DialogTitle>
-                <DialogContent className="row col-12">
-                    <p>Content</p>
-                </DialogContent>
-                <DialogActions>
-                    <Button type="submit">Ok</Button>
-                    <Button onClick={() => setDialog(false)}>Cancel</Button>
-                </DialogActions>
-            </Dialog> */}
+                <div
+                    style={{
+                        overflow: 'auto',
+                        height: '100%',
+                        width: '100%',
+                        padding: '1% 5px'
+                    }}
+                >
+                    <ListItemButton
+                        key={1}
+                        selected={false}
+                        style={{
+                            padding: '5px',
+                            width: '100%',
+                            borderRadius: '20px 20px 0 0'
+                        }}
+                    >
+                        <ListItemIcon>
+                            <Avatar
+                                src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
+                                variant="square"
+                                alt="P"
+                                sx={{ height: 50, width: 50 }}
+                            ></Avatar>
+                        </ListItemIcon>
+                        <div className="container" style={{ padding: '5px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <div style={{ color: '#013f56', fontWeight: 'bold' }}>Dinesh</div>
+                                <div style={{ color: 'grey', fontWeight: 'bold' }}>
+                                    <Tooltip title="close">
+                                        <CloseIcon style={{ fontSize: '25px', color: '#013f56' }} onClick={() => setOpen(false)} />
+                                    </Tooltip>
+                                </div>
+                            </div>
+                            {/* <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                                {products.slice(0, 3).map((product, index) => {
+                                    return (
+                                        <>
+                                            <Tooltip title={product?.name}>
+                                                <div className="chip">{product?.name}</div>
+                                            </Tooltip>
+                                            &nbsp;
+                                        </>
+                                    );
+                                })}
+                            </div> */}
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    fontSize: '11px'
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        color: '#013f56',
+                                        fontWeight: 'bold',
+                                        display: 'flex',
+                                        alignItems: 'end'
+                                    }}
+                                >
+                                    <StarRateRoundedIcon sx={{ color: 'orange' }} style={{ fontSize: '20px' }} />
+                                    &nbsp; 4.0
+                                </div>
+                                <div style={{ color: 'grey' }}>58K Reviews</div>
+                            </div>
+                        </div>
+                    </ListItemButton>
+                    <Box
+                        style={{
+                            padding: '5px',
+                            width: '100%'
+                        }}
+                    >
+                        <Stack>
+                            <Typography variant="p" fontWeight="bold" color="#013f56" component="div">
+                                Scrap To Bid
+                            </Typography>
+                            {[...products].map((product, index) => {
+                                return (
+                                    <Typography key={index} variant="p" color="#013f56" component="div">
+                                        {product?.name + ': 10kg'}
+                                    </Typography>
+                                );
+                            })}
+                            <br></br>
+                            <button
+                                onClick={() => alert('navigate to Bid')}
+                                style={{
+                                    width: '100%',
+                                    height: 'fit-content',
+                                    padding: '10px',
+                                    backgroundColor: '#013f56',
+                                    color: 'white',
+                                    textAlign: 'center',
+                                    border: 'none'
+                                }}
+                            >
+                                Bid Now
+                            </button>
+                            <br></br>
+                            <Divider />
+                            <Typography variant="p" fontWeight="bold" color="#013f56" component="div">
+                                Images
+                            </Typography>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', gap: 2 }}>
+                                {products.map((p, index) => {
+                                    return (
+                                        <Avatar
+                                            key={index}
+                                            alt="waste"
+                                            src="https://images.unsplash.com/photo-1562077981-4d7eafd44932?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d2FzdGV8ZW58MHx8MHx8&w=1000&q=80"
+                                            variant="square"
+                                            sx={{ height: 75, width: '24%' }}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        </Stack>
+                    </Box>
+                </div>
+            </Popover>
         </>
     );
 }
