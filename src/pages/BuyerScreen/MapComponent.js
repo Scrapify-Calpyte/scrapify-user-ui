@@ -84,8 +84,8 @@ function MapComponent({ handlePopOver }) {
     };
 
     const mapOptions = {
-        minZoom: 5,
-        maxZoom: 15
+        minZoom: 2,
+        maxZoom: 32
     };
 
     return isLoaded ? (
