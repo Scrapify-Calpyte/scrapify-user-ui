@@ -8,6 +8,7 @@ import PrivateRoute from '/src/components/PrivateRoute';
 const BuyerScreen = Loadable(lazy(() => import('../pages/BuyerScreen')));
 const SellerScreen = Loadable(lazy(() => import('../pages/SellerScreen')));
 const SignUpScreen = Loadable(lazy(() => import('../pages/BuyerScreen/SignUp')));
+// const PrivateRoute = Loadable(lazy(() => import('../components/PrivateRoute')));
 
 const ThemeRoutes = () => {
     const { keycloak, initialized } = useKeycloak();
