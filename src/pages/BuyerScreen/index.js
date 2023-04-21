@@ -29,6 +29,80 @@ function BuyerScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [open, setOpen] = React.useState(false);
     const [screenSize, setScreenSize] = useState(getCurrentDimension());
+    const sampleData = {
+        availableProducts: [
+            {
+                id: 'asd',
+                name: 'Bottles',
+                icon: ''
+            },
+            {
+                id: 'asd',
+                name: 'Glasses',
+                icon: ''
+            }
+        ],
+        allProducts: [
+            {
+                id: 'asd',
+                name: 'Plastic',
+                icon: ''
+            },
+            {
+                id: 'asd',
+                name: 'E-waste',
+                icon: ''
+            }
+        ],
+        inventories: [
+            {
+                id: '001',
+                latitude: 13.0403,
+                longitude: 80.1723,
+                seller: {
+                    id: '001',
+                    name: 'Dinesh',
+                    rating: 5,
+                    distance: '5 KM',
+                    image: '',
+                    products: [
+                        {
+                            id: '001',
+                            name: 'Bottles',
+                            weight: '',
+                            price: ''
+                        }
+                    ]
+                }
+            },
+            {
+                id: '002',
+                latitude: 13.0827,
+                longitude: 80.2707,
+                seller: {
+                    id: '001',
+                    name: 'Kumar',
+                    rating: 2,
+                    distance: '3 KM',
+                    image: '',
+                    products: [
+                        {
+                            id: '002',
+                            name: 'Glasses',
+                            weight: '',
+                            price: ''
+                        },
+                        {
+                            id: '002',
+                            name: 'Bottles',
+                            weight: '',
+                            price: ''
+                        }
+                    ]
+                }
+            }
+        ]
+    };
 
     const products = [
         {
@@ -72,8 +146,8 @@ function BuyerScreen() {
         };
     }, [screenSize]);
 
-    const handlePopOver = (open) => {
-        setOpen(open);
+    const handlePopOver = (id) => {
+        setOpen(!open);
     };
 
     function getCurrentDimension() {
@@ -81,6 +155,10 @@ function BuyerScreen() {
             width: window.innerWidth,
             height: window.innerHeight
         };
+    }
+
+    function setProduct(product) {
+        alert(product);
     }
 
     return (
@@ -93,7 +171,9 @@ function BuyerScreen() {
                         position: 'fixed',
                         boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
                         backgroundColor: 'white',
-                        overflow: 'auto'
+                        overflow: 'auto',
+                        zIndex: 1
+                        // display: 'block'
                     }}
                 >
                     <Box sx={{ flexGrow: 1, backgroundColor: 'white' }}>
@@ -119,7 +199,7 @@ function BuyerScreen() {
                             </ListItem>
                         </List>
                     </Box>
-                    <ProductList products={products} />
+                    <ProductList products={[...sampleData?.availableProducts, ...sampleData?.allProducts]} setProduct={setProduct} />
                     <Box sx={{ flexGrow: 0, bgcolor: 'background.paper' }}>
                         <Stack flexDirection="row" justifyContent="space-between" padding="2px">
                             <Typography component="div" variant="p" color="#013f56" fontWeight="bold">
@@ -130,7 +210,7 @@ function BuyerScreen() {
                             </Typography>
                         </Stack>
                         <List>
-                            {['Dinesh', 'Kishore', 'Arun', 'Ranjith'].map((e, index) => {
+                            {sampleData?.inventories.map((data, index) => {
                                 return (
                                     <div key={index}>
                                         <ListItemButton
@@ -148,7 +228,7 @@ function BuyerScreen() {
                                         >
                                             <ListItemIcon>
                                                 <Avatar
-                                                    src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
+                                                    src={data?.seller?.image}
                                                     variant="square"
                                                     alt="P"
                                                     sx={{ height: 50, width: 50 }}
@@ -159,14 +239,14 @@ function BuyerScreen() {
                                                 style={{ lineHeight: 1.5, fontSize: '12px', padding: '5px', alignItems: 'space-between' }}
                                             >
                                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                    <div style={{ color: '#013f56', fontWeight: 'bold' }}>{e}</div>
+                                                    <div style={{ color: '#013f56', fontWeight: 'bold' }}>{data?.seller?.name}</div>
                                                     <div style={{ color: 'grey', fontWeight: 'bold' }}>
                                                         <LocationOnIcon style={{ fontSize: '15px' }} />
-                                                        20km
+                                                        {data?.seller?.distance}
                                                     </div>
                                                 </div>
                                                 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                                                    {products.slice(0, 3).map((product, index) => {
+                                                    {data?.seller?.products.slice(0, 3).map((product, index) => {
                                                         return (
                                                             <Tooltip key={index} title={product?.name} arrow>
                                                                 <div style={{ marginRight: '2px' }} className="chip">
@@ -175,8 +255,8 @@ function BuyerScreen() {
                                                             </Tooltip>
                                                         );
                                                     })}
-                                                    {products.length > 3 ? (
-                                                        <Tooltip title="more" arrow>
+                                                    {data?.seller?.products.length > 3 ? (
+                                                        <Tooltip title={products.length - 3 + 'more'} arrow>
                                                             <div className="chip">{'+ ' + (products.length - 3) + 'more'}</div>
                                                         </Tooltip>
                                                     ) : (
@@ -200,9 +280,9 @@ function BuyerScreen() {
                                                         }}
                                                     >
                                                         <StarRateRoundedIcon sx={{ color: 'orange' }} style={{ fontSize: '20px' }} />
-                                                        &nbsp; 4.0
+                                                        &nbsp; {data?.seller?.rating}
                                                     </div>
-                                                    <div style={{ color: 'grey' }}>58K Reviews</div>
+                                                    {/* <div style={{ color: 'grey' }}>20K Reviews</div> */}
                                                     <div style={{ color: '#1bd7a0' }}>View Details</div>
                                                 </div>
                                             </div>
@@ -214,8 +294,8 @@ function BuyerScreen() {
                         </List>
                     </Box>
                 </Box>
-                <Box sx={{ height: 'auto', width: '100%', marginLeft: '300px' }}>
-                    <MapComponent handlePopOver={handlePopOver} />
+                <Box sx={{ height: 'auto', width: '100%' }}>
+                    <MapComponent data={sampleData?.inventories} handlePopOver={handlePopOver} />
                 </Box>
             </Stack>
             <Popup open={open} setOpen={setOpen} data={products} />

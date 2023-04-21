@@ -2,7 +2,16 @@
     "compilerOptions": {
         "target": "esnext",
         "module": "esnext",
-        "baseUrl": "src"
+        "baseUrl": ".",
+        "paths": {
+            "~/*": ["./src/*"]
+            // "@components/*": ["./src/components/*"],
+            // "@util/*": ["util/*"],
+            // "@routes/*": ["routes/*"],
+            // "@assets/*": ["assets/*"],
+            // "@pages/*": ["pages/*"],
+            // "@layout/*": ["layout/*"]
+          }
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules",".cache", "dist"]

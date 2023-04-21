@@ -10,7 +10,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import CloseIcon from '@mui/icons-material/Close';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { styled } from '@mui/material/styles';
 
 const CustomBackdrop = styled('div')({
@@ -124,18 +123,7 @@ export default function Popup({ data, open, setOpen }) {
                             );
                         })}
                         <br></br>
-                        <button
-                            onClick={() => alert('navigate to Bid')}
-                            style={{
-                                width: '100%',
-                                height: 'fit-content',
-                                padding: '10px',
-                                backgroundColor: '#013f56',
-                                color: 'white',
-                                textAlign: 'center',
-                                border: 'none'
-                            }}
-                        >
+                        <button onClick={() => alert('navigate to Bid')} className="btn1">
                             Bid Now
                         </button>
                         <br></br>

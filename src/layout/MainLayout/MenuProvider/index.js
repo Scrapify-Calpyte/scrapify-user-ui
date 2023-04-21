@@ -3,16 +3,13 @@ import { styled } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { useEffect } from 'react';
-import ListIcon from '@mui/icons-material/List';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { Stack } from '../../../../node_modules/@mui/material/index';
-import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -20,7 +17,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import './menu.css';
-import CloseIcon from '@mui/icons-material/Close';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
@@ -29,42 +25,10 @@ import { useNavigate } from 'react-router-dom';
 import { Squash as Hamburger } from 'hamburger-react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { ThemeContext } from '/src/util/ThemeProvider';
+import { useContext } from 'react';
 
 const drawerWidth = 300;
-
-const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open'
-})(({ theme, open }) => ({
-    background: '#1bd7a0',
-    boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
-    width: `100%`
-}));
-
-const MyToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    backgroundColor: '#f7f7f7',
-    border: '1px solid #ccc',
-    borderRadius: '30px',
-    overflow: 'hidden',
-    padding: '1px',
-    '.MuiToggleButton-root': {
-        color: '#333',
-        border: 'none',
-        backgroundColor: 'transparent',
-        borderRadius: '30px !important',
-        padding: '8px 20px',
-        '&.Mui-selected': {
-            backgroundColor: '#013f56',
-            transition: 'background-color 500ms',
-            color: '#fff'
-        },
-        '&.Mui-selected:hover': {
-            backgroundColor: '#013f56'
-        }
-    }
-}));
 
 export default function MenuProvider() {
     const [open, setOpen] = useState(false);
@@ -72,6 +36,41 @@ export default function MenuProvider() {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const navigate = useNavigate();
     const location = useLocation();
+    const { colors, fonts } = useContext(ThemeContext);
+
+    const AppBar = styled(MuiAppBar, {
+        shouldForwardProp: (prop) => prop !== 'open'
+    })(({ theme, open }) => ({
+        background: colors.secondary,
+        boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+        width: `100%`
+    }));
+
+    const MyToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        backgroundColor: colors.theme,
+        border: '1px solid #ccc',
+        borderRadius: '30px',
+        overflow: 'hidden',
+        padding: '1px',
+        '.MuiToggleButton-root': {
+            color: '#333',
+            border: 'none',
+            backgroundColor: 'transparent',
+            borderRadius: '30px !important',
+            padding: '8px 20px',
+            '&.Mui-selected': {
+                backgroundColor: colors.primary,
+                transition: 'background-color 500ms',
+                color: '#fff'
+            },
+            '&.Mui-selected:hover': {
+                backgroundColor: '#013f56'
+            }
+        }
+    }));
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
@@ -134,7 +133,7 @@ export default function MenuProvider() {
                         </MyToggleButtonGroup>
                         <Button
                             onClick={() => navigate('/login')}
-                            sx={{ backgroundColor: '#013f56', color: 'white', borderRadius: '30px', padding: '5px 15px' }}
+                            sx={{ backgroundColor: colors.primary, color: 'white', borderRadius: '30px', padding: '5px 15px' }}
                         >
                             Login
                         </Button>

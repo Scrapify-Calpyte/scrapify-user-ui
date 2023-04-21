@@ -8,9 +8,11 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 
-export default function ProductList({ products }) {
+export default function ProductList({ products, setProduct }) {
     const [selectedProduct, setSelectedProduct] = useState([]);
     const [productLength, setProductLength] = useState(5);
+
+    useEffect(() => {}, []);
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: '#f7f7f7',
@@ -23,9 +25,13 @@ export default function ProductList({ products }) {
     const handleSelectedProduct = (index) => {
         setSelectedProduct((oldArray) => {
             if (oldArray.includes(index)) {
-                return [...oldArray.filter((e) => e != index)];
+                let data = [...oldArray.filter((e) => e != index)];
+                setProduct(data);
+                return data;
             } else {
-                return [...oldArray, index];
+                let data = [...oldArray, index];
+                setProduct(data);
+                return data;
             }
         });
     };
