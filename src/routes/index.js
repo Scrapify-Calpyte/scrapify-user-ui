@@ -1,14 +1,13 @@
-import MainLayout from '../layout/MainLayout';
+import MainLayout from '~/layout/MainLayout';
 import { useRoutes } from 'react-router-dom';
 import Loadable from '/src/components/Loadable';
 import { lazy } from 'react';
 import { useKeycloak } from '@react-keycloak/web';
-import PrivateRoute from '/src/components/PrivateRoute';
+import PrivateRoute from '~/components/PrivateRoute';
 
 const BuyerScreen = Loadable(lazy(() => import('../pages/BuyerScreen')));
 const SellerScreen = Loadable(lazy(() => import('../pages/SellerScreen')));
 const SignUpScreen = Loadable(lazy(() => import('../pages/BuyerScreen/SignUp')));
-// const PrivateRoute = Loadable(lazy(() => import('../components/PrivateRoute')));
 
 const ThemeRoutes = () => {
     const { keycloak, initialized } = useKeycloak();

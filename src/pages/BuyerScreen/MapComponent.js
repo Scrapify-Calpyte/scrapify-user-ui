@@ -16,7 +16,7 @@ const center = {
     lng: 80.2707
 };
 
-function MapComponent({ handlePopOver }) {
+function MapComponent({ data, handlePopOver }) {
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [location, setLocation] = useState(null);
     const [map, setMap] = React.useState(null);
@@ -90,11 +90,11 @@ function MapComponent({ handlePopOver }) {
 
     return isLoaded ? (
         <GoogleMap zoom={8} mapContainerStyle={containerStyle} options={mapOptions} center={location} onLoad={onLoad} onUnmount={onUnmount}>
-            {markers.map((marker, index) => (
+            {data.map((marker, index) => (
                 <Marker
                     options={markerOptions}
                     key={index}
-                    position={{ lat: marker?.lat, lng: marker?.lng }}
+                    position={{ lat: marker?.latitude, lng: marker?.longitude }}
                     onClick={(e) => setSelectedMarker(marker)}
                 />
             ))}
@@ -102,13 +102,13 @@ function MapComponent({ handlePopOver }) {
             {selectedMarker && (
                 <InfoWindow
                     options={infoOptions}
-                    position={selectedMarker}
+                    position={{ lat: selectedMarker?.latitude, lng: selectedMarker?.longitude }}
                     onCloseClick={() => {
                         setSelectedMarker(null);
-                        handlePopOver(false);
+                        handlePopOver(selectedMarker?.id);
                     }}
                 >
-                    <ListItemButton sx={{ padding: 0, width: 300 }} selected={false} onClick={(event) => handlePopOver(true)}>
+                    <ListItemButton sx={{ padding: 0, width: 300 }} selected={false} onClick={(event) => handlePopOver(selectedMarker?.id)}>
                         <ListItemIcon>
                             <Avatar
                                 src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
@@ -119,25 +119,20 @@ function MapComponent({ handlePopOver }) {
                         </ListItemIcon>
                         <div className="container" style={{ lineHeight: 1.5 }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <div style={{ color: '#013f56', fontWeight: 'bold' }}>Dinesh</div>
+                                <div style={{ color: '#013f56', fontWeight: 'bold' }}>{selectedMarker?.seller?.name}</div>
                                 <div style={{ color: 'grey', fontWeight: 'bold' }}>
                                     <LocationOnIcon style={{ fontSize: '15px' }} />
-                                    20km
+                                    {selectedMarker?.seller?.distance}
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                                <Tooltip title={'Dinesh'} arrow>
-                                    <div className="chip">Bottles</div>
-                                </Tooltip>
-                                &nbsp;
-                                <Tooltip title={'Dinesh'} arrow>
-                                    <div className="chip">Bottles</div>
-                                </Tooltip>{' '}
-                                &nbsp;
-                                <Tooltip title={'Dinesh'} arrow>
-                                    <div className="chip">Bottles</div>
-                                </Tooltip>{' '}
-                                &nbsp;
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                                {selectedMarker?.seller?.products.map((product, index) => {
+                                    return (
+                                        <Tooltip key={index} title={product?.name} arrow>
+                                            <div className="chip">{product?.name}</div>
+                                        </Tooltip>
+                                    );
+                                })}
                             </div>
                             <div
                                 style={{
@@ -149,9 +144,9 @@ function MapComponent({ handlePopOver }) {
                             >
                                 <div style={{ color: '#013f56', fontWeight: 'bold', display: 'flex', alignItems: 'end' }}>
                                     <StarRateRoundedIcon sx={{ color: 'orange' }} style={{ fontSize: '20px' }} />
-                                    &nbsp; 4.0
+                                    &nbsp; {selectedMarker?.seller?.rating}
                                 </div>
-                                <div style={{ color: 'grey' }}>58K Reviews</div>
+                                {/* <div style={{ color: 'grey' }}>58K Reviews</div> */}
                                 <div style={{ color: '#1bd7a0' }}>View Details</div>
                             </div>
                         </div>
