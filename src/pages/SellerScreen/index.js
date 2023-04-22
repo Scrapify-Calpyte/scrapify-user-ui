@@ -1,29 +1,16 @@
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
+import Loadable from '~/components/Loadable';
+import { useRoutes, Navigate } from 'react-router-dom';
+import { lazy } from 'react';
+
+const SignUpScreen = Loadable(lazy(() => import('./SignUp')));
+const StockPage = Loadable(lazy(() => import('./StockPage')));
 
 export default function SellerScreen() {
-    return (
-        <Stack direction="row" spacing={2}>
-            <Box
-                sx={{
-                    width: '100%',
-                    height: '725px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'primary.main',
-                    color: 'white',
-                    fontWeight: 'bold',
-                    '&:hover': {
-                        backgroundColor: 'primary.main',
-                        opacity: [0.9, 0.8, 0.7],
-                        color: 'white',
-                        fontWeight: 'bold'
-                    }
-                }}
-            >
-                <p>Seller Screen</p>
-            </Box>
-        </Stack>
-    );
+    return useRoutes([
+        { path: '/', element: <Navigate to="register" replace={true} /> },
+        { path: '*', element: <Navigate to="register" replace={true} /> },
+        { path: '/login', element: <p>Login Page</p> },
+        { path: '/register', element: <SignUpScreen /> },
+        { path: '/products', element: <StockPage /> }
+    ]);
 }

@@ -25,6 +25,11 @@ code {
   border-radius: 5px;
 }
 
+/* .btn1:hover {
+  background-color: white;
+  color: #013f56;
+} */
+
 .fields {
   min-height: '65px !important';
   padding-top: '5px !important'

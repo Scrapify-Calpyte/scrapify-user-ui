@@ -16,7 +16,7 @@ import {
     Grid,
     Typography
 } from '@mui/material/index';
-// import Avatar from '@mui/material/Avatar';
+import useScreenSize from '~/components/useScreenSize';
 
 const validationSchema = yup.object().shape({
     firstName: yup.string().required(),
@@ -40,9 +40,9 @@ const validationSchema = yup.object().shape({
 
 export default function SignUp() {
     const { colors } = useContext(ThemeContext);
-    const [screenSize, setScreenSize] = useState(getCurrentDimension());
     const [page, setPage] = useState(0);
     const [selectedProducts, setSelectedProducts] = useState(0);
+    const [width, height] = useScreenSize();
 
     const formik = useFormik({
         initialValues: {
@@ -73,23 +73,7 @@ export default function SignUp() {
         }
     });
 
-    useEffect(() => {
-        const updateDimension = () => {
-            setScreenSize(getCurrentDimension());
-        };
-        window.addEventListener('resize', updateDimension);
-
-        return () => {
-            window.removeEventListener('resize', updateDimension);
-        };
-    }, [screenSize]);
-
-    function getCurrentDimension() {
-        return {
-            width: window.innerWidth,
-            height: window.innerHeight
-        };
-    }
+    useEffect(() => {}, []);
 
     const products = [
         {
@@ -140,7 +124,7 @@ export default function SignUp() {
                 <Grid container spacing={0}>
                     <Grid item xs={12} md={6}>
                         <img
-                            style={{ objectFit: 'cover', width: '100%', height: screenSize.height - 65 }}
+                            style={{ objectFit: 'cover', width: '100%', height: height - 65 }}
                             src="https://cdn.shopify.com/s/files/1/0098/1362/2848/products/community_600x.jpg?v=1597415519"
                             alt="ico"
                         ></img>

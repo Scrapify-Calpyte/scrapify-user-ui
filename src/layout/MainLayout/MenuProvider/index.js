@@ -43,24 +43,25 @@ export default function MenuProvider() {
     })(({ theme, open }) => ({
         background: colors.secondary,
         boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
-        width: `100%`
+        width: `100%`,
+        height: '65px'
     }));
 
     const MyToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: colors.theme,
         border: '1px solid #ccc',
         borderRadius: '30px',
         overflow: 'hidden',
-        padding: '1px',
         '.MuiToggleButton-root': {
             color: '#333',
             border: 'none',
             backgroundColor: 'transparent',
             borderRadius: '30px !important',
-            padding: '8px 20px',
+            padding: '8px 15px',
             '&.Mui-selected': {
                 backgroundColor: colors.primary,
                 transition: 'background-color 500ms',
@@ -105,7 +106,7 @@ export default function MenuProvider() {
         }
     ];
     useEffect(() => {
-        if (location.pathname === '/seller') setToggle('seller');
+        if (location.pathname.includes('/seller')) setToggle('seller');
     }, []);
 
     return (

@@ -11,6 +11,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const CustomBackdrop = styled('div')({
     position: 'fixed',
@@ -23,6 +24,7 @@ const CustomBackdrop = styled('div')({
 });
 
 export default function Popup({ data, open, setOpen }) {
+    const matches = useMediaQuery('(max-width:768px)');
     return (
         <Popover
             anchorReference="anchorPosition"
@@ -35,10 +37,10 @@ export default function Popup({ data, open, setOpen }) {
             PaperProps={{
                 elevation: 0,
                 style: {
-                    width: '20%', // set maximum width
+                    width: matches ? '100%' : '20%', // set maximum width
                     height: '80%', // set maximum height
                     boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
-                    borderRadius: '0 20px 20px 20px',
+                    borderRadius: '20px',
                     overflow: 'hidden',
                     position: 'absolute',
                     zIndex: 4
