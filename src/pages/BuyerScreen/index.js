@@ -20,6 +20,10 @@ import Divider from '@mui/material/Divider';
 import Popup from './Popup';
 import ProductList from './ProductList';
 import MapComponent from './MapComponent';
+import useScreenSize from '~/components/useScreenSize';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -28,7 +32,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function BuyerScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [open, setOpen] = React.useState(false);
-    const [screenSize, setScreenSize] = useState(getCurrentDimension());
+    const [width, height] = useScreenSize();
+    const matches = useMediaQuery('(max-width:768px)');
+    const [sideNav, setSideNav] = useState(true);
+
     const sampleData = {
         availableProducts: [
             {
@@ -136,46 +143,58 @@ function BuyerScreen() {
     ];
 
     useEffect(() => {
-        const updateDimension = () => {
-            setScreenSize(getCurrentDimension());
-        };
-        window.addEventListener('resize', updateDimension);
+        if (matches) setSideNav(false);
+    }, [matches]);
 
-        return () => {
-            window.removeEventListener('resize', updateDimension);
-        };
-    }, [screenSize]);
-
-    const handlePopOver = (id) => {
-        setOpen(!open);
+    const handlePopOver = (open) => {
+        setOpen(open);
     };
 
-    function getCurrentDimension() {
-        return {
-            width: window.innerWidth,
-            height: window.innerHeight
-        };
-    }
-
     function setProduct(product) {
-        alert(product);
+        // alert(product);
     }
 
     return (
         <>
             <Stack flexDirection="row">
+                <div style={{ display: matches ? 'block' : 'none', position: 'absolute', zIndex: 2, top: 120, left: 10 }}>
+                    <button className="btn1" size="large" onClick={() => setSideNav(true)}>
+                        <span>Filter</span>
+                        <FilterListIcon />
+                    </button>
+                </div>
                 <Box
+                    // style={
+                    //     matches && !sideNav
+                    //         ? { visibility: 'visible', opacity: 1, transition: '0s' }
+                    //         : { visibility: 'hidden', opacity: 0, transition: 'visibility 0s linear 0.5s, opacity 5s linear' }
+                    // }
                     sx={{
-                        width: '300px !important',
-                        height: screenSize.height - 65,
-                        position: 'fixed',
+                        width: matches ? width : '300px',
+                        height: height - 65,
+                        position: 'absolute',
                         boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
                         backgroundColor: 'white',
                         overflow: 'auto',
-                        zIndex: 1
-                        // display: 'block'
+                        zIndex: 2,
+
+                        display: matches && !sideNav ? 'none' : 'block'
                     }}
                 >
+                    <div
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'flex-end',
+                            display: !matches ? 'none' : 'flex',
+                            backgroundColor: '#D1F2EB',
+                            alignItems: 'center'
+                        }}
+                    >
+                        <IconButton onClick={() => setSideNav(false)}>
+                            <CloseIcon />
+                        </IconButton>
+                    </div>
+
                     <Box sx={{ flexGrow: 1, backgroundColor: 'white' }}>
                         <List dense={true}>
                             <ListItem
@@ -294,8 +313,8 @@ function BuyerScreen() {
                         </List>
                     </Box>
                 </Box>
-                <Box sx={{ height: 'auto', width: '100%' }}>
-                    <MapComponent data={sampleData?.inventories} handlePopOver={handlePopOver} />
+                <Box sx={{ height: 'auto', width: '100%', zIndex: 1, marginLeft: matches && !sideNav ? 0 : '300px' }}>
+                    <MapComponent data={sampleData?.inventories} height={height} handlePopOver={handlePopOver} />
                 </Box>
             </Stack>
             <Popup open={open} setOpen={setOpen} data={products} />

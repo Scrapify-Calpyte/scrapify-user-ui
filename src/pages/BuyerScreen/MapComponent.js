@@ -6,23 +6,25 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-const containerStyle = {
-    width: '100%',
-    height: window.innerHeight - 65
-};
+import { Grid, Stack, Typography, IconButton } from '@mui/material/index';
 
 const center = {
     lat: 13.0827,
     lng: 80.2707
 };
 
-function MapComponent({ data, handlePopOver }) {
+function MapComponent({ data, handlePopOver, height }) {
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [location, setLocation] = useState(null);
     const [map, setMap] = React.useState(null);
     const [infoOptions, setInfoOptions] = useState({});
+    const containerStyle = {
+        width: '100%',
+        height: height - 65
+    };
 
     useEffect(() => {
+        // alert(JSON.stringify(navigator.userAgentData));
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 setLocation({
@@ -105,52 +107,72 @@ function MapComponent({ data, handlePopOver }) {
                     position={{ lat: selectedMarker?.latitude, lng: selectedMarker?.longitude }}
                     onCloseClick={() => {
                         setSelectedMarker(null);
-                        handlePopOver(selectedMarker?.id);
+                        handlePopOver(false);
                     }}
                 >
-                    <ListItemButton sx={{ padding: 0, width: 300 }} selected={false} onClick={(event) => handlePopOver(selectedMarker?.id)}>
-                        <ListItemIcon>
-                            <Avatar
-                                src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
-                                variant="square"
-                                alt="P"
-                                sx={{ height: 50, width: 50 }}
-                            ></Avatar>
-                        </ListItemIcon>
-                        <div className="container" style={{ lineHeight: 1.5 }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <div style={{ color: '#013f56', fontWeight: 'bold' }}>{selectedMarker?.seller?.name}</div>
-                                <div style={{ color: 'grey', fontWeight: 'bold' }}>
-                                    <LocationOnIcon style={{ fontSize: '15px' }} />
-                                    {selectedMarker?.seller?.distance}
-                                </div>
-                            </div>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                                {selectedMarker?.seller?.products.map((product, index) => {
-                                    return (
-                                        <Tooltip key={index} title={product?.name} arrow>
-                                            <div className="chip">{product?.name}</div>
+                    <Grid container spacing={0}>
+                        <Grid item md={12} xs={12} sm={12} sx={{ paddingBottom: '5px' }}>
+                            <Stack flexDirection="row" gap={2} justifyContent="flex-start">
+                                <Avatar
+                                    src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
+                                    variant="square"
+                                    alt="P"
+                                    sx={{ height: 50, width: 50 }}
+                                ></Avatar>
+                                <Stack>
+                                    <Typography sx={{ color: '#013f56', width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+                                        <b>{selectedMarker?.seller?.name}</b>
+                                        <>
+                                            <StarRateRoundedIcon sx={{ color: 'orange' }} style={{ fontSize: '20px' }} />
+                                            <b style={{ fontSize: '12px' }}>{selectedMarker?.seller?.rating}</b>
+                                        </>
+                                    </Typography>
+                                    <Typography sx={{ color: 'grey', fontWeight: 'bold' }}>
+                                        <LocationOnIcon style={{ fontSize: '15px' }} />
+                                        20km
+                                    </Typography>
+                                </Stack>
+                            </Stack>
+                        </Grid>
+                        {selectedMarker?.seller?.products.map((product, index) => {
+                            return (
+                                <Grid key={index} item md={3} xs={6} sm={6} sx={{ boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px' }}>
+                                    <Stack sx={{ justifyContent: 'center', textAlign: 'center' }}>
+                                        <Tooltip title={product?.name}>
+                                            <Typography noWrap>{product?.name}</Typography>
                                         </Tooltip>
-                                    );
-                                })}
-                            </div>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    fontSize: '11px'
-                                }}
-                            >
-                                <div style={{ color: '#013f56', fontWeight: 'bold', display: 'flex', alignItems: 'end' }}>
-                                    <StarRateRoundedIcon sx={{ color: 'orange' }} style={{ fontSize: '20px' }} />
-                                    &nbsp; {selectedMarker?.seller?.rating}
-                                </div>
-                                {/* <div style={{ color: 'grey' }}>58K Reviews</div> */}
-                                <div style={{ color: '#1bd7a0' }}>View Details</div>
-                            </div>
-                        </div>
-                    </ListItemButton>
+                                        {/* <IconButton size="small"> */}
+                                        <button
+                                            style={{ display: 'flex', backgroundColor: 'white', border: 'none', justifyContent: 'center' }}
+                                        >
+                                            <Avatar
+                                                src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
+                                                variant="square"
+                                                alt="P"
+                                            ></Avatar>
+                                        </button>
+
+                                        {/* </IconButton> */}
+                                        <Typography>10Kg</Typography>
+                                    </Stack>
+                                </Grid>
+                            );
+                        })}
+                        <Grid item md={12} xs={12} sm={12} sx={{ paddingTop: '5px' }}>
+                            <Stack flexDirection="row" sx={{ justifyContent: 'space-between', width: '100%' }} gap={2}>
+                                <button className="btn1" style={{ width: '50%' }}>
+                                    Bid Now
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => handlePopOver(true)}
+                                    style={{ color: '#1bd7a0', border: 'none', width: '50%' }}
+                                >
+                                    View Details
+                                </button>
+                            </Stack>
+                        </Grid>
+                    </Grid>
                 </InfoWindow>
             )}
             <Circle

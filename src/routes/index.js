@@ -21,7 +21,7 @@ const ThemeRoutes = () => {
                     element: <BuyerScreen />
                 },
                 {
-                    path: '/seller',
+                    path: '/seller/*',
                     element: (
                         <PrivateRoute>
                             <SellerScreen />
