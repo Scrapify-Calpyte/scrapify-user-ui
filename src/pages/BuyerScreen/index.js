@@ -266,7 +266,7 @@ function BuyerScreen() {
                     </Box>
                     {/* <AnimateOnChange animationIn="fadeInUp" animationOut="fadeOut" durationOut={300}> */}
                     <Stack
-                        style={{ animation: animations.fadeInUp, width: '300px' }}
+                        style={{ animation: animations.fadeInUp }}
                         flexDirection="row"
                         justifyContent="space-between"
                         alignItems="center"
