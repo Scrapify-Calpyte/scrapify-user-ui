@@ -24,10 +24,16 @@ import useScreenSize from '~/components/useScreenSize';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
+import Button from '@mui/material/Button';
+import { CSSTransition } from 'react-transition-group';
+import { Transition } from 'react-transition-group';
+import './buyerscreen.css';
+import { animations } from 'react-animation';
+import { AnimateOnChange } from 'react-animation';
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
+// const Transition = React.forwardRef(function Transition(props, ref) {
+//     return <Slide direction="up" ref={ref} {...props} />;
+// });
 
 function BuyerScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -35,6 +41,7 @@ function BuyerScreen() {
     const [width, height] = useScreenSize();
     const matches = useMediaQuery('(max-width:768px)');
     const [sideNav, setSideNav] = useState(true);
+    const [viewAll, setViewAll] = useState(false);
 
     const sampleData = {
         availableProducts: [
@@ -50,6 +57,26 @@ function BuyerScreen() {
             }
         ],
         allProducts: [
+            {
+                id: 'asd',
+                name: 'Plastics',
+                icon: ''
+            },
+            {
+                id: 'asd',
+                name: 'E-waste',
+                icon: ''
+            },
+            {
+                id: 'asd',
+                name: 'Plastic',
+                icon: ''
+            },
+            {
+                id: 'asd',
+                name: 'E-waste',
+                icon: ''
+            },
             {
                 id: 'asd',
                 name: 'Plastic',
@@ -154,6 +181,18 @@ function BuyerScreen() {
         // alert(product);
     }
 
+    const defaultStyles = {
+        transition: `opacity 5s ease-in-out, display 5s ease-in-out`
+        // color: 'black'
+    };
+
+    const transitionStyles = {
+        entering: { opacity: 0, display: 'none' },
+        entered: { opacity: 1, display: 'block' },
+        exiting: { opacity: 1, display: 'block' },
+        exited: { opacity: 0, display: 'none' }
+    };
+
     return (
         <>
             <Stack flexDirection="row">
@@ -164,11 +203,6 @@ function BuyerScreen() {
                     </button>
                 </div>
                 <Box
-                    // style={
-                    //     matches && !sideNav
-                    //         ? { visibility: 'visible', opacity: 1, transition: '0s' }
-                    //         : { visibility: 'hidden', opacity: 0, transition: 'visibility 0s linear 0.5s, opacity 5s linear' }
-                    // }
                     sx={{
                         width: matches ? width : '300px',
                         height: height - 65,
@@ -177,33 +211,42 @@ function BuyerScreen() {
                         backgroundColor: 'white',
                         overflow: 'auto',
                         zIndex: 2,
-
-                        display: matches && !sideNav ? 'none' : 'block'
+                        display: matches && !sideNav ? 'none' : 'block',
+                        animation: animations.fadeInUp
                     }}
                 >
-                    <div
-                        style={{
-                            flexDirection: 'row',
-                            justifyContent: 'flex-end',
-                            display: !matches ? 'none' : 'flex',
-                            backgroundColor: '#D1F2EB',
-                            alignItems: 'center'
+                    <Box
+                        sx={{
+                            flexGrow: 1,
+                            backgroundColor: 'white',
+                            animation: animations.fadeInUp,
+                            display: !viewAll ? 'block' : 'none'
                         }}
                     >
-                        <IconButton onClick={() => setSideNav(false)}>
-                            <CloseIcon />
-                        </IconButton>
-                    </div>
-
-                    <Box sx={{ flexGrow: 1, backgroundColor: 'white' }}>
                         <List dense={true}>
                             <ListItem
                                 secondaryAction={
-                                    <Tooltip title="Locate me" arrow>
-                                        <IconButton edge="end" onClick={() => alert('Locate me hitted')}>
-                                            <GpsFixedIcon style={{ color: '#1bd7a0' }} />
-                                        </IconButton>
-                                    </Tooltip>
+                                    <Stack flexDirection="row" gap={2}>
+                                        <Tooltip title="Locate me" arrow>
+                                            <IconButton edge="end" onClick={() => alert('Locate me hitted')}>
+                                                <GpsFixedIcon style={{ color: '#1bd7a0' }} />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <div
+                                            style={{
+                                                flexDirection: 'row',
+                                                justifyContent: 'flex-end',
+                                                display: !matches ? 'none' : 'flex',
+                                                alignItems: 'center'
+                                            }}
+                                        >
+                                            <Tooltip title="Close" arrow>
+                                                <IconButton onClick={() => setSideNav(false)}>
+                                                    <CloseIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </div>
+                                    </Stack>
                                 }
                             >
                                 <ListItemAvatar>
@@ -218,16 +261,23 @@ function BuyerScreen() {
                             </ListItem>
                         </List>
                     </Box>
-                    <ProductList products={[...sampleData?.availableProducts, ...sampleData?.allProducts]} setProduct={setProduct} />
-                    <Box sx={{ flexGrow: 0, bgcolor: 'background.paper' }}>
-                        <Stack flexDirection="row" justifyContent="space-between" padding="2px">
-                            <Typography component="div" variant="p" color="#013f56" fontWeight="bold">
-                                Sellers Near By
-                            </Typography>
-                            <Typography component="div" variant="p" color="#013f56" fontWeight="bold">
-                                View All
-                            </Typography>
-                        </Stack>
+                    <Box sx={{ animation: animations.fadeInUp, display: !viewAll ? 'block' : 'none' }}>
+                        <ProductList products={[...sampleData?.availableProducts, ...sampleData?.allProducts]} setProduct={setProduct} />
+                    </Box>
+                    {/* <AnimateOnChange animationIn="fadeInUp" animationOut="fadeOut" durationOut={300}> */}
+                    <Stack
+                        style={{ animation: animations.fadeInUp, width: '300px' }}
+                        flexDirection="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        padding="10px"
+                    >
+                        <Typography component="div" variant="p" color="#013f56" fontWeight="bold">
+                            Sellers Near By
+                        </Typography>
+                        <Button onClick={() => setViewAll(!viewAll)}> {!viewAll ? 'View All' : 'Show Less'} </Button>
+                    </Stack>
+                    <Box sx={{ flexGrow: 0, animation: animations.fadeInUp }}>
                         <List>
                             {sampleData?.inventories.map((data, index) => {
                                 return (
@@ -255,7 +305,12 @@ function BuyerScreen() {
                                             </ListItemIcon>
                                             <div
                                                 className="container"
-                                                style={{ lineHeight: 1.5, fontSize: '12px', padding: '5px', alignItems: 'space-between' }}
+                                                style={{
+                                                    lineHeight: 1.5,
+                                                    fontSize: '12px',
+                                                    padding: '5px',
+                                                    alignItems: 'space-between'
+                                                }}
                                             >
                                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                     <div style={{ color: '#013f56', fontWeight: 'bold' }}>{data?.seller?.name}</div>
@@ -312,8 +367,17 @@ function BuyerScreen() {
                             })}
                         </List>
                     </Box>
+                    {/* </AnimateOnChange> */}
                 </Box>
-                <Box sx={{ height: 'auto', width: '100%', zIndex: 1, marginLeft: matches && !sideNav ? 0 : '300px' }}>
+                <Box
+                    sx={{
+                        height: 'auto',
+                        width: '100%',
+                        zIndex: 1,
+                        marginLeft: matches && !sideNav ? 0 : '300px',
+                        animation: animations.popIn
+                    }}
+                >
                     <MapComponent data={sampleData?.inventories} height={height} handlePopOver={handlePopOver} />
                 </Box>
             </Stack>

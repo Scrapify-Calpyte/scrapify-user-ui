@@ -27,6 +27,7 @@ import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { ThemeContext } from '/src/util/ThemeProvider';
 import { useContext } from 'react';
+import { animations } from 'react-animation';
 
 const drawerWidth = 300;
 
@@ -82,7 +83,7 @@ export default function MenuProvider() {
         {
             icon: <HomeOutlinedIcon />,
             label: 'Home',
-            link: '/home'
+            link: '/buyer'
         },
         {
             icon: <CallOutlinedIcon />,

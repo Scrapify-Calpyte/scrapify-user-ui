@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '~/util/ThemeProvider';
 import { useMediaQuery } from '@mui/material/index';
+import { animations, easings } from 'react-animation';
 
 import {
     TextField,
@@ -155,16 +156,27 @@ function SignUp() {
 
     return (
         <>
-            <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{ flexGrow: 1, animation: animations.fadeIn }}>
                 <Grid container spacing={0}>
-                    <Grid item xs={12} md={6} style={{ height: height - 65, display: matches ? 'none' : 'block' }}>
+                    <Grid
+                        item
+                        xs={12}
+                        md={6}
+                        style={{ height: height - 65, display: matches ? 'none' : 'block', animation: animations.fadeInUp }}
+                    >
                         <img
                             style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                             src="https://cdn.shopify.com/s/files/1/0098/1362/2848/products/community_600x.jpg?v=1597415519"
                             alt="ico"
                         ></img>
                     </Grid>
-                    <Grid item xs={12} md={6} style={page == 0 ? { height: height - 65 } : { display: 'none' }}>
+                    <Grid
+                        item
+                        xs={12}
+                        md={6}
+                        sx={{ animation: animations.fadeIn }}
+                        style={page == 0 ? { height: height - 65, position: 'relative', overflow: 'auto' } : { display: 'none' }}
+                    >
                         <div style={{ dimensions: '100%', padding: '5% 20%', textAlign: 'center' }}>
                             <h3 style={{ color: colors.primary }}>Scrapify</h3>
                             <div style={{ textAlign: 'start', color: colors.primary }}>
@@ -306,7 +318,13 @@ function SignUp() {
                             </form>
                         </div>
                     </Grid>
-                    <Grid item xs={12} md={6} style={page === 1 ? { height: height - 65 } : { display: 'none' }}>
+                    <Grid
+                        sx={{ animation: animations.fadeIn }}
+                        item
+                        xs={12}
+                        md={6}
+                        style={page === 1 ? { height: height - 65, position: 'relative' } : { display: 'none' }}
+                    >
                         <div style={{ dimensions: '100%', padding: '5% 2%', textAlign: 'center' }}>
                             <h3 style={{ color: colors.primary }}>Scrapify</h3>
                             <div style={{ textAlign: 'start', color: colors.primary }}>
@@ -339,7 +357,13 @@ function SignUp() {
                             </button>
                         </div>
                     </Grid>
-                    <Grid item xs={12} md={6} style={page === 2 ? { height: height - 65 } : { display: 'none' }}>
+                    <Grid
+                        sx={{ animation: animations.fadeIn }}
+                        item
+                        xs={12}
+                        md={6}
+                        style={page === 2 ? { height: height - 65, position: 'relative' } : { display: 'none' }}
+                    >
                         <div style={{ dimensions: '100%', padding: '10% 20%', textAlign: 'center' }}>
                             <h3 style={{ color: colors.primary }}>Scrapify</h3>
                             <div style={{ textAlign: 'start', color: colors.primary }}>

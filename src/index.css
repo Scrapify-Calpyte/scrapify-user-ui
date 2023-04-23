@@ -34,3 +34,21 @@ code {
   min-height: '65px !important';
   padding-top: '5px !important'
 }
+
+.flex-box {
+  display: 'flex';
+  background-color: '#f7f7f7';
+  justify-content: 'flex-start';
+  flex-direction: 'row';
+  flex-wrap: 'wrap';
+  gap: 3;
+  padding: '10px';
+  box-shadow: '#f7f7f7 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset';
+}
+
+.flex-box-item {
+  flex: '0 0 32%';
+  justify-content: 'center';
+  align-items: 'center';
+  border-radius: '10px';
+}
