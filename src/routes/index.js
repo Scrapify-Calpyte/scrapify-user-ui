@@ -1,5 +1,5 @@
 import MainLayout from '~/layout/MainLayout';
-import { useRoutes } from 'react-router-dom';
+import { useRoutes, Navigate } from 'react-router-dom';
 import Loadable from '/src/components/Loadable';
 import { lazy } from 'react';
 import { useKeycloak } from '@react-keycloak/web';
@@ -17,11 +17,11 @@ const ThemeRoutes = () => {
             element: <MainLayout />,
             children: [
                 {
-                    path: '/buyer',
+                    path: 'buyer',
                     element: <BuyerScreen />
                 },
                 {
-                    path: '/seller/*',
+                    path: 'seller/*',
                     element: (
                         <PrivateRoute>
                             <SellerScreen />
@@ -29,11 +29,11 @@ const ThemeRoutes = () => {
                     )
                 },
                 {
-                    path: '/home',
-                    element: <BuyerScreen />
+                    path: 'home',
+                    element: <Navigate to="buyer" replace={true} />
                 },
                 {
-                    path: '/login',
+                    path: 'login',
                     element: (
                         <PrivateRoute>
                             <SignUpScreen />
@@ -42,7 +42,7 @@ const ThemeRoutes = () => {
                 },
                 {
                     path: '/',
-                    element: <BuyerScreen />
+                    element: <Navigate to="buyer" replace={true} />
                 }
                 // {
                 //     path: '*',
