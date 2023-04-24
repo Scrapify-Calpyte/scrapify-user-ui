@@ -37,4 +37,8 @@ const useAxios = () => {
     return axiosInstance;
 };
 
+AxiosProvider.propTypes = {
+    children: PropTypes.node
+};
+
 export { AxiosProvider, useAxios };
