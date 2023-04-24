@@ -203,6 +203,7 @@ function BuyerScreen() {
                     </button>
                 </div>
                 <Box
+                    style={matches ? { animation: animations.fadeInUp } : {}}
                     sx={{
                         width: matches ? width : '300px',
                         height: height - 65,
@@ -211,15 +212,14 @@ function BuyerScreen() {
                         backgroundColor: 'white',
                         overflow: 'auto',
                         zIndex: 2,
-                        display: matches && !sideNav ? 'none' : 'block',
-                        animation: animations.fadeInUp
+                        display: matches && !sideNav ? 'none' : 'block'
+                        // animation: matches && !sideNav ? animations.fadeInUp : ''
                     }}
                 >
                     <Box
                         sx={{
                             flexGrow: 1,
                             backgroundColor: 'white',
-                            animation: animations.fadeInUp,
                             display: !viewAll ? 'block' : 'none'
                         }}
                     >
@@ -261,23 +261,17 @@ function BuyerScreen() {
                             </ListItem>
                         </List>
                     </Box>
-                    <Box sx={{ animation: animations.fadeInUp, display: !viewAll ? 'block' : 'none' }}>
+                    <Box sx={{ display: !viewAll ? 'block' : 'none' }}>
                         <ProductList products={[...sampleData?.availableProducts, ...sampleData?.allProducts]} setProduct={setProduct} />
                     </Box>
                     {/* <AnimateOnChange animationIn="fadeInUp" animationOut="fadeOut" durationOut={300}> */}
-                    <Stack
-                        style={{ animation: animations.fadeInUp }}
-                        flexDirection="row"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        padding="10px"
-                    >
+                    <Stack flexDirection="row" justifyContent="space-between" alignItems="center" padding="10px">
                         <Typography component="div" variant="p" color="#013f56" fontWeight="bold">
                             Sellers Near By
                         </Typography>
                         <Button onClick={() => setViewAll(!viewAll)}> {!viewAll ? 'View All' : 'Show Less'} </Button>
                     </Stack>
-                    <Box sx={{ flexGrow: 0, animation: animations.fadeInUp }}>
+                    <Box sx={{ flexGrow: 0 }}>
                         <List>
                             {sampleData?.inventories.map((data, index) => {
                                 return (

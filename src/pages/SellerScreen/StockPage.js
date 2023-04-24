@@ -3,254 +3,215 @@ import useScreenSize from '~/components/useScreenSize';
 import { ThemeContext } from '~/util/ThemeProvider';
 import img from '~assets/images/seller_img1.PNG';
 import { useContext, useEffect, useState } from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-import FolderIcon from '@mui/icons-material/Folder';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import ListItemButton from '@mui/material/ListItemButton';
-import InfoIcon from '@mui/icons-material/Info';
-import Chip from '@mui/material/Chip';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
 import { useMediaQuery } from '@mui/material/index';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import Badge from '@mui/material/Badge';
+import ProductsModal from './ProductsModal';
 
 function StockPage() {
     const [width, height] = useScreenSize();
     const { colors } = useContext(ThemeContext);
-    const [value, setValue] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [selectedCategories, setSelectedCategories] = useState([]);
     const matches = useMediaQuery('(max-width:768px)');
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedProduct, setSelectedProduct] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [categories, setCategories] = useState([]);
+    const [products, setProducts] = useState([]);
 
-    const products = [
+    const productss = [
         {
-            id: 0,
-            name: 'Paper',
-            categories: [
-                {
-                    id: 0,
-                    name: 'Corrugated/Kraft paper'
-                },
-                {
-                    id: 0,
-                    name: 'Newspapers/newsprint'
-                },
-                {
-                    id: 0,
-                    name: 'High-grade papers'
-                }
-            ]
+            id: '0',
+            name: 'Paper'
         },
         {
-            id: 1,
-            name: 'Cardboard',
-            categories: [
-                {
-                    id: 0,
-                    name: 'Corrugated fiberboard'
-                },
-                {
-                    id: 0,
-                    name: 'Single-face board'
-                },
-                {
-                    id: 0,
-                    name: 'Single-wall board'
-                }
-            ]
+            id: '1',
+            name: 'Cardboard'
         },
         {
-            id: 2,
-            name: 'Plastic',
-            categories: [
-                {
-                    id: 0,
-                    name: 'Polyethylene Terephthalate (PET)'
-                },
-                {
-                    id: 0,
-                    name: 'High-Density Polyethylene (HDPE)'
-                },
-                {
-                    id: 0,
-                    name: 'Polyvinyl Chloride (PVC)'
-                }
-            ]
+            id: '2',
+            name: 'Plastic'
         },
         {
-            id: 3,
-            name: 'Plastic Cover',
-            categories: [
-                {
-                    id: 0,
-                    name: 'Low-density polyethylene (LDPE)'
-                },
-                {
-                    id: 0,
-                    name: 'Linear Low-Density Polyethylene (LLDPE)'
-                },
-                {
-                    id: 0,
-                    name: 'Ultra Low-Density Polyethylene (ULDPE)'
-                }
-            ]
+            id: '3',
+            name: 'Plastic Cover'
         },
         {
-            id: 4,
-            name: 'Metal',
-            categories: [
-                {
-                    id: 0,
-                    name: 'Iron'
-                },
-                {
-                    id: 0,
-                    name: ' Steel'
-                },
-                {
-                    id: 0,
-                    name: 'Aluminium'
-                }
-            ]
+            id: '4',
+            name: 'Metal'
         }
     ];
 
     useEffect(() => {
-        setValue([products[0]]);
-        handleChange(null, [products[0]]);
+        setCategories(productss.map((product) => Object.assign(product, { products: [] })));
     }, []);
 
-    const handleChange = (event, newValue) => {
-        let arr = [];
-        let arr2 = [];
-        console.log(newValue);
-        if (newValue.length > 0) {
-            newValue.forEach((e) => {
-                arr = [...arr, ...e?.categories];
-                e?.categories.forEach((element) => {
-                    arr2 = [...arr2, ...selectedCategories.filter((data) => data?.id === element?.id && data?.name === element?.name)];
+    const subCategoriess = [
+        {
+            id: '0',
+            name: 'sub1',
+            category: {
+                id: '0',
+                name: 'Paper'
+            }
+        },
+        {
+            id: '1',
+            name: 'sub2',
+            category: {
+                id: '0',
+                name: 'Paper'
+            }
+        },
+        {
+            id: '2',
+            name: 'sub3',
+            category: {
+                id: '1',
+                name: 'Cardboard'
+            }
+        },
+        {
+            id: '3',
+            name: 'sub4',
+            category: {
+                id: '1',
+                name: 'Cardboard'
+            }
+        },
+        {
+            id: '4',
+            name: 'sub5',
+            category: {
+                id: '1',
+                name: 'Cardboard'
+            }
+        }
+    ];
+
+    const handleCategorySelection = (category) => {
+        setSelectedCategory(category?.id);
+        setProducts(subCategoriess.filter((data) => data?.category?.id === category?.id));
+        handleClickOpen();
+    };
+
+    function handleClose(selected, isAction) {
+        if (isAction) {
+            setCategories((oldArray) => {
+                return oldArray.map((category) => {
+                    if (category?.id === selectedCategory) {
+                        category['products'] = [...selected];
+                        return category;
+                    } else {
+                        return category;
+                    }
                 });
             });
-            setSelectedCategories(arr2);
-        } else {
-            setSelectedCategories([]);
         }
-        setCategories(arr.sort((a, b) => a.name.trim().localeCompare(b.name.trim())));
-        setValue(newValue);
-    };
+        setOpen(false);
+    }
 
-    const handleCategoryChange = (event, newValue) => {
-        setSelectedCategories(newValue);
-    };
-
-    const isOptionEqualToValue = (option, value) => {
-        return option.id === value.id && option.name === value.name;
-    };
+    function handleClickOpen() {
+        setOpen(true);
+    }
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={0}>
-                <Grid item xs={12} md={6} style={{ height: height - 65 }}>
-                    <img style={{ objectFit: 'contain', width: '100%', height: height - 65 }} src={img} alt="ico"></img>
-                </Grid>
-                <Grid item xs={12} md={6} style={{ backgroundColor: 'white', height: height - 65 }}>
-                    <div style={{ dimensions: '100%', padding: '5% 10%', textAlign: 'start' }}>
-                        <Typography sx={{ color: colors.primary, fontWeight: 'bold', padding: '20px' }} component="div" varient="h1">
-                            Choose Scraps
-                        </Typography>
-                        <Box style={{ maxHeight: matches ? '100%' : height - 300, overflow: 'auto', padding: '10px' }}>
-                            <Autocomplete
-                                multiple
-                                id="tags-outlined"
-                                options={products.sort((a, b) => a.name.trim().localeCompare(b.name.trim()))}
-                                disableCloseOnSelect={true}
-                                value={value}
-                                isOptionEqualToValue={isOptionEqualToValue}
-                                onChange={handleChange}
-                                renderOption={(props, option) => (
-                                    <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                                        <img
-                                            loading="lazy"
-                                            width="50"
-                                            height="50"
-                                            src={`https://www.shutterstock.com/image-photo/waste-plastic-bottles-other-types-260nw-426187984.jpg`}
-                                            // srcSet={`https://flagcdn.com/w40/br.png 2x`}
-                                            alt=""
-                                        />
-                                        {option.name}&nbsp;&nbsp;
-                                        <Tooltip
-                                            style={{ backgroundColor: 'white' }}
-                                            placement="top"
-                                            arrow
-                                            key={option?.name}
-                                            title="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                                        >
-                                            <div>
-                                                <InfoOutlinedIcon sx={{ fontSize: '20px' }} />
-                                            </div>
-                                        </Tooltip>
-                                    </Box>
-                                )}
-                                getOptionLabel={(option) => option.name}
-                                defaultValue={[products[0]]}
-                                filterSelectedOptions={true}
-                                renderInput={(params) => <TextField {...params} label="Choose your fav products" placeholder="Favorites" />}
-                            />
-                            <br></br>
-                            <Autocomplete
-                                multiple
-                                id="tags-outlined"
-                                options={categories.sort((a, b) => a.name.trim().localeCompare(b.name.trim()))}
-                                value={selectedCategories}
-                                disableCloseOnSelect={true}
-                                onChange={handleCategoryChange}
-                                isOptionEqualToValue={isOptionEqualToValue}
-                                renderOption={(props, option) => (
-                                    <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                                        <img
-                                            loading="lazy"
-                                            width="50"
-                                            height="50"
-                                            src={`https://www.shutterstock.com/image-photo/waste-plastic-bottles-other-types-260nw-426187984.jpg`}
-                                            // srcSet={`https://flagcdn.com/w40/br.png 2x`}
-                                            alt=""
-                                        />
-                                        {option.name}&nbsp;&nbsp;
-                                        <Tooltip
-                                            sx={{ bgcolor: 'white' }}
-                                            placement="top"
-                                            arrow
-                                            key={option?.name}
-                                            title="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                                        >
-                                            <div>
-                                                <InfoOutlinedIcon sx={{ fontSize: '20px' }} />
-                                            </div>
-                                        </Tooltip>
-                                    </Box>
-                                )}
-                                getOptionLabel={(option) => option.name}
-                                // defaultValue={[categories[0]]}
-                                filterSelectedOptions
-                                renderInput={(params) => <TextField {...params} label="Choose your fav products" placeholder="Favorites" />}
-                            />
-                        </Box>
-                        <div style={{ paddingTop: '20px' }}>
-                            <button style={{ width: '150px', borderRadius: '30px' }} className="btn1">
-                                Submit
-                            </button>
+        <>
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={0}>
+                    <Grid item xs={12} md={6} style={{ height: height - 65 }}>
+                        <img style={{ objectFit: 'contain', width: '100%', height: height - 65 }} src={img} alt="ico"></img>
+                    </Grid>
+                    <Grid item xs={12} md={6} style={{ backgroundColor: 'white', height: height - 65, overflow: 'auto' }}>
+                        <div style={{ dimensions: '100%', padding: matches ? '5%' : '5% 10%', textAlign: 'start' }}>
+                            <Typography sx={{ color: colors.primary, fontWeight: 'bold', padding: '20px' }} component="div" varient="h1">
+                                Choose Scrap Category
+                            </Typography>
+                            <Grid
+                                container
+                                spacing={1}
+                                sx={{ backgroundColor: '#f7f7f7', justifyContent: 'start', padding: '0 10px 10px 0px' }}
+                            >
+                                {categories.map((category, index) => {
+                                    return (
+                                        <Grid key={index} item xs={4} md={4} lg={3} sm={3} sx={{ textAlign: 'center' }}>
+                                            <Stack
+                                                sx={{
+                                                    borderRadius: '10px',
+                                                    textAlign: 'center',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    padding: '2%'
+                                                }}
+                                            >
+                                                <IconButton onClick={() => handleCategorySelection(category)}>
+                                                    <Badge
+                                                        overlap="circular"
+                                                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                                        badgeContent={
+                                                            category?.products?.length === 0 ? (
+                                                                ''
+                                                            ) : (
+                                                                <Avatar
+                                                                    sx={{
+                                                                        bgcolor: 'orange',
+                                                                        height: '20px',
+                                                                        width: '20px',
+                                                                        fontSize: '10px'
+                                                                    }}
+                                                                >
+                                                                    {category?.products?.length}
+                                                                </Avatar>
+                                                            )
+                                                        }
+                                                    >
+                                                        <Avatar size="medium" alt={category?.name} src={img} />
+                                                    </Badge>
+                                                </IconButton>
+                                                <div style={{ display: 'flex', width: '100%' }}>
+                                                    <div style={{ width: '100%', textAlign: 'center' }}>
+                                                        <Tooltip title={category?.name}>
+                                                            <Typography
+                                                                component="div"
+                                                                variant="subtitle1"
+                                                                noWrap
+                                                                style={{ maxWidth: '100%', textOverflow: 'ellipsis', overflow: 'hidden' }}
+                                                            >
+                                                                {category?.name}
+                                                            </Typography>
+                                                        </Tooltip>
+                                                    </div>
+                                                    {/* <div style={{ width: '15%', textAlign: 'start' }}>
+                                                        <div>
+                                                            <InfoOutlinedIcon />
+                                                        </div>
+                                                    </div> */}
+                                                </div>
+                                            </Stack>
+                                        </Grid>
+                                    );
+                                })}
+                            </Grid>
+                            <div style={{ paddingTop: '20px' }}>
+                                <button style={{ width: '150px', borderRadius: '30px' }} className="btn1">
+                                    Submit
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Box>
+            </Box>
+            {open ? (
+                <ProductsModal
+                    open={open}
+                    handleClose={handleClose}
+                    products={products}
+                    selectedProducts={categories.find((category) => category.id === selectedCategory)?.['products']}
+                />
+            ) : (
+                <></>
+            )}
+        </>
     );
 }
 

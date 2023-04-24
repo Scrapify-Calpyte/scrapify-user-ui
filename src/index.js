@@ -7,19 +7,21 @@ import { BrowserRouter } from 'react-router-dom';
 import { ReactKeycloakProvider } from '@react-keycloak/web';
 import keycloak from './keycloak';
 import { ThemeProvider } from './util/ThemeProvider';
-
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
+import { AxiosProvider } from './components/useAxios';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     // <React.StrictMode>
     <ReactKeycloakProvider authClient={keycloak}>
-        <BrowserRouter>
-            <ThemeProvider>
-                <App />
-            </ThemeProvider>
-        </BrowserRouter>
+        <AxiosProvider>
+            <BrowserRouter>
+                <ThemeProvider>
+                    <App />
+                </ThemeProvider>
+            </BrowserRouter>
+        </AxiosProvider>
     </ReactKeycloakProvider>
     // </React.StrictMode>
 );

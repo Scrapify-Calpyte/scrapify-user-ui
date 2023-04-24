@@ -8,6 +8,10 @@
               {
                 "rootPathSuffix": "src",
                 "rootPathPrefix": "~"
+              },
+              {
+                "rootPathSuffix": "node_modules/@mui/material",
+                "rootPathPrefix": "@mui/material"
               }
             ]
           }

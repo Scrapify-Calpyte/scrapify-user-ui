@@ -4,6 +4,8 @@ import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '~/util/ThemeProvider';
 import { useMediaQuery } from '@mui/material/index';
 import { animations, easings } from 'react-animation';
+// import axios from '~util/axios';
+import { useAxios } from '~/components/useAxios';
 
 import {
     TextField,
@@ -44,8 +46,10 @@ function SignUp() {
     const [location, setLocation] = useState(null);
     const navigate = useNavigate();
     const matches = useMediaQuery('(max-width:768px)');
+    var formResult = {};
+    const axios = useAxios();
 
-    const formik = useFormik({
+    const basicForm = useFormik({
         initialValues: {
             firstName: '',
             lastName: '',
@@ -57,7 +61,8 @@ function SignUp() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            console.log(values);
+            formResult = Object.assign(values);
+            // console.log(formResult);
             setPage(1);
         }
     });
@@ -75,10 +80,23 @@ function SignUp() {
             pincode: ''
         },
         onSubmit: (values) => {
-            console.log(values);
-            navigate('/seller/products');
+            formResult = Object.assign(formResult, values);
+            handleSubmit();
+            // console.log(values);
         }
     });
+
+    function handleSubmit() {
+        let result = Object.assign(basicForm.values, addressForm.values);
+        axios
+            .post('seller/register', result)
+            .then((res) => {
+                console.log(res);
+                navigate('/seller/products');
+            })
+            .catch((err) => navigate('/seller/products'));
+        // console.log();
+    }
 
     useEffect(() => {}, []);
     //     {
@@ -184,7 +202,7 @@ function SignUp() {
                                     <b>Seller Registration</b>
                                 </p>
                             </div>
-                            <form onSubmit={formik.handleSubmit}>
+                            <form onSubmit={basicForm.handleSubmit}>
                                 <div className="row col-md-12">
                                     <div className="col-md-6" style={{ minHeight: '65px', paddingTop: '5px' }}>
                                         <FormControl fullWidth>
@@ -192,15 +210,15 @@ function SignUp() {
                                                 id="firstName"
                                                 name="firstName"
                                                 label="FirstName"
-                                                value={formik.values.firstName}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                                                value={basicForm.values.firstName}
+                                                onChange={basicForm.handleChange}
+                                                onBlur={basicForm.handleBlur}
+                                                error={basicForm.touched.firstName && Boolean(basicForm.errors.firstName)}
                                                 size="small"
                                                 fullWidth={true}
                                                 // variant="oulined"
                                             />
-                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{formik.errors.firstName}</FormHelperText>
+                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.firstName}</FormHelperText>
                                         </FormControl>
                                     </div>
                                     <div className="col-md-6" style={{ minHeight: '65px', paddingTop: '5px' }}>
@@ -209,15 +227,15 @@ function SignUp() {
                                                 id="lastName"
                                                 name="lastName"
                                                 label="LastName"
-                                                value={formik.values.lastName}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                                                value={basicForm.values.lastName}
+                                                onChange={basicForm.handleChange}
+                                                onBlur={basicForm.handleBlur}
+                                                error={basicForm.touched.lastName && Boolean(basicForm.errors.lastName)}
                                                 size="small"
                                                 fullWidth={true}
                                                 // variant="oulined"
                                             />
-                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{formik.errors.lastName}</FormHelperText>
+                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.lastName}</FormHelperText>
                                         </FormControl>
                                     </div>
                                     <div className="col-md-12" style={{ minHeight: '65px', paddingTop: '5px' }}>
@@ -226,15 +244,15 @@ function SignUp() {
                                                 id="mobile"
                                                 name="mobile"
                                                 label="Mobile"
-                                                value={formik.values.mobile}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                error={formik.touched.mobile && Boolean(formik.errors.mobile)}
+                                                value={basicForm.values.mobile}
+                                                onChange={basicForm.handleChange}
+                                                onBlur={basicForm.handleBlur}
+                                                error={basicForm.touched.mobile && Boolean(basicForm.errors.mobile)}
                                                 size="small"
                                                 fullWidth={true}
                                                 // variant="oulined"
                                             />
-                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{formik.errors.mobile}</FormHelperText>
+                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.mobile}</FormHelperText>
                                         </FormControl>
                                     </div>
                                     <div className="col-md-12" style={{ minHeight: '65px', paddingTop: '5px' }}>
@@ -243,15 +261,15 @@ function SignUp() {
                                                 id="email"
                                                 name="email"
                                                 label="Email"
-                                                value={formik.values.email}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                error={formik.touched.email && Boolean(formik.errors.email)}
+                                                value={basicForm.values.email}
+                                                onChange={basicForm.handleChange}
+                                                onBlur={basicForm.handleBlur}
+                                                error={basicForm.touched.email && Boolean(basicForm.errors.email)}
                                                 size="small"
                                                 fullWidth={true}
                                                 // variant="oulined"
                                             />
-                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{formik.errors.email}</FormHelperText>
+                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.email}</FormHelperText>
                                         </FormControl>
                                     </div>
                                     <div className="col-md-12" style={{ minHeight: '85px', paddingTop: '5px', textAlign: 'start' }}>
@@ -261,18 +279,18 @@ function SignUp() {
                                                 row
                                                 aria-labelledby="group-label"
                                                 name="gender"
-                                                value={formik.values.gender}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
+                                                value={basicForm.values.gender}
+                                                onChange={basicForm.handleChange}
+                                                onBlur={basicForm.handleBlur}
                                                 error={true.toString()}
-                                                // error={formik.touched.gender && Boolean(formik.errors.gender)}
+                                                // error={basicForm.touched.gender && Boolean(basicForm.errors.gender)}
                                                 size="small"
                                             >
                                                 <FormControlLabel value="female" control={<Radio size="small" />} label="Female" />
                                                 <FormControlLabel value="male" control={<Radio size="small" />} label="Male" />
                                                 <FormControlLabel value="other" control={<Radio size="small" />} label="Other" />
                                             </RadioGroup>
-                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{formik.errors.gender}</FormHelperText>
+                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.gender}</FormHelperText>
                                         </FormControl>
                                     </div>
                                     <div className="col-md-12" style={{ minHeight: '65px', paddingTop: '5px' }}>
@@ -281,14 +299,14 @@ function SignUp() {
                                                 id="otp"
                                                 name="otp"
                                                 label="otp"
-                                                value={formik.values.otp}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                error={formik.touched.otp && Boolean(formik.errors.otp)}
+                                                value={basicForm.values.otp}
+                                                onChange={basicForm.handleChange}
+                                                onBlur={basicForm.handleBlur}
+                                                error={basicForm.touched.otp && Boolean(basicForm.errors.otp)}
                                                 size="small"
                                                 fullWidth={true}
                                             />
-                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{formik.errors.otp}</FormHelperText>
+                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.otp}</FormHelperText>
                                         </FormControl>
                                     </div>
                                 </div>
@@ -299,16 +317,16 @@ function SignUp() {
                                             row
                                             aria-labelledby="group-label"
                                             name="type"
-                                            value={formik.values.type}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
+                                            value={basicForm.values.type}
+                                            onChange={basicForm.handleChange}
+                                            onBlur={basicForm.handleBlur}
                                             size="small"
                                         >
                                             <FormControlLabel value="1" control={<Radio size="small" />} label="City Corporation" />
                                             <FormControlLabel value="2" control={<Radio size="small" />} label="Premium Institution" />
                                             <FormControlLabel value="0" control={<Radio size="small" />} label="Other" />
                                         </RadioGroup>
-                                        <FormHelperText sx={{ color: 'red', margin: 0 }}>{formik.errors.type}</FormHelperText>
+                                        <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.type}</FormHelperText>
                                     </FormControl>
                                 </div>
 
@@ -437,7 +455,7 @@ function SignUp() {
                                     </FormControl>
                                 </div>
                                 <button type="submit" className="btn1">
-                                    Next
+                                    Submit
                                 </button>
                             </form>
                         </div>
