@@ -22,13 +22,11 @@ import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
 import { useNavigate } from 'react-router-dom';
-import { Squash as Hamburger } from 'hamburger-react';
+import { Divide as Hamburger } from 'hamburger-react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { ThemeContext } from '/src/util/ThemeProvider';
 import { useContext } from 'react';
-import { animations } from 'react-animation';
-
 const drawerWidth = 300;
 
 export default function MenuProvider() {
@@ -116,7 +114,7 @@ export default function MenuProvider() {
                 <AppBar position="fixed" open={open}>
                     <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Stack flexDirection="row" alignItems="center" gap={1}>
-                            <Hamburger onToggle={() => setOpen(!open)} rounded toggled={open} size={25} />
+                            <Hamburger duration={3} onToggle={() => setOpen(!open)} rounded toggled={open} size={25} />
                             <Typography variant="h5" noWrap component="div">
                                 Scrapify
                             </Typography>

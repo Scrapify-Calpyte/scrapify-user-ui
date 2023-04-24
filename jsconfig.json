@@ -4,7 +4,8 @@
         "module": "esnext",
         "baseUrl": ".",
         "paths": {
-            "~/*": ["./src/*"]
+            "~/*": ["./src/*"],
+            "@mui/material/*": ["./node_modules/@mui/material/*"]
             // "@components/*": ["./src/components/*"],
             // "@util/*": ["util/*"],
             // "@routes/*": ["routes/*"],
