@@ -2,6 +2,7 @@ import React, { createContext, useContext } from 'react';
 import { useKeycloak } from '@react-keycloak/web';
 import { environment } from '~/util/Environment';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 const AxiosContext = createContext(null);
 
