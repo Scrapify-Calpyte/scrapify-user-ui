@@ -9,8 +9,7 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
-    Box
+    DialogTitle
 } from '@mui/material/index';
 import { useState, useEffect } from 'react';
 import img from '~assets/images/seller_img1.PNG';
