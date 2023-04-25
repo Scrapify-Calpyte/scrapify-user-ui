@@ -1,218 +1,70 @@
-import { Stack, Box, Grid, Typography, Tooltip } from '@mui/material/index';
-import useScreenSize from '~/components/useScreenSize';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { useState } from 'react';
+import Stack from '@mui/material/Stack';
+import { useContext } from 'react';
 import { ThemeContext } from '~/util/ThemeProvider';
-import img from '~assets/images/seller_img1.PNG';
-import { useContext, useEffect, useState } from 'react';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import { useMediaQuery } from '@mui/material/index';
-import Badge from '@mui/material/Badge';
-import ProductsModal from './ProductsModal';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 function StockPage() {
-    const [width, height] = useScreenSize();
-    const { colors } = useContext(ThemeContext);
-    const matches = useMediaQuery('(max-width:768px)');
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedProduct, setSelectedProduct] = useState([]);
-    const [open, setOpen] = useState(false);
-    const [categories, setCategories] = useState([]);
-    const [products, setProducts] = useState([]);
+    const [toggle, setToggle] = useState('pre');
+    const { colors, fonts } = useContext(ThemeContext);
 
-    const productss = [
-        {
-            id: '0',
-            name: 'Paper'
-        },
-        {
-            id: '1',
-            name: 'Cardboard'
-        },
-        {
-            id: '2',
-            name: 'Plastic'
-        },
-        {
-            id: '3',
-            name: 'Plastic Cover'
-        },
-        {
-            id: '4',
-            name: 'Metal'
-        }
-    ];
-
-    useEffect(() => {
-        setCategories(productss.map((product) => Object.assign(product, { products: [] })));
-    }, []);
-
-    const subCategoriess = [
-        {
-            id: '0',
-            name: 'sub1',
-            category: {
-                id: '0',
-                name: 'Paper'
-            }
-        },
-        {
-            id: '1',
-            name: 'sub2',
-            category: {
-                id: '0',
-                name: 'Paper'
-            }
-        },
-        {
-            id: '2',
-            name: 'sub3',
-            category: {
-                id: '1',
-                name: 'Cardboard'
-            }
-        },
-        {
-            id: '3',
-            name: 'sub4',
-            category: {
-                id: '1',
-                name: 'Cardboard'
-            }
-        },
-        {
-            id: '4',
-            name: 'sub5',
-            category: {
-                id: '1',
-                name: 'Cardboard'
+    const MyToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        border: '1px solid ' + colors.secondary,
+        padding: '1px',
+        borderRadius: '30px',
+        overflow: 'hidden',
+        width: 'fit-content',
+        '.MuiToggleButton-root': {
+            color: '#333',
+            border: 'none',
+            backgroundColor: 'transparent',
+            borderRadius: '30px !important',
+            padding: '8px 15px',
+            '&.Mui-selected': {
+                backgroundColor: colors.secondary,
+                transition: 'background-color 500ms',
+                color: '#fff'
+            },
+            '&.Mui-selected:hover': {
+                backgroundColor: '#013f56'
             }
         }
-    ];
-
-    const handleCategorySelection = (category) => {
-        setSelectedCategory(category?.id);
-        setProducts(subCategoriess.filter((data) => data?.category?.id === category?.id));
-        handleClickOpen();
-    };
-
-    function handleClose(selected, isAction) {
-        if (isAction) {
-            setCategories((oldArray) => {
-                return oldArray.map((category) => {
-                    if (category?.id === selectedCategory) {
-                        category['products'] = [...selected];
-                        return category;
-                    } else {
-                        return category;
-                    }
-                });
-            });
-        }
-        setOpen(false);
-    }
-
-    function handleClickOpen() {
-        setOpen(true);
-    }
-
+    }));
     return (
-        <>
-            <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={0}>
-                    <Grid item xs={12} md={6} style={{ height: height - 65 }}>
-                        <img style={{ objectFit: 'contain', width: '100%', height: height - 65 }} src={img} alt="ico"></img>
-                    </Grid>
-                    <Grid item xs={12} md={6} style={{ backgroundColor: 'white', height: height - 65, overflow: 'auto' }}>
-                        <div style={{ dimensions: '100%', padding: matches ? '5%' : '5% 10%', textAlign: 'start' }}>
-                            <Typography sx={{ color: colors.primary, fontWeight: 'bold', padding: '20px' }} component="div" varient="h1">
-                                Choose Scrap Category
-                            </Typography>
-                            <Grid
-                                container
-                                spacing={1}
-                                sx={{ backgroundColor: '#f7f7f7', justifyContent: 'start', padding: '0 10px 10px 0px' }}
-                            >
-                                {categories.map((category, index) => {
-                                    return (
-                                        <Grid key={index} item xs={4} md={4} lg={3} sm={3} sx={{ textAlign: 'center' }}>
-                                            <Stack
-                                                sx={{
-                                                    borderRadius: '10px',
-                                                    textAlign: 'center',
-                                                    justifyContent: 'center',
-                                                    alignItems: 'center',
-                                                    padding: '2%'
-                                                }}
-                                            >
-                                                <IconButton onClick={() => handleCategorySelection(category)}>
-                                                    <Badge
-                                                        overlap="circular"
-                                                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                                        badgeContent={
-                                                            category?.products?.length === 0 ? (
-                                                                ''
-                                                            ) : (
-                                                                <Avatar
-                                                                    sx={{
-                                                                        bgcolor: 'orange',
-                                                                        height: '20px',
-                                                                        width: '20px',
-                                                                        fontSize: '10px'
-                                                                    }}
-                                                                >
-                                                                    {category?.products?.length}
-                                                                </Avatar>
-                                                            )
-                                                        }
-                                                    >
-                                                        <Avatar size="medium" alt={category?.name} src={img} />
-                                                    </Badge>
-                                                </IconButton>
-                                                <div style={{ display: 'flex', width: '100%' }}>
-                                                    <div style={{ width: '100%', textAlign: 'center' }}>
-                                                        <Tooltip title={category?.name}>
-                                                            <Typography
-                                                                component="div"
-                                                                variant="subtitle1"
-                                                                noWrap
-                                                                style={{ maxWidth: '100%', textOverflow: 'ellipsis', overflow: 'hidden' }}
-                                                            >
-                                                                {category?.name}
-                                                            </Typography>
-                                                        </Tooltip>
-                                                    </div>
-                                                    {/* <div style={{ width: '15%', textAlign: 'start' }}>
-                                                        <div>
-                                                            <InfoOutlinedIcon />
-                                                        </div>
-                                                    </div> */}
-                                                </div>
-                                            </Stack>
-                                        </Grid>
-                                    );
-                                })}
-                            </Grid>
-                            <div style={{ paddingTop: '20px' }}>
-                                <button style={{ width: '150px', borderRadius: '30px' }} className="btn1">
-                                    Submit
-                                </button>
-                            </div>
-                        </div>
-                    </Grid>
-                </Grid>
-            </Box>
-            {open ? (
-                <ProductsModal
-                    open={open}
-                    handleClose={handleClose}
-                    products={products}
-                    selectedProducts={categories.find((category) => category.id === selectedCategory)?.['products']}
-                />
-            ) : (
-                <></>
-            )}
-        </>
+        <Grid container spacing={0}>
+            <Grid item xs={12} md={6}>
+                <Stack alignItems="center">
+                    <MyToggleButtonGroup
+                        value={toggle}
+                        onChange={(event, value) => {
+                            value ? setToggle(value) : setToggle(toggle);
+                        }}
+                        exclusive
+                        aria-label="Platform"
+                    >
+                        <ToggleButton value="post">Post Requirement</ToggleButton>
+                        <ToggleButton value="pre">Pick Up Location</ToggleButton>
+                    </MyToggleButtonGroup>
+                </Stack>
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <Box>
+                    <Typography component="div" varient="h5">
+                        Available Strap Stocks
+                    </Typography>
+                </Box>
+            </Grid>
+        </Grid>
     );
 }
-
 export default StockPage;

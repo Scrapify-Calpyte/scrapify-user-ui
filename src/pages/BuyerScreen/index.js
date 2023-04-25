@@ -203,17 +203,17 @@ function BuyerScreen() {
                     </button>
                 </div>
                 <Box
-                    style={matches ? { animation: animations.fadeInUp } : {}}
+                    // style={matches ? { animation: animations.fadeInUp } : {}}
                     sx={{
-                        width: matches ? width : '300px',
+                        width: matches && sideNav ? width : '300px',
                         height: height - 65,
                         position: 'absolute',
                         boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
                         backgroundColor: 'white',
                         overflow: 'auto',
-                        zIndex: 2,
-                        display: matches && !sideNav ? 'none' : 'block'
-                        // animation: matches && !sideNav ? animations.fadeInUp : ''
+                        opacity: matches && !sideNav ? 0 : 1,
+                        zIndex: matches && !sideNav ? -1 : 2,
+                        transition: 'width 300ms ease-in-out'
                     }}
                 >
                     <Box

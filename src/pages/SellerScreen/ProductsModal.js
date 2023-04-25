@@ -97,6 +97,15 @@ function ProductsModal({ products = [], selectedProducts = [], handleClose }) {
                             </Grid>
                         );
                     })}
+                    {products.length === 0 ? (
+                        <Grid item xs={12} md={12} lg={12} sm={12}>
+                            <Stack alignItems="center" justifyContent="center" padding="5%">
+                                <Typography>No Products !</Typography>
+                            </Stack>
+                        </Grid>
+                    ) : (
+                        <></>
+                    )}
                 </Grid>
             </DialogContent>
             <DialogActions>

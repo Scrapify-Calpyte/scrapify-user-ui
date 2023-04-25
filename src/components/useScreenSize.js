@@ -4,6 +4,7 @@ function useScreenSize() {
     const [screenSize, setScreenSize] = useState([window.innerWidth, window.innerHeight]);
 
     useLayoutEffect(() => {
+        alert('hitted');
         const handleResize = () => {
             setScreenSize([window.innerWidth, window.innerHeight]);
         };
