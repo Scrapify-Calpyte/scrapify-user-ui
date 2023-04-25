@@ -25,10 +25,9 @@ code {
   border-radius: 5px;
 }
 
-/* .btn1:hover {
-  background-color: white;
-  color: #013f56;
-} */
+.btn1:hover {
+  scale : '-1'
+}
 
 .fields {
   min-height: '65px !important';

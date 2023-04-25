@@ -6,13 +6,15 @@ const SignUpScreen = Loadable(lazy(() => import('./SignUp')));
 const ScrapSelectionPage = Loadable(lazy(() => import('./ScrapSelectionPage')));
 const StockPage = Loadable(lazy(() => import('./StockPage')));
 
-export default function SellerScreen() {
+function PreloginScreen() {
     return useRoutes([
         { path: '/', element: <Navigate to="register" replace={true} /> },
         { path: '*', element: <Navigate to="register" replace={true} /> },
-        { path: '/login', element: <p>Login Page</p> },
+        { path: '/home', element: <p>Login Page</p> },
         { path: '/register', element: <SignUpScreen /> },
         { path: '/products', element: <ScrapSelectionPage /> },
         { path: '/stock', element: <StockPage /> }
     ]);
 }
+
+export default PreloginScreen;

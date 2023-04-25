@@ -2,10 +2,11 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '~/util/ThemeProvider';
-import { useMediaQuery } from '@mui/material/index';
+import { IconButton, useMediaQuery } from '@mui/material/index';
 import { animations, easings } from 'react-animation';
 // import axios from '~util/axios';
 import { useAxios } from '~/components/useAxios';
+import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
 
 import {
     TextField,
@@ -24,6 +25,11 @@ import {
 import useScreenSize from '~/components/useScreenSize';
 import LocationPicker from './LocationPicker';
 import { useNavigate } from 'react-router-dom';
+import SendIcon from '@mui/icons-material/Send';
+import './Seller.css';
+import OtpInput from 'react-otp-input';
+import Button from '@mui/material/Button';
+import FlexBox from '~/components/FlexBox';
 
 const validationSchema = yup.object().shape({
     firstName: yup.string().required(),
@@ -32,9 +38,9 @@ const validationSchema = yup.object().shape({
         .string()
         .matches(/^[1-9]{1}[0-9]{9}$/, 'Invalid mobile number')
         .required('Mobile number is required'),
-    email: yup.string().email().required(),
-    gender: yup.string().required(),
-    otp: yup.number().required(),
+    email: yup.string().email(),
+    gender: yup.string(),
+    // otp: yup.number().required(),
     type: yup.string().required()
 });
 
@@ -56,7 +62,7 @@ function SignUp() {
             mobile: '',
             email: '',
             gender: '',
-            otp: '',
+            // otp: '',
             type: ''
         },
         validationSchema: validationSchema,
@@ -172,21 +178,20 @@ function SignUp() {
         }
     ];
 
+    const [otp, setOtp] = useState(null);
+
     return (
         <>
             <Box sx={{ flexGrow: 1, animation: animations.fadeIn }}>
                 <Grid container spacing={0}>
-                    <Grid
-                        item
-                        xs={12}
-                        md={6}
-                        style={{ height: height - 65, display: matches ? 'none' : 'block', animation: animations.fadeInUp }}
-                    >
-                        <img
-                            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                            src="https://cdn.shopify.com/s/files/1/0098/1362/2848/products/community_600x.jpg?v=1597415519"
-                            alt="ico"
-                        ></img>
+                    <Grid item xs={12} md={6} style={{ display: matches ? 'none' : 'block', animation: animations.fadeInUp }}>
+                        <FlexBox>
+                            <img
+                                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                                src="https://cdn.shopify.com/s/files/1/0098/1362/2848/products/community_600x.jpg?v=1597415519"
+                                alt="ico"
+                            ></img>
+                        </FlexBox>
                     </Grid>
                     <Grid
                         item
@@ -195,7 +200,7 @@ function SignUp() {
                         sx={{ animation: animations.fadeIn }}
                         style={page == 0 ? { height: height - 65, position: 'relative', overflow: 'auto' } : { display: 'none' }}
                     >
-                        <div style={{ dimensions: '100%', padding: '5% 20%', textAlign: 'center' }}>
+                        <div style={{ dimensions: '100%', padding: matches ? '10% 5%' : '5% 20%', textAlign: 'center' }}>
                             <h3 style={{ color: colors.primary }}>Scrapify</h3>
                             <div style={{ textAlign: 'start', color: colors.primary }}>
                                 <p>
@@ -210,6 +215,7 @@ function SignUp() {
                                                 id="firstName"
                                                 name="firstName"
                                                 label="FirstName"
+                                                required
                                                 value={basicForm.values.firstName}
                                                 onChange={basicForm.handleChange}
                                                 onBlur={basicForm.handleBlur}
@@ -227,6 +233,7 @@ function SignUp() {
                                                 id="lastName"
                                                 name="lastName"
                                                 label="LastName"
+                                                required
                                                 value={basicForm.values.lastName}
                                                 onChange={basicForm.handleChange}
                                                 onBlur={basicForm.handleBlur}
@@ -236,23 +243,6 @@ function SignUp() {
                                                 // variant="oulined"
                                             />
                                             <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.lastName}</FormHelperText>
-                                        </FormControl>
-                                    </div>
-                                    <div className="col-md-12" style={{ minHeight: '65px', paddingTop: '5px' }}>
-                                        <FormControl fullWidth>
-                                            <TextField
-                                                id="mobile"
-                                                name="mobile"
-                                                label="Mobile"
-                                                value={basicForm.values.mobile}
-                                                onChange={basicForm.handleChange}
-                                                onBlur={basicForm.handleBlur}
-                                                error={basicForm.touched.mobile && Boolean(basicForm.errors.mobile)}
-                                                size="small"
-                                                fullWidth={true}
-                                                // variant="oulined"
-                                            />
-                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.mobile}</FormHelperText>
                                         </FormControl>
                                     </div>
                                     <div className="col-md-12" style={{ minHeight: '65px', paddingTop: '5px' }}>
@@ -272,30 +262,61 @@ function SignUp() {
                                             <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.email}</FormHelperText>
                                         </FormControl>
                                     </div>
-                                    <div className="col-md-12" style={{ minHeight: '85px', paddingTop: '5px', textAlign: 'start' }}>
-                                        <FormControl fullWidth>
-                                            <FormLabel id="group-label">Gender</FormLabel>
-                                            <RadioGroup
-                                                row
-                                                aria-labelledby="group-label"
-                                                name="gender"
-                                                value={basicForm.values.gender}
-                                                onChange={basicForm.handleChange}
-                                                onBlur={basicForm.handleBlur}
-                                                error={true.toString()}
-                                                // error={basicForm.touched.gender && Boolean(basicForm.errors.gender)}
-                                                size="small"
-                                            >
-                                                <FormControlLabel value="female" control={<Radio size="small" />} label="Female" />
-                                                <FormControlLabel value="male" control={<Radio size="small" />} label="Male" />
-                                                <FormControlLabel value="other" control={<Radio size="small" />} label="Other" />
-                                            </RadioGroup>
-                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.gender}</FormHelperText>
-                                        </FormControl>
-                                    </div>
-                                    <div className="col-md-12" style={{ minHeight: '65px', paddingTop: '5px' }}>
+                                    <div className="col-lg-9" style={{ minHeight: '65px', paddingTop: '5px' }}>
                                         <FormControl fullWidth>
                                             <TextField
+                                                id="mobile"
+                                                name="mobile"
+                                                label="Mobile"
+                                                required
+                                                inputProps={{ pattern: '^[1-9]{1}[0-9]{9}$' }}
+                                                value={basicForm.values.mobile}
+                                                onChange={basicForm.handleChange}
+                                                onBlur={basicForm.handleBlur}
+                                                error={basicForm.touched.mobile && Boolean(basicForm.errors.mobile)}
+                                                size="small"
+                                                fullWidth={true}
+                                                // variant="oulined"
+                                            />
+                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.mobile}</FormHelperText>
+                                        </FormControl>
+                                    </div>
+                                    <div className="col-lg-3" style={{ minHeight: '65px', paddingTop: '5px' }}>
+                                        <Button
+                                            sx={{ width: '100%', height: '40px' }}
+                                            variant="outlined"
+                                            type="button"
+                                            // onClick={() => {
+                                            //     alert(Math.random().toFixed(4) * 10000);
+                                            // }}
+                                        >
+                                            GET OTP
+                                        </Button>
+                                    </div>
+
+                                    <div className="col-md-12" style={{ minHeight: '65px', paddingTop: '5px' }}>
+                                        <FormControl fullWidth>
+                                            <FormLabel id="group-label" style={{ textAlign: 'start' }}>
+                                                Enter Your OTP
+                                            </FormLabel>
+                                            <OtpInput
+                                                inputStyle={{
+                                                    width: '2.5rem',
+                                                    height: '2.5rem',
+                                                    marginRight: '0.5rem',
+                                                    fontSize: '1.5rem',
+                                                    borderRadius: '4px',
+                                                    border: '1px solid #ccc'
+                                                }}
+                                                value={otp}
+                                                onChange={setOtp}
+                                                onChangeRegex={/^([0-9]{0,})$/}
+                                                numInputs={4}
+                                                inputType="tel"
+                                                separator={<span>-</span>}
+                                                renderInput={(props) => <input {...props} />}
+                                            />
+                                            {/* <TextField
                                                 id="otp"
                                                 name="otp"
                                                 label="otp"
@@ -305,10 +326,33 @@ function SignUp() {
                                                 error={basicForm.touched.otp && Boolean(basicForm.errors.otp)}
                                                 size="small"
                                                 fullWidth={true}
-                                            />
-                                            <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.otp}</FormHelperText>
+                                            /> */}
+                                            {/* <FormHelperText sx={{ color: otp ? 'none' : 'red', margin: 0 }}>
+                                                {basicForm.errors.otp}
+                                            </FormHelperText> */}
                                         </FormControl>
                                     </div>
+                                </div>
+                                <div className="col-md-12" style={{ minHeight: '85px', paddingTop: '5px', textAlign: 'start' }}>
+                                    <FormControl fullWidth>
+                                        <FormLabel id="group-label">Gender</FormLabel>
+                                        <RadioGroup
+                                            row
+                                            aria-labelledby="group-label"
+                                            name="gender"
+                                            value={basicForm.values.gender}
+                                            onChange={basicForm.handleChange}
+                                            onBlur={basicForm.handleBlur}
+                                            error={true.toString()}
+                                            // error={basicForm.touched.gender && Boolean(basicForm.errors.gender)}
+                                            size="small"
+                                        >
+                                            <FormControlLabel value="female" control={<Radio size="small" />} label="Female" />
+                                            <FormControlLabel value="male" control={<Radio size="small" />} label="Male" />
+                                            <FormControlLabel value="other" control={<Radio size="small" />} label="Other" />
+                                        </RadioGroup>
+                                        <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.gender}</FormHelperText>
+                                    </FormControl>
                                 </div>
                                 <div className="col-md-12" style={{ minHeight: '65px', paddingTop: '5px', textAlign: 'start' }}>
                                     <FormControl fullWidth>
@@ -329,7 +373,7 @@ function SignUp() {
                                         <FormHelperText sx={{ color: 'red', margin: 0 }}>{basicForm.errors.type}</FormHelperText>
                                     </FormControl>
                                 </div>
-
+                                <br></br>
                                 <button type="submit" className="btn1" onClick={() => setPage(1)}>
                                     Next
                                 </button>
@@ -382,7 +426,7 @@ function SignUp() {
                         md={6}
                         style={page === 2 ? { height: height - 65, position: 'relative' } : { display: 'none' }}
                     >
-                        <div style={{ dimensions: '100%', padding: '10% 20%', textAlign: 'center' }}>
+                        <div style={{ dimensions: '100%', padding: matches ? '10% 5%' : '5% 20%', textAlign: 'center' }}>
                             <h3 style={{ color: colors.primary }}>Scrapify</h3>
                             <div style={{ textAlign: 'start', color: colors.primary }}>
                                 <p>
