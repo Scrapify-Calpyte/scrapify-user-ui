@@ -6,14 +6,14 @@ const center = {
     lng: 80.2707
 };
 
-function LocationPicker({ height, handleLocation }) {
+function LocationPicker({ handleLocation }) {
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [location, setLocation] = useState(null);
     const [map, setMap] = React.useState(null);
     const [infoOptions, setInfoOptions] = useState({});
     const containerStyle = {
         width: '100%',
-        height: height
+        height: '50vh'
     };
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(

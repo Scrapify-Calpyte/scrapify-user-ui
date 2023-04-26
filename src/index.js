@@ -10,6 +10,7 @@ import { ThemeProvider } from './util/ThemeProvider';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import { AxiosProvider } from './components/useAxios';
+import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

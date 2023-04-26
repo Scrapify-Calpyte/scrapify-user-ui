@@ -1,22 +1,16 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-import Grid from '@mui/material/Grid';
 import img from '/src/assets/images/product.png';
 import { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 
 export default function ProductList({ products, setProduct }) {
     const [selectedProduct, setSelectedProduct] = useState([]);
-    const [productLength, setProductLength] = useState(5);
 
-    useEffect(() => {
-        // alert('hitted');
-        // return alert('unmount hitted');
-    }, []);
+    useEffect(() => {}, []);
 
     const handleSelectedProduct = (index) => {
         setSelectedProduct((oldArray) => {
