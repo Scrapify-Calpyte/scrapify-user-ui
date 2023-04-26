@@ -27,6 +27,8 @@ import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { ThemeContext } from '/src/util/ThemeProvider';
 import { useContext } from 'react';
+import Login from '~/pages/ReusableComponents/Login';
+import Register from '~/pages/ReusableComponents/Register/index';
 const drawerWidth = 300;
 
 export default function MenuProvider() {
@@ -36,14 +38,18 @@ export default function MenuProvider() {
     const navigate = useNavigate();
     const location = useLocation();
     const { colors, fonts } = useContext(ThemeContext);
+    const [isLogin, setIsLogin] = useState(false);
+    const [isRegister, setIsRegister] = useState(false);
 
     const AppBar = styled(MuiAppBar, {
         shouldForwardProp: (prop) => prop !== 'open'
     })(({ theme, open }) => ({
         background: colors.secondary,
         boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+        alignItems: 'space-between',
+        justifyContent: 'center',
         width: `100%`,
-        height: '65px'
+        height: '8vh'
     }));
 
     const MyToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
@@ -75,6 +81,11 @@ export default function MenuProvider() {
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
         setOpen(!open);
+    };
+
+    const handleLogin = (isLogin, isRegister) => {
+        setIsLogin(isLogin);
+        setIsRegister(isRegister);
     };
 
     const menus = [
@@ -112,7 +123,7 @@ export default function MenuProvider() {
         <>
             <Box sx={{ flexGrow: 0, zIndex: 3 }}>
                 <AppBar position="fixed" open={open}>
-                    <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Stack flexDirection="row" alignItems="center" gap={1}>
                             <Hamburger duration={3} onToggle={() => setOpen(!open)} rounded toggled={open} size={25} />
                             <Typography variant="h5" noWrap component="div">
@@ -132,7 +143,8 @@ export default function MenuProvider() {
                             <ToggleButton value="seller">Seller</ToggleButton>
                         </MyToggleButtonGroup>
                         <Button
-                            onClick={() => navigate('/login')}
+                            // onClick={() => navigate('/login')}
+                            onClick={() => setIsLogin(true)}
                             sx={{ backgroundColor: colors.primary, color: 'white', borderRadius: '30px', padding: '5px 15px' }}
                         >
                             Login
@@ -152,7 +164,7 @@ export default function MenuProvider() {
                 className="drawer"
                 PaperProps={{
                     sx: {
-                        paddingTop: '60px',
+                        paddingTop: '8vh',
                         boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'
                     }
                 }}
@@ -204,6 +216,8 @@ export default function MenuProvider() {
                     <Divider />
                 </Box>
             </Drawer>
+            {isLogin ? <Login open={isLogin} close={handleLogin} /> : <></>}
+            {isRegister ? <Register open={isRegister} setOpen={setIsRegister}></Register> : <></>}
         </>
     );
 }

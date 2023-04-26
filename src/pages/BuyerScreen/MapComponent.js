@@ -7,20 +7,21 @@ import Tooltip from '@mui/material/Tooltip';
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Grid, Stack, Typography, IconButton } from '@mui/material/index';
+import { Polyline } from '@react-google-maps/api';
 
 const center = {
     lat: 13.0827,
     lng: 80.2707
 };
 
-function MapComponent({ data, handlePopOver, height }) {
+function MapComponent({ data, handlePopOver }) {
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [location, setLocation] = useState(null);
     const [map, setMap] = React.useState(null);
     const [infoOptions, setInfoOptions] = useState({});
     const containerStyle = {
         width: '100%',
-        height: height - 65
+        height: '92vh'
     };
 
     useEffect(() => {
@@ -90,6 +91,33 @@ function MapComponent({ data, handlePopOver, height }) {
         maxZoom: 32
     };
 
+    const path = [
+        { lat: 37.772, lng: -122.214 },
+        { lat: 21.291, lng: -157.821 },
+        { lat: -18.142, lng: 178.431 },
+        { lat: -27.467, lng: 153.027 }
+    ];
+
+    const options = {
+        strokeColor: 'yellow',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: 'yellow',
+        fillOpacity: 0.35,
+        clickable: false,
+        draggable: false,
+        editable: false,
+        visible: true,
+        radius: 30000,
+        paths: [
+            { lat: 37.772, lng: -122.214 },
+            { lat: 21.291, lng: -157.821 },
+            { lat: -18.142, lng: 178.431 },
+            { lat: -27.467, lng: 153.027 }
+        ],
+        zIndex: 1
+    };
+
     return isLoaded ? (
         <GoogleMap zoom={8} mapContainerStyle={containerStyle} options={mapOptions} center={location} onLoad={onLoad} onUnmount={onUnmount}>
             {data.map((marker, index) => (
@@ -101,6 +129,7 @@ function MapComponent({ data, handlePopOver, height }) {
                 />
             ))}
             {location ? <Marker position={location} /> : <></>}
+            <Polyline onLoad={onLoad} path={path} options={options} />
             {selectedMarker && (
                 <InfoWindow
                     options={infoOptions}
@@ -111,7 +140,13 @@ function MapComponent({ data, handlePopOver, height }) {
                     }}
                 >
                     <Grid container spacing={0}>
-                        <Grid item md={12} xs={12} sm={12} sx={{ paddingBottom: '5px' }}>
+                        <Grid
+                            item
+                            md={12}
+                            xs={12}
+                            sm={12}
+                            sx={{ paddingBottom: '5px', boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px' }}
+                        >
                             <Stack flexDirection="row" gap={2} justifyContent="flex-start">
                                 <Avatar
                                     src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"

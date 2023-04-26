@@ -18,7 +18,6 @@ import {
     Grid,
     Typography
 } from '@mui/material/index';
-import useScreenSize from '~/components/useScreenSize';
 import { animations } from 'react-animation';
 
 const validationSchema = yup.object().shape({
@@ -45,7 +44,6 @@ export default function SignUp() {
     const { colors } = useContext(ThemeContext);
     const [page, setPage] = useState(0);
     const [selectedProducts, setSelectedProducts] = useState(0);
-    const [width, height] = useScreenSize();
     const matches = useMediaQuery('(max-width:768px)');
 
     const formik = useFormik({
@@ -128,7 +126,7 @@ export default function SignUp() {
                 <Grid container spacing={0}>
                     <Grid item xs={12} md={6} sx={{ display: matches ? 'none' : 'block', animation: animations.fadeInUp }}>
                         <img
-                            style={{ objectFit: 'cover', width: '100%', height: height - 65 }}
+                            style={{ objectFit: 'cover', width: '100%', height: '92vh' }}
                             src="https://cdn.shopify.com/s/files/1/0098/1362/2848/products/community_600x.jpg?v=1597415519"
                             alt="ico"
                         ></img>
@@ -150,13 +148,13 @@ export default function SignUp() {
                                             label="FirstName"
                                             value={formik.values.firstName}
                                             onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                                            error={formik.touched.firstName && formik.errors.firstName}
                                             size="small"
                                             fullWidth={true}
-                                            // variant="oulined"
                                         />
-                                        <FormHelperText sx={{ color: 'red', margin: 0 }}>{formik.errors.firstName}</FormHelperText>
+                                        <FormHelperText sx={{ bgcolor: '#641E16', color: 'white', margin: 0 }}>
+                                            {formik.touched.firstName || formik.errors.firstName ? formik.errors.firstName : ''}
+                                        </FormHelperText>
                                     </FormControl>
                                 </div>
                                 <div style={{ minHeight: '65px', paddingTop: '5px' }}>

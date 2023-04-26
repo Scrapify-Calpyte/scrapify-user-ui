@@ -20,16 +20,12 @@ import Divider from '@mui/material/Divider';
 import Popup from './Popup';
 import ProductList from './ProductList';
 import MapComponent from './MapComponent';
-import useScreenSize from '~/components/useScreenSize';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
-import { CSSTransition } from 'react-transition-group';
-import { Transition } from 'react-transition-group';
 import './buyerscreen.css';
 import { animations } from 'react-animation';
-import { AnimateOnChange } from 'react-animation';
 
 // const Transition = React.forwardRef(function Transition(props, ref) {
 //     return <Slide direction="up" ref={ref} {...props} />;
@@ -38,7 +34,6 @@ import { AnimateOnChange } from 'react-animation';
 function BuyerScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [open, setOpen] = React.useState(false);
-    const [width, height] = useScreenSize();
     const matches = useMediaQuery('(max-width:768px)');
     const [sideNav, setSideNav] = useState(true);
     const [viewAll, setViewAll] = useState(false);
@@ -196,7 +191,7 @@ function BuyerScreen() {
     return (
         <>
             <Stack flexDirection="row">
-                <div style={{ display: matches ? 'block' : 'none', position: 'absolute', zIndex: 2, top: 120, left: 10 }}>
+                <div style={{ display: matches ? 'block' : 'none', position: 'absolute', zIndex: 2, top: '16vh', left: 10 }}>
                     <button className="btn1" size="large" onClick={() => setSideNav(true)}>
                         <span>Filter</span>
                         <FilterListIcon />
@@ -205,8 +200,8 @@ function BuyerScreen() {
                 <Box
                     // style={matches ? { animation: animations.fadeInUp } : {}}
                     sx={{
-                        width: matches && sideNav ? width : '300px',
-                        height: height - 65,
+                        width: matches && sideNav ? '100%' : '300px',
+                        height: '92vh',
                         position: 'absolute',
                         boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
                         backgroundColor: 'white',
@@ -372,7 +367,7 @@ function BuyerScreen() {
                         animation: animations.popIn
                     }}
                 >
-                    <MapComponent data={sampleData?.inventories} height={height} handlePopOver={handlePopOver} />
+                    <MapComponent data={sampleData?.inventories} handlePopOver={handlePopOver} />
                 </Box>
             </Stack>
             <Popup open={open} setOpen={setOpen} data={products} />

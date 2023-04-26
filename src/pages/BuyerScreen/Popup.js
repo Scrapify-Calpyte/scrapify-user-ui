@@ -37,8 +37,8 @@ export default function Popup({ data, open, setOpen }) {
             PaperProps={{
                 elevation: 0,
                 style: {
-                    width: matches ? '100%' : '20%', // set maximum width
-                    maxHeight: '80%', // set maximum height
+                    width: matches ? '100vw' : '30vw', // set maximum width
+                    maxHeight: '92vh', // set maximum height
                     height: 'fit-content',
                     boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
                     borderRadius: '20px',

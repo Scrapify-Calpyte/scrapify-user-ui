@@ -1,5 +1,4 @@
 import { Stack, Box, Grid, Typography, Tooltip } from '@mui/material/index';
-import useScreenSize from '~/components/useScreenSize';
 import { ThemeContext } from '~/util/ThemeProvider';
 import img from '~assets/images/seller_img1.PNG';
 import { useContext, useEffect, useState } from 'react';
@@ -11,7 +10,6 @@ import ProductsModal from './ProductsModal';
 import { useNavigate } from 'react-router-dom';
 
 function ScrapSelectionPage() {
-    const [width, height] = useScreenSize();
     const { colors } = useContext(ThemeContext);
     const matches = useMediaQuery('(max-width:768px)');
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -127,10 +125,10 @@ function ScrapSelectionPage() {
         <>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={0}>
-                    <Grid item xs={12} md={6} style={{ height: height - 65 }}>
-                        <img style={{ objectFit: 'contain', width: '100%', height: height - 65 }} src={img} alt="ico"></img>
+                    <Grid item xs={12} md={6} style={{ height: '92vh' }}>
+                        <img style={{ objectFit: 'contain', width: '100%', height: '92vh' }} src={img} alt="ico"></img>
                     </Grid>
-                    <Grid item xs={12} md={6} style={{ backgroundColor: 'white', height: height - 65, overflow: 'auto' }}>
+                    <Grid item xs={12} md={6} style={{ backgroundColor: 'white', height: '92vh', overflow: 'auto' }}>
                         <div style={{ dimensions: '100%', padding: matches ? '5%' : '5% 10%', textAlign: 'start' }}>
                             <Typography sx={{ color: colors.primary, fontWeight: 'bold', padding: '20px' }} component="div" varient="h1">
                                 Choose Scrap Category
