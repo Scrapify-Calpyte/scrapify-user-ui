@@ -22,11 +22,22 @@ import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 import PersonIcon from '@mui/icons-material/Person';
 import StorefrontIcon from '@mui/icons-material/Storefront';
+import LocationPicker from '~/pages/SellerScreen/LocationPicker';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import ProductPage from './ProductPage';
+import ProductSelection from './ProductSelection';
+import { useAxios } from '~/components/useAxios';
 
 function Register({ open, setOpen }) {
     const { colors, fonts } = useContext(ThemeContext);
     const [userType, setUserType] = useState('seller');
     const [step, setStep] = useState(0);
+    const [location, setLocation] = useState(null);
+    const [checkedValues, setCheckedValues] = useState([]);
+    const axios = useAxios();
+    const [categories, setCategories] = useState([]);
     const [formValues, setFormValues] = useState({
         name: '',
         buisnessType: '',
@@ -35,6 +46,22 @@ function Register({ open, setOpen }) {
         otp: '',
         address: ''
     });
+    const [selectedProducts, setSelectedProducts] = useState([]);
+
+    function getProducts() {
+        axios
+            .get('category')
+            .then((res) => {
+                if (res?.data && res?.data?.length > 0) {
+                    setCategories(res?.data);
+                }
+            })
+            .catch((err) => toast.error(err));
+    }
+
+    useEffect(() => {
+        getProducts();
+    }, []);
 
     const handleClose = () => {
         setOpen(false);
@@ -69,13 +96,96 @@ function Register({ open, setOpen }) {
         }
     });
 
+    function isRequired(value, msg) {
+        if (value.trim() === '') {
+            toast.error(msg);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function isPhoneNumber(value, msg) {
+        const pattern = /^[1-9]{1}[0-9]{9}$/;
+        if (pattern.test(value)) {
+            return true;
+        } else {
+            toast.error(msg);
+            return false;
+        }
+    }
+
+    function isLength(value, length, msg) {
+        if (value.trim().length === length) {
+            return true;
+        } else {
+            toast.error(msg);
+            return false;
+        }
+    }
+
+    function isMinMax(value, min, max, msg) {
+        if (value?.length >= min && value?.length <= max) {
+            return true;
+        } else {
+            toast.error(msg);
+            return false;
+        }
+    }
+
+    function isEmail(value, msg) {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+            return true;
+        } else {
+            toast.error(msg);
+            return false;
+        }
+    }
+
     const handleForward = () => {
-        setStep(step + 1);
+        if (step === 1) {
+            if (isRequired(formValues.name, 'Name is Required')) setStep(step + 1);
+        } else if (step === 2) {
+            if (isRequired(formValues.buisnessType, 'Buisness type is Required')) setStep(step + 1);
+        } else if (step === 3) {
+            if (formValues.email.trim().length > 0) {
+                if (isEmail(formValues.email, 'Enter a Valid Email')) setStep(step + 1);
+            } else setStep(step + 1);
+        } else if (step === 4) {
+            if (isRequired(formValues.phone, 'Phone Number is Required' && isPhoneNumber(formValues.phone, 'Invalid phone number'))) {
+                setStep(step + 1);
+            }
+        } else if (step === 5) {
+            if (isRequired(formValues.otp, 'OTP Is Required') && isLength(formValues.otp, 6, 'Invalid OTP')) setStep(step + 1);
+        } else if (step === 6) {
+            if (isRequired(formValues.address, 'Address Is Required')) setStep(step + 1);
+        } else if (step === 7) {
+            if (isMinMax(checkedValues, 1, 9, 'Please selected atleast 1 product but should not exceed 9')) setStep(step + 1);
+        } else {
+            setStep(step + 1);
+        }
+        console.log(checkedValues);
         console.log(formValues);
     };
     const handleBackward = () => {
         setStep(step - 1);
     };
+
+    function handleLocation(coordinates) {
+        console.log(coordinates);
+        setLocation(coordinates);
+    }
+
+    const buisnessTypes = [
+        {
+            id: '0',
+            name: 'organization'
+        },
+        {
+            id: '1',
+            name: 'indivudual'
+        }
+    ];
 
     return (
         <>
@@ -107,7 +217,7 @@ function Register({ open, setOpen }) {
                     </Stack>
                 </DialogTitle>
                 <DialogContent sx={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <Grid container spacing={1}>
+                    <Grid container spacing={1} rowSpacing={5}>
                         {
                             {
                                 0: (
@@ -181,8 +291,30 @@ function Register({ open, setOpen }) {
                                 ),
                                 2: (
                                     <>
-                                        <Grid item xs={12} sx={{ justifyContent: 'center' }} onClick={() => setUserType('buyer')}>
-                                            <p> works</p>
+                                        <Grid item xs={12} sx={{ justifyContent: 'center' }}>
+                                            <FormControl sx={{ width: '100%', marginTop: '10px' }}>
+                                                <InputLabel id="buisnessType">Buisness Type</InputLabel>
+                                                <Select
+                                                    labelId="buisnessType"
+                                                    id="buisnessType"
+                                                    value={formValues.buisnessType}
+                                                    name="buisnessType"
+                                                    label="BuisnessType"
+                                                    fullWidth
+                                                    margin="none"
+                                                    size="small"
+                                                    sx={{ minWidth: '300px' }}
+                                                    onChange={(e) => handleChange(e.target)}
+                                                >
+                                                    {buisnessTypes.map((type, index) => {
+                                                        return (
+                                                            <MenuItem key={index} value={type?.id}>
+                                                                {type?.name}
+                                                            </MenuItem>
+                                                        );
+                                                    })}
+                                                </Select>
+                                            </FormControl>
                                         </Grid>
                                     </>
                                 ),
@@ -226,12 +358,7 @@ function Register({ open, setOpen }) {
                                 ),
                                 5: (
                                     <>
-                                        <Grid
-                                            item
-                                            xs={12}
-                                            sx={{ justifyContent: 'center', alignItems: 'center' }}
-                                            onClick={() => setUserType('buyer')}
-                                        >
+                                        <Grid item xs={12} sx={{ justifyContent: 'center', alignItems: 'center' }}>
                                             <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
                                                 <Typography
                                                     id="group-label"
@@ -274,6 +401,53 @@ function Register({ open, setOpen }) {
                                             </Stack>
                                         </Grid>
                                     </>
+                                ),
+                                6: (
+                                    <>
+                                        <Grid item xs={12} sx={{ justifyContent: 'center', alignItems: 'center' }}>
+                                            <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
+                                                <Typography
+                                                    id="group-label"
+                                                    component="div"
+                                                    varient="p"
+                                                    sx={{ fontSize: '1rem', color: colors.primary }}
+                                                >
+                                                    Select your shop location
+                                                </Typography>
+                                                <br></br>
+                                                <LocationPicker handleLocation={handleLocation} height="35vh" />
+                                                <TextField
+                                                    id="address"
+                                                    name="address"
+                                                    label="Address"
+                                                    value={formValues.address}
+                                                    required
+                                                    multiline
+                                                    maxRows={4}
+                                                    onChange={(e) => handleChange(e.target)}
+                                                    margin="normal"
+                                                    fullWidth
+                                                    size="small"
+                                                />
+                                            </Stack>
+                                        </Grid>
+                                    </>
+                                ),
+                                7: (
+                                    <>
+                                        <Grid item xs={12} sx={{ justifyContent: 'center', alignItems: 'center' }}>
+                                            <ProductSelection
+                                                checkedValues={checkedValues}
+                                                categories={categories}
+                                                setCheckedValues={setCheckedValues}
+                                            />
+                                        </Grid>
+                                    </>
+                                ),
+                                8: (
+                                    <Grid item xs={12} sx={{ justifyContent: 'center', alignItems: 'center' }}>
+                                        <p>works</p>
+                                    </Grid>
                                 )
                             }[step]
                         }
