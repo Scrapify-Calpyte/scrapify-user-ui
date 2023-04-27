@@ -152,7 +152,7 @@ export default function Login({ open, close }) {
                     <Stack justifyContent="center" alignItems="center" spacing={1}>
                         <Typography
                             noWrap
-                            component={Button}
+                            component="div"
                             sx={{ color: colors.secondary, fontSize: '2rem', fontWeight: 'bold', overflow: 'hidden' }}
                         >
                             Scrapify

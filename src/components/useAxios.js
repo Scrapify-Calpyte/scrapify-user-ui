@@ -9,11 +9,12 @@ const AxiosContext = createContext(null);
 const AxiosProvider = ({ children }) => {
     const { keycloak } = useKeycloak();
     const instance = axios.create({
-        baseURL: environment.baseURL // Set your base URL here
+        baseURL: environment.productBaseURL // Set your base URL here
     });
 
     instance.interceptors.request.use(
         async (config) => {
+            config.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000';
             if (keycloak.authenticated) {
                 config.headers.Authorization = `Bearer ${keycloak.token}`;
             }
