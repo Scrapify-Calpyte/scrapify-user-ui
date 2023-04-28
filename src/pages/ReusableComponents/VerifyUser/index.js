@@ -16,15 +16,20 @@ const VerifyUser = ({ type, handleClose }) => {
         }
     }, []);
 
-    const handleLogin = (isLogin, isRegister) => {
+    const switchPage = (isLogin, isRegister) => {
         setIsLogin(isLogin);
         setIsRegister(isRegister);
     };
 
+    function handleClose() {
+        handleClose(true);
+    }
+
     return (
         <>
-            {isLogin ? <Login open={isLogin} close={handleLogin} /> : <></>}
-            {isRegister ? <Register open={isRegister} setOpen={setIsRegister}></Register> : <></>}
+            <p>works</p>
+            {/* {isLogin ? <Login open={isLogin} switchPage={switchPage} close={handleClose} /> : <></>}
+            {isRegister ? <Register open={isRegister} switchPage={switchPage} close={handleClose}></Register> : <></>} */}
         </>
     );
 };
