@@ -44,13 +44,15 @@ export default function ProductList({ products, setProduct }) {
                 return (
                     <Stack
                         key={index}
+                        onClick={() => handleSelectedProduct(index)}
                         style={{
                             flex: '0 0 32%',
                             justifyContent: 'center',
                             alignItems: 'center',
                             borderRadius: '10px',
                             maxWidth: '32%',
-                            padding: '10px'
+                            padding: '10px',
+                            cursor: 'pointer'
                         }}
                         sx={
                             selectedProduct.includes(index)
@@ -62,7 +64,7 @@ export default function ProductList({ products, setProduct }) {
                                 : { boxShadow: 'none', backgroundColor: 'none' }
                         }
                     >
-                        <IconButton onClick={() => handleSelectedProduct(index)} aria-haspopup="true">
+                        <IconButton aria-haspopup="true">
                             <div style={{ textAlign: 'center' }}>
                                 <Avatar alt="img" src={img} sx={{ width: '50px', height: '50px' }} />
                             </div>
