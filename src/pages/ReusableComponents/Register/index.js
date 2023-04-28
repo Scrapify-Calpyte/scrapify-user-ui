@@ -26,15 +26,14 @@ import LocationPicker from '~/pages/SellerScreen/LocationPicker';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
-import ProductPage from './ProductPage';
 import ProductSelection from './ProductSelection';
 import { useAxios } from '~/components/useAxios';
+import SelectedProducts from './SelectedProducts';
+import FormHelperText from '@mui/material/FormHelperText';
 
 function Register({ open, setOpen }) {
     const { colors, fonts } = useContext(ThemeContext);
-    const [userType, setUserType] = useState('seller');
     const [step, setStep] = useState(0);
-    const [location, setLocation] = useState(null);
     const [checkedValues, setCheckedValues] = useState([]);
     const axios = useAxios();
     const [categories, setCategories] = useState([]);
@@ -44,19 +43,22 @@ function Register({ open, setOpen }) {
         email: '',
         phone: '',
         otp: '',
-        address: ''
+        address: '',
+        location: '',
+        userType: 'seller'
     });
     const [selectedProducts, setSelectedProducts] = useState([]);
+    const [isTouched, setIsTouched] = useState(false);
 
     function getProducts() {
         axios
             .get('category')
             .then((res) => {
                 if (res?.data && res?.data?.length > 0) {
-                    setCategories(res?.data);
+                    setCategories(res?.data.filter((obj) => obj?.id != null));
                 }
             })
-            .catch((err) => toast.error(err));
+            .catch((err) => toast.error('Error: ' + err.message));
     }
 
     useEffect(() => {
@@ -96,85 +98,89 @@ function Register({ open, setOpen }) {
         }
     });
 
-    function isRequired(value, msg) {
-        if (value.trim() === '') {
-            toast.error(msg);
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    function isPhoneNumber(value, msg) {
-        const pattern = /^[1-9]{1}[0-9]{9}$/;
-        if (pattern.test(value)) {
-            return true;
-        } else {
-            toast.error(msg);
-            return false;
-        }
-    }
-
-    function isLength(value, length, msg) {
-        if (value.trim().length === length) {
-            return true;
-        } else {
-            toast.error(msg);
-            return false;
-        }
-    }
-
-    function isMinMax(value, min, max, msg) {
-        if (value?.length >= min && value?.length <= max) {
-            return true;
-        } else {
-            toast.error(msg);
-            return false;
-        }
-    }
-
-    function isEmail(value, msg) {
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-            return true;
-        } else {
-            toast.error(msg);
-            return false;
-        }
-    }
+    const HelperText = styled(FormHelperText)({
+        color: 'red'
+    });
 
     const handleForward = () => {
+        setIsTouched(true);
         if (step === 1) {
-            if (isRequired(formValues.name, 'Name is Required')) setStep(step + 1);
-        } else if (step === 2) {
-            if (isRequired(formValues.buisnessType, 'Buisness type is Required')) setStep(step + 1);
-        } else if (step === 3) {
-            if (formValues.email.trim().length > 0) {
-                if (isEmail(formValues.email, 'Enter a Valid Email')) setStep(step + 1);
-            } else setStep(step + 1);
-        } else if (step === 4) {
-            if (isRequired(formValues.phone, 'Phone Number is Required' && isPhoneNumber(formValues.phone, 'Invalid phone number'))) {
+            if (formValues.name.trim() === '') {
+                toast.error('Name is Required');
+            } else {
                 setStep(step + 1);
+                setIsTouched(false);
             }
+        } else if (step === 2) {
+            if (formValues.buisnessType.trim() === '') toast.error('Buisness type is Required');
+            else {
+                setStep(step + 1);
+                setIsTouched(false);
+            }
+        } else if (step === 3) {
+            if (formValues.email.trim() !== '') {
+                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formValues.email)) setStep(step + 1);
+                else toast.error('Enter a valid Email');
+            } else {
+                setStep(step + 1);
+                setIsTouched(false);
+            }
+        } else if (step === 4) {
+            if (formValues.phone.trim() === '') toast.error('Phone Number is Required');
+            else if (/^[1-9]{1}[0-9]{9}$/.test(formValues.phone)) {
+                setStep(step + 1);
+                setIsTouched(false);
+            } else toast.error('Enter a valid phone number');
         } else if (step === 5) {
-            if (isRequired(formValues.otp, 'OTP Is Required') && isLength(formValues.otp, 6, 'Invalid OTP')) setStep(step + 1);
+            if (formValues.otp.trim() === '' || formValues.otp.length !== 6) {
+                toast.error('Enter OTP');
+            } else {
+                setStep(step + 1);
+                setIsTouched(false);
+            }
         } else if (step === 6) {
-            if (isRequired(formValues.address, 'Address Is Required')) setStep(step + 1);
+            if (formValues.address.trim() === '') toast.error('Address Is Required');
+            else {
+                setStep(step + 1);
+                setIsTouched(false);
+            }
         } else if (step === 7) {
-            if (isMinMax(checkedValues, 1, 9, 'Please selected atleast 1 product but should not exceed 9')) setStep(step + 1);
+            if (checkedValues?.length > 0 && checkedValues?.length <= 9) {
+                setStep(step + 1);
+                setIsTouched(false);
+                getSelectedProducts();
+            } else toast.error('Please selected atleast 1 product but should not exceed 9');
+        } else if (step === 8) {
+            console.log(selectedProducts);
+            console.log(formValues);
+            toast.success('Registered Successfully !');
+            handleClose();
         } else {
             setStep(step + 1);
+            setIsTouched(false);
         }
-        console.log(checkedValues);
-        console.log(formValues);
-    };
-    const handleBackward = () => {
-        setStep(step - 1);
     };
 
-    function handleLocation(coordinates) {
-        console.log(coordinates);
-        setLocation(coordinates);
+    function getSelectedProducts() {
+        let arr = [];
+        categories.forEach((category) => {
+            let products = [...category?.products];
+            let obj = {
+                id: category?.id,
+                name: category?.name,
+                icon: category?.icon,
+                products: products.filter((product) => checkedValues.includes(product?.id))
+            };
+            arr.push(obj);
+        });
+        setSelectedProducts(arr.filter((e) => e?.products?.length > 0));
     }
+
+    const handleBackward = () => {
+        if (step !== 0) {
+            setStep(step - 1);
+        }
+    };
 
     const buisnessTypes = [
         {
@@ -217,16 +223,24 @@ function Register({ open, setOpen }) {
                     </Stack>
                 </DialogTitle>
                 <DialogContent sx={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <Grid container spacing={1} rowSpacing={5}>
+                    <Grid container spacing={1} rowSpacing={1}>
                         {
                             {
                                 0: (
                                     <>
-                                        <Grid item xs={6} sx={{ justifyContent: 'center' }} onClick={() => setUserType('seller')}>
+                                        <Grid
+                                            item
+                                            xs={6}
+                                            sx={{ justifyContent: 'center' }}
+                                            onClick={() => handleChange({ name: 'userType', value: 'seller' })}
+                                        >
                                             <Stack
                                                 sx={{
-                                                    color: userType === 'seller' ? colors.secondary : colors.primary,
-                                                    border: userType === 'seller' ? 'solid 2px' + colors.secondary : 'solid 2px #EAECEE',
+                                                    color: formValues.userType === 'seller' ? colors.secondary : colors.primary,
+                                                    border:
+                                                        formValues.userType === 'seller'
+                                                            ? 'solid 2px' + colors.secondary
+                                                            : 'solid 2px #EAECEE',
                                                     padding: '10px 25px',
                                                     justifyContent: 'center',
                                                     alignItems: 'center',
@@ -237,7 +251,7 @@ function Register({ open, setOpen }) {
                                                     <StorefrontIcon
                                                         sx={{
                                                             fontSize: '2rem',
-                                                            color: userType === 'seller' ? colors.secondary : colors.primary
+                                                            color: formValues.userType === 'seller' ? colors.secondary : colors.primary
                                                         }}
                                                     />
                                                 </IconButton>
@@ -246,11 +260,19 @@ function Register({ open, setOpen }) {
                                                 </Typography>
                                             </Stack>
                                         </Grid>
-                                        <Grid item xs={6} sx={{ justifyContent: 'center' }} onClick={() => setUserType('buyer')}>
+                                        <Grid
+                                            item
+                                            xs={6}
+                                            sx={{ justifyContent: 'center' }}
+                                            onClick={() => handleChange({ name: 'userType', value: 'buyer' })}
+                                        >
                                             <Stack
                                                 sx={{
-                                                    color: userType === 'buyer' ? colors.secondary : colors.primary,
-                                                    border: userType === 'buyer' ? 'solid 2px' + colors.secondary : 'solid 2px #EAECEE',
+                                                    color: formValues.userType === 'buyer' ? colors.secondary : colors.primary,
+                                                    border:
+                                                        formValues.userType === 'buyer'
+                                                            ? 'solid 2px' + colors.secondary
+                                                            : 'solid 2px #EAECEE',
                                                     padding: '10px 25px',
                                                     justifyContent: 'center',
                                                     alignItems: 'center',
@@ -261,7 +283,7 @@ function Register({ open, setOpen }) {
                                                     <PersonIcon
                                                         sx={{
                                                             fontSize: '2rem',
-                                                            color: userType === 'buyer' ? colors.secondary : colors.primary
+                                                            color: formValues.userType === 'buyer' ? colors.secondary : colors.primary
                                                         }}
                                                     />
                                                 </IconButton>
@@ -274,18 +296,20 @@ function Register({ open, setOpen }) {
                                 ),
                                 1: (
                                     <>
-                                        <Grid item xs={12} sx={{ justifyContent: 'center' }} onClick={() => setUserType('buyer')}>
+                                        <Grid item xs={12} sx={{ justifyContent: 'center' }}>
                                             <TextField
                                                 id="name"
                                                 name="name"
                                                 label="Name"
                                                 value={formValues.name}
                                                 required
+                                                error={isTouched && formValues.name.trim() === ''}
                                                 onChange={(e) => handleChange(e.target)}
                                                 margin="normal"
                                                 fullWidth
                                                 size="small"
                                             />
+                                            {/* <HelperText>{isTouched && formValues.name.trim() === '' && 'Name is Required'}</HelperText> */}
                                         </Grid>
                                     </>
                                 ),
@@ -293,14 +317,21 @@ function Register({ open, setOpen }) {
                                     <>
                                         <Grid item xs={12} sx={{ justifyContent: 'center' }}>
                                             <FormControl sx={{ width: '100%', marginTop: '10px' }}>
-                                                <InputLabel id="buisnessType">Buisness Type</InputLabel>
+                                                <InputLabel
+                                                    sx={{ color: isTouched && formValues.buisnessType.trim() === '' && 'red' }}
+                                                    id="buisnessType"
+                                                >
+                                                    Buisness Type
+                                                </InputLabel>
                                                 <Select
                                                     labelId="buisnessType"
                                                     id="buisnessType"
                                                     value={formValues.buisnessType}
                                                     name="buisnessType"
                                                     label="BuisnessType"
+                                                    required
                                                     fullWidth
+                                                    error={isTouched && formValues.buisnessType.trim() === ''}
                                                     margin="none"
                                                     size="small"
                                                     sx={{ minWidth: '300px' }}
@@ -320,13 +351,13 @@ function Register({ open, setOpen }) {
                                 ),
                                 3: (
                                     <>
-                                        <Grid item xs={12} sx={{ justifyContent: 'center' }} onClick={() => setUserType('buyer')}>
+                                        <Grid item xs={12} sx={{ justifyContent: 'center' }}>
                                             <TextField
                                                 id="email"
                                                 name="email"
                                                 label="Email"
                                                 value={formValues.email}
-                                                required
+                                                error={isTouched && !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formValues.email)}
                                                 onChange={(e) => handleChange(e.target)}
                                                 margin="normal"
                                                 fullWidth
@@ -337,11 +368,12 @@ function Register({ open, setOpen }) {
                                 ),
                                 4: (
                                     <>
-                                        <Grid item xs={12} sx={{ justifyContent: 'center' }} onClick={() => setUserType('buyer')}>
+                                        <Grid item xs={12} sx={{ justifyContent: 'center' }}>
                                             <TextField
                                                 id="phone"
                                                 name="phone"
                                                 label="Phone Number"
+                                                error={isTouched && !/^[1-9]{1}[0-9]{9}$/.test(formValues.phone)}
                                                 inputProps={{ pattern: '^[1-9]{1}[0-9]{9}$' }}
                                                 value={formValues.phone}
                                                 required
@@ -415,7 +447,10 @@ function Register({ open, setOpen }) {
                                                     Select your shop location
                                                 </Typography>
                                                 <br></br>
-                                                <LocationPicker handleLocation={handleLocation} height="35vh" />
+                                                <LocationPicker
+                                                    handleLocation={(e) => handleChange({ name: 'location', value: e })}
+                                                    height="35vh"
+                                                />
                                                 <TextField
                                                     id="address"
                                                     name="address"
@@ -423,6 +458,7 @@ function Register({ open, setOpen }) {
                                                     value={formValues.address}
                                                     required
                                                     multiline
+                                                    error={isTouched && formValues.address.trim() === ''}
                                                     maxRows={4}
                                                     onChange={(e) => handleChange(e.target)}
                                                     margin="normal"
@@ -446,25 +482,36 @@ function Register({ open, setOpen }) {
                                 ),
                                 8: (
                                     <Grid item xs={12} sx={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <p>works</p>
+                                        <SelectedProducts categories={selectedProducts} />
                                     </Grid>
                                 )
                             }[step]
                         }
-                        <Grid item xs={6}>
-                            <ThemeButton2 varient="contained" onClick={handleBackward}>
-                                Back
-                            </ThemeButton2>
-                        </Grid>
-                        <Grid item xs={6}>
+                        {step !== 0 && (
+                            <Grid item xs={6} sx={{ marginTop: '20px' }}>
+                                <ThemeButton2 varient="contained" onClick={handleBackward}>
+                                    Back
+                                </ThemeButton2>
+                            </Grid>
+                        )}
+                        <Grid item xs={step === 0 ? 12 : 6} sx={{ marginTop: '20px' }}>
                             <ThemeButton varient="contained" onClick={handleForward}>
-                                Next
+                                {step === 4 ? 'Get OTP' : step === 8 ? 'Done' : 'Next'}
                             </ThemeButton>
+                        </Grid>
+                        <Grid item xs={12} display="flex" justifyContent="center">
+                            <Typography
+                                component={Button}
+                                // onClick={}
+                                varient="p"
+                                sx={{ textTransform: 'none', fontSize: '0.7rem', color: colors.primary }}
+                            >
+                                Registered User ? Login
+                            </Typography>
                         </Grid>
                     </Grid>
                 </DialogContent>
             </Dialog>
-            <ToastContainer position="top-center" autoClose={1000} />
         </>
     );
 }

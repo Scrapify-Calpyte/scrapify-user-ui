@@ -29,6 +29,7 @@ import { ThemeContext } from '/src/util/ThemeProvider';
 import { useContext } from 'react';
 import Login from '~/pages/ReusableComponents/Login';
 import Register from '~/pages/ReusableComponents/Register/index';
+import VerifyUser from '~/pages/ReusableComponents/VerifyUser/index';
 const drawerWidth = 300;
 
 export default function MenuProvider() {
@@ -40,6 +41,7 @@ export default function MenuProvider() {
     const { colors, fonts } = useContext(ThemeContext);
     const [isLogin, setIsLogin] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
+    const [isVerify, setIsVerify] = useState(false);
 
     const AppBar = styled(MuiAppBar, {
         shouldForwardProp: (prop) => prop !== 'open'
@@ -216,6 +218,8 @@ export default function MenuProvider() {
                     <Divider />
                 </Box>
             </Drawer>
+            {/* {isVerify ? <VerifyUser type="login" /> : <></>} */}
+
             {isLogin ? <Login open={isLogin} close={handleLogin} /> : <></>}
             {isRegister ? <Register open={isRegister} setOpen={setIsRegister}></Register> : <></>}
         </>
