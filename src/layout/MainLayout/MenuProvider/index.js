@@ -30,7 +30,15 @@ import { useContext } from 'react';
 import Login from '~/pages/ReusableComponents/Login';
 import Register from '~/pages/ReusableComponents/Register/index';
 import VerifyUser from '~/pages/ReusableComponents/VerifyUser/index';
+import { AuthContext } from '~/context/AuthProvider/index';
+import { Avatar, IconButton, Tooltip } from '@mui/material/index';
 const drawerWidth = 300;
+import { useKeycloak } from '@react-keycloak/web';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Profile from './Profile';
+import InventoryIcon from '@mui/icons-material/Inventory';
 
 export default function MenuProvider() {
     const [open, setOpen] = useState(false);
@@ -42,6 +50,17 @@ export default function MenuProvider() {
     const [isLogin, setIsLogin] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
     const [isVerify, setIsVerify] = useState(false);
+    const [userData, setUserData] = useState(null);
+    const { authData } = useContext(AuthContext);
+    const { keycloak } = useKeycloak();
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const menuOpen = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     const AppBar = styled(MuiAppBar, {
         shouldForwardProp: (prop) => prop !== 'open'
@@ -97,18 +116,33 @@ export default function MenuProvider() {
             link: '/buyer'
         },
         {
-            icon: <CallOutlinedIcon />,
-            label: 'Scrap Rates',
-            link: '/scrap-rates'
+            icon: <InventoryIcon />,
+            label: 'Inventory',
+            link: '/seller/inventory'
         },
         {
             icon: <PersonAddAltOutlinedIcon />,
-            label: 'Become A Buyer',
+            label: 'My Bids',
             link: '/become-buyer'
         },
         {
             icon: <CurrencyExchangeOutlinedIcon />,
-            label: 'Refer & Earn',
+            label: 'Retail Buying',
+            link: '/refer-earn'
+        },
+        {
+            icon: <CurrencyExchangeOutlinedIcon />,
+            label: 'Rewards',
+            link: '/refer-earn'
+        },
+        {
+            icon: <CurrencyExchangeOutlinedIcon />,
+            label: 'Scrap Rates',
+            link: '/refer-earn'
+        },
+        {
+            icon: <CurrencyExchangeOutlinedIcon />,
+            label: 'FAQ',
             link: '/refer-earn'
         },
         {
@@ -119,7 +153,13 @@ export default function MenuProvider() {
     ];
     useEffect(() => {
         if (location.pathname.includes('/seller')) setToggle('seller');
-    }, []);
+        setUserData(authData);
+        // console.log(authData);
+    }, [authData]);
+
+    function logout() {
+        keycloak.logout();
+    }
 
     return (
         <>
@@ -144,21 +184,17 @@ export default function MenuProvider() {
                             <ToggleButton value="buyer">Buyer</ToggleButton>
                             <ToggleButton value="seller">Seller</ToggleButton>
                         </MyToggleButtonGroup>
-                        <Button
-                            // onClick={() => navigate('/login')}
-                            onClick={() => setIsLogin(true)}
-                            sx={{ backgroundColor: colors.primary, color: 'white', borderRadius: '30px', padding: '5px 15px' }}
-                        >
-                            Login
-                        </Button>
-                        {/* <Tooltip title="Account settings">
-                            <IconButton size="large" sx={{ ml: 2 }} aria-haspopup="true">
-                                <Avatar
-                                    alt="Remy Sharp"
-                                    src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80"
-                                />
-                            </IconButton>
-                        </Tooltip>*/}
+                        {userData !== null ? (
+                            <Profile userData={userData} logout={logout} />
+                        ) : (
+                            <Button
+                                // onClick={() => navigate('/login')}
+                                onClick={() => setIsLogin(true)}
+                                sx={{ backgroundColor: colors.primary, color: 'white', borderRadius: '30px', padding: '5px 15px' }}
+                            >
+                                Login
+                            </Button>
+                        )}
                     </Toolbar>
                 </AppBar>
             </Box>
@@ -221,7 +257,7 @@ export default function MenuProvider() {
             {/* {isVerify ? <VerifyUser type="login" /> : <></>} */}
 
             {isLogin ? <Login open={isLogin} close={handleLogin} /> : <></>}
-            {isRegister ? <Register open={isRegister} setOpen={setIsRegister}></Register> : <></>}
+            {isRegister ? <Register open={isRegister} close={handleLogin}></Register> : <></>}
         </>
     );
 }

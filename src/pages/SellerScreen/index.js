@@ -5,6 +5,7 @@ import { lazy } from 'react';
 const SignUpScreen = Loadable(lazy(() => import('./SignUp')));
 const ScrapSelectionPage = Loadable(lazy(() => import('./ScrapSelectionPage')));
 const StockPage = Loadable(lazy(() => import('./StockPage')));
+const SellerInventory = Loadable(lazy(() => import('./SellerInventory')));
 
 export default function SellerScreen() {
     return useRoutes([
@@ -13,6 +14,7 @@ export default function SellerScreen() {
         { path: '/login', element: <p>Login Page</p> },
         { path: '/register', element: <SignUpScreen /> },
         { path: '/products', element: <ScrapSelectionPage /> },
-        { path: '/stock', element: <StockPage /> }
+        { path: '/stock', element: <StockPage /> },
+        { path: '/inventory', element: <SellerInventory /> }
     ]);
 }

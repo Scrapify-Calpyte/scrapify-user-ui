@@ -15,6 +15,7 @@ function LocationPicker({ handleLocation, height = '50vh' }) {
         width: '100%',
         height: height
     };
+
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
