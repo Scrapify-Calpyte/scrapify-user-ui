@@ -31,7 +31,7 @@ import { useAxios } from '~/components/useAxios';
 import SelectedProducts from './SelectedProducts';
 import FormHelperText from '@mui/material/FormHelperText';
 
-function Register({ open, setOpen }) {
+function Register({ open, close }) {
     const { colors, fonts } = useContext(ThemeContext);
     const [step, setStep] = useState(0);
     const [checkedValues, setCheckedValues] = useState([]);
@@ -66,7 +66,7 @@ function Register({ open, setOpen }) {
     }, []);
 
     const handleClose = () => {
-        setOpen(false);
+        close(false, false);
     };
 
     const handleChange = (event) => {
@@ -502,7 +502,7 @@ function Register({ open, setOpen }) {
                         <Grid item xs={12} display="flex" justifyContent="center">
                             <Typography
                                 component={Button}
-                                // onClick={}
+                                onClick={() => close(true, false)}
                                 varient="p"
                                 sx={{ textTransform: 'none', fontSize: '0.7rem', color: colors.primary }}
                             >
