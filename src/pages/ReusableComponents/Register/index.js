@@ -31,6 +31,8 @@ import { useAxios } from '~/components/useAxios';
 import SelectedProducts from './SelectedProducts';
 import FormHelperText from '@mui/material/FormHelperText';
 import { AuthContext } from '~/context/AuthProvider/index';
+import Cookies from 'js-cookie';
+import JwtDecode from '~/util/JwtDecode';
 
 // import keycloak from '~/keycloak';
 
@@ -190,18 +192,18 @@ function Register({ open, close, switchToLogin }) {
             userName: data?.mobile,
             password: data?.password
         };
-        // keycloak.login();
         axios
             .post('user/unsecure/access/token', obj)
             .then((res) => {
+                Cookies.set('token', res?.data?.auth);
+                const { given_name, email } = JwtDecode(res?.data?.auth);
                 setAuthData({
                     token: res?.data?.auth,
-                    userName: data?.mobile,
-                    email: data?.email
+                    userName: given_name,
+                    email: email
                 });
                 setStep(step + 1);
                 setIsTouched(false);
-                console.log(res);
             })
             .catch((err) => toast.error(err?.message));
     }

@@ -20,6 +20,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import Register from '../Register/index';
 import { useAxios } from '~/components/useAxios';
 import { AuthContext } from '~/context/AuthProvider/index';
+import Cookies from 'js-cookie';
+import JwtDecode from '~/util/JwtDecode';
 
 export default function Login({ open, close, switchToRegister }) {
     const { colors, fonts } = useContext(ThemeContext);
@@ -127,10 +129,12 @@ export default function Login({ open, close, switchToRegister }) {
         axios
             .post('user/unsecure/access/token', obj)
             .then((res) => {
+                Cookies.set('token', res?.data?.auth);
+                const { given_name, email } = JwtDecode(res?.data?.auth);
                 setAuthData({
                     token: res?.data?.auth,
-                    userName: formValues.phone,
-                    email: formValues.phone
+                    userName: given_name,
+                    email: email
                 });
                 console.log(toggle);
                 toast.success('😉 Login Successfully !');
