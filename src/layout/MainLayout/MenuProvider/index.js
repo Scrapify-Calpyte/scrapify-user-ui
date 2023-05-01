@@ -27,18 +27,13 @@ import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { ThemeContext } from '/src/util/ThemeProvider';
 import { useContext } from 'react';
-import Login from '~/pages/ReusableComponents/Login';
-import Register from '~/pages/ReusableComponents/Register/index';
 import VerifyUser from '~/pages/ReusableComponents/VerifyUser/index';
 import { AuthContext } from '~/context/AuthProvider/index';
-import { Avatar, IconButton, Tooltip } from '@mui/material/index';
 const drawerWidth = 300;
 // import { useKeycloak } from '@react-keycloak/web';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import Profile from './Profile';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import Cookies from 'js-cookie';
 
 export default function MenuProvider() {
     const [open, setOpen] = useState(false);
@@ -47,20 +42,9 @@ export default function MenuProvider() {
     const navigate = useNavigate();
     const location = useLocation();
     const { colors, fonts } = useContext(ThemeContext);
-    const [isLogin, setIsLogin] = useState(false);
-    const [isRegister, setIsRegister] = useState(false);
     const [isVerify, setIsVerify] = useState(false);
-    const [userData, setUserData] = useState(null);
     const { authData, setAuthData } = useContext(AuthContext);
     // const { keycloak } = useKeycloak();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const menuOpen = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     const AppBar = styled(MuiAppBar, {
         shouldForwardProp: (prop) => prop !== 'open'
@@ -104,16 +88,11 @@ export default function MenuProvider() {
         setOpen(!open);
     };
 
-    const handleLogin = (isLogin, isRegister) => {
-        setIsLogin(isLogin);
-        setIsRegister(isRegister);
-    };
-
     const menus = [
         {
             icon: <HomeOutlinedIcon />,
             label: 'Home',
-            link: '/buyer'
+            link: '/home'
         },
         {
             icon: <InventoryIcon />,
@@ -152,12 +131,13 @@ export default function MenuProvider() {
         }
     ];
     useEffect(() => {
-        if (location.pathname.includes('/seller')) setToggle('seller');
-        else setToggle('buyer');
+        if (location.pathname.includes('home/seller')) setToggle('seller');
+        if (location.pathname.includes('home/buyer')) setToggle('buyer');
     }, [location.pathname]);
 
     function logout() {
         setAuthData(null);
+        Cookies.remove('token');
     }
 
     return (
@@ -175,13 +155,13 @@ export default function MenuProvider() {
                             value={toggle}
                             onChange={(event, value) => {
                                 value ? setToggle(value) : setToggle(toggle);
-                                navigate(value == 'seller' ? '/seller' : '/buyer');
+                                navigate(value == 'seller' ? '/home/seller' : '/home/buyer');
                             }}
                             exclusive
                             aria-label="Platform"
                         >
-                            <ToggleButton value="buyer">Buyer</ToggleButton>
                             <ToggleButton value="seller">Seller</ToggleButton>
+                            <ToggleButton value="buyer">Buyer</ToggleButton>
                         </MyToggleButtonGroup>
                         {authData !== null ? (
                             <Profile userData={authData} logout={logout} />
@@ -254,9 +234,6 @@ export default function MenuProvider() {
                 </Box>
             </Drawer>
             {isVerify ? <VerifyUser onClose={setIsVerify} /> : <></>}
-
-            {/* {isLogin ? <Login open={isLogin} close={handleLogin} /> : <></>}
-            {isRegister ? <Register open={isRegister} close={handleLogin}></Register> : <></>} */}
         </>
     );
 }

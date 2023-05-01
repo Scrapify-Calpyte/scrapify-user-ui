@@ -25,6 +25,7 @@ const VerifyUser = ({ onClose }) => {
     function handleClose() {
         setIsLogin(false);
         setIsRegister(false);
+        navigate('/home/seller');
         onClose(false);
     }
 

@@ -1,14 +1,36 @@
 import MainLayout from '~/layout/MainLayout';
 import { useRoutes, Navigate } from 'react-router-dom';
 import Loadable from '/src/components/Loadable';
-import { lazy } from 'react';
+import { lazy, useEffect } from 'react';
 import PrivateRoute from '~/components/PrivateRoute';
+import Cookies from 'js-cookie';
+import { AuthContext } from '~/context/AuthProvider/index';
+import { useContext } from 'react';
+import JwtDecode from '~/util/JwtDecode';
 
 const BuyerScreen = Loadable(lazy(() => import('../pages/BuyerScreen')));
 const SellerScreen = Loadable(lazy(() => import('../pages/SellerScreen')));
 const SignUpScreen = Loadable(lazy(() => import('../pages/BuyerScreen/SignUp')));
+const Home = Loadable(lazy(() => import('../pages/Home')));
 
 const ThemeRoutes = () => {
+    const { setAuthData } = useContext(AuthContext);
+
+    useEffect(() => {
+        const token = Cookies.get('token');
+        if (token) {
+            const { given_name, email } = JwtDecode(token);
+            setAuthData({
+                token: token,
+                userName: given_name,
+                email: email
+            });
+        }
+        return () => {
+            alert('routes');
+        };
+    }, []);
+
     return useRoutes([
         {
             path: '/',
@@ -31,8 +53,8 @@ const ThemeRoutes = () => {
                     )
                 },
                 {
-                    path: 'home',
-                    element: <Navigate to="buyer" replace={true} />
+                    path: 'home/:type',
+                    element: <Home />
                 },
                 {
                     path: 'login',
@@ -43,8 +65,12 @@ const ThemeRoutes = () => {
                     )
                 },
                 {
+                    path: 'home',
+                    element: <Navigate to="/home/seller" replace={true} />
+                },
+                {
                     path: '/',
-                    element: <Navigate to="buyer" replace={true} />
+                    element: <Navigate to="/home/seller" replace={true} />
                 }
                 // {
                 //     path: '*',

@@ -13,6 +13,7 @@ import { AxiosProvider } from './components/useAxios';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { AuthProvider } from './context/AuthProvider/index';
+const jwt_decode = require('jwt-decode');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
