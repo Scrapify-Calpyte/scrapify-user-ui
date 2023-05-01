@@ -18,11 +18,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import Badge from '@mui/material/Badge';
 import CloseIcon from '@mui/icons-material/Close';
 import Register from '../Register/index';
+import { useAxios } from '~/components/useAxios';
+import { AuthContext } from '~/context/AuthProvider/index';
 
-export default function Login({ open, close }) {
+export default function Login({ open, close, switchToRegister }) {
     const { colors, fonts } = useContext(ThemeContext);
     const [toggle, setToggle] = useState('seller');
     const [step, setStep] = useState(0);
+    const axios = useAxios();
+    const { authData, setAuthData } = useContext(AuthContext);
 
     const [formValues, setFormValues] = useState({
         phone: '',
@@ -110,20 +114,33 @@ export default function Login({ open, close }) {
             console.log(formValues);
             if (formValues.otp.length === 6) {
                 console.log(formValues);
-                console.log(toggle);
-                toast.success('😉 Login Successfully !');
-                close(false, false);
+                login();
             } else toast.error('🧐 Invalid OTP !');
         }
     }
 
-    const handleClose = () => {
-        handleToggle(null, 'seller');
-        close(false, false);
-    };
+    function login() {
+        let obj = {
+            userName: formValues.phone,
+            password: formValues.otp
+        };
+        axios
+            .post('user/unsecure/access/token', obj)
+            .then((res) => {
+                setAuthData({
+                    token: res?.data?.auth,
+                    userName: formValues.phone,
+                    email: formValues.phone
+                });
+                console.log(toggle);
+                toast.success('😉 Login Successfully !');
+                close();
+            })
+            .catch((err) => toast.error(err?.message));
+    }
 
-    const handleRegister = () => {
-        close(false, true);
+    const handleClose = () => {
+        close();
     };
 
     return (
@@ -201,7 +218,7 @@ export default function Login({ open, close }) {
                                         </ThemeButton2>
                                         <Stack sx={{ alignItems: 'center' }}>
                                             <Typography
-                                                onClick={handleRegister}
+                                                onClick={switchToRegister}
                                                 component={Button}
                                                 varient="p"
                                                 sx={{ textTransform: 'none', fontSize: '0.7rem', color: colors.primary }}
@@ -258,7 +275,7 @@ export default function Login({ open, close }) {
                                         <Stack sx={{ alignItems: 'center' }}>
                                             <Typography
                                                 component={Button}
-                                                onClick={handleRegister}
+                                                onClick={switchToRegister}
                                                 varient="p"
                                                 sx={{ textTransform: 'none', fontSize: '0.7rem', color: colors.primary }}
                                             >

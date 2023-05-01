@@ -33,7 +33,7 @@ import VerifyUser from '~/pages/ReusableComponents/VerifyUser/index';
 import { AuthContext } from '~/context/AuthProvider/index';
 import { Avatar, IconButton, Tooltip } from '@mui/material/index';
 const drawerWidth = 300;
-import { useKeycloak } from '@react-keycloak/web';
+// import { useKeycloak } from '@react-keycloak/web';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -51,8 +51,8 @@ export default function MenuProvider() {
     const [isRegister, setIsRegister] = useState(false);
     const [isVerify, setIsVerify] = useState(false);
     const [userData, setUserData] = useState(null);
-    const { authData } = useContext(AuthContext);
-    const { keycloak } = useKeycloak();
+    const { authData, setAuthData } = useContext(AuthContext);
+    // const { keycloak } = useKeycloak();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const menuOpen = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -153,12 +153,11 @@ export default function MenuProvider() {
     ];
     useEffect(() => {
         if (location.pathname.includes('/seller')) setToggle('seller');
-        setUserData(authData);
-        // console.log(authData);
-    }, [authData]);
+        else setToggle('buyer');
+    }, [location.pathname]);
 
     function logout() {
-        keycloak.logout();
+        setAuthData(null);
     }
 
     return (
@@ -184,12 +183,12 @@ export default function MenuProvider() {
                             <ToggleButton value="buyer">Buyer</ToggleButton>
                             <ToggleButton value="seller">Seller</ToggleButton>
                         </MyToggleButtonGroup>
-                        {userData !== null ? (
-                            <Profile userData={userData} logout={logout} />
+                        {authData !== null ? (
+                            <Profile userData={authData} logout={logout} />
                         ) : (
                             <Button
-                                // onClick={() => navigate('/login')}
-                                onClick={() => setIsLogin(true)}
+                                onClick={() => setIsVerify(true)}
+                                // onClick={() => setIsLogin(true)}
                                 sx={{ backgroundColor: colors.primary, color: 'white', borderRadius: '30px', padding: '5px 15px' }}
                             >
                                 Login
@@ -254,10 +253,10 @@ export default function MenuProvider() {
                     <Divider />
                 </Box>
             </Drawer>
-            {/* {isVerify ? <VerifyUser type="login" /> : <></>} */}
+            {isVerify ? <VerifyUser onClose={setIsVerify} /> : <></>}
 
-            {isLogin ? <Login open={isLogin} close={handleLogin} /> : <></>}
-            {isRegister ? <Register open={isRegister} close={handleLogin}></Register> : <></>}
+            {/* {isLogin ? <Login open={isLogin} close={handleLogin} /> : <></>}
+            {isRegister ? <Register open={isRegister} close={handleLogin}></Register> : <></>} */}
         </>
     );
 }

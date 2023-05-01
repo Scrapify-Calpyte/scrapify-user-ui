@@ -30,8 +30,11 @@ import ProductSelection from './ProductSelection';
 import { useAxios } from '~/components/useAxios';
 import SelectedProducts from './SelectedProducts';
 import FormHelperText from '@mui/material/FormHelperText';
+import { AuthContext } from '~/context/AuthProvider/index';
 
-function Register({ open, close }) {
+// import keycloak from '~/keycloak';
+
+function Register({ open, close, switchToLogin }) {
     const { colors, fonts } = useContext(ThemeContext);
     const [step, setStep] = useState(0);
     const [checkedValues, setCheckedValues] = useState([]);
@@ -49,6 +52,7 @@ function Register({ open, close }) {
     });
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [isTouched, setIsTouched] = useState(false);
+    const { authData, setAuthData } = useContext(AuthContext);
 
     function getProducts() {
         axios
@@ -66,7 +70,7 @@ function Register({ open, close }) {
     }, []);
 
     const handleClose = () => {
-        close(false, false);
+        close();
     };
 
     const handleChange = (event) => {
@@ -135,8 +139,10 @@ function Register({ open, close }) {
             if (formValues.otp.trim() === '' || formValues.otp.length !== 6) {
                 toast.error('Enter OTP');
             } else {
-                setStep(step + 1);
-                setIsTouched(false);
+                saveConsumer();
+                console.log(formValues);
+                // setStep(step + 1);
+                // setIsTouched(false);
             }
         } else if (step === 6) {
             if (formValues.address.trim() === '') toast.error('Address Is Required');
@@ -160,6 +166,45 @@ function Register({ open, close }) {
             setIsTouched(false);
         }
     };
+
+    function saveConsumer() {
+        let data = {
+            firstName: formValues?.name,
+            lastName: formValues?.name,
+            mobile: formValues?.phone,
+            email: formValues?.email,
+            role: formValues?.userType,
+            password: formValues?.otp
+        };
+        axios
+            .post('user/scrap/save', data)
+            .then((res) => {
+                login(res?.data);
+                console.log(res);
+            })
+            .catch((err) => toast.error(err?.message));
+    }
+
+    function login(data) {
+        let obj = {
+            userName: data?.mobile,
+            password: data?.password
+        };
+        // keycloak.login();
+        axios
+            .post('user/unsecure/access/token', obj)
+            .then((res) => {
+                setAuthData({
+                    token: res?.data?.auth,
+                    userName: data?.mobile,
+                    email: data?.email
+                });
+                setStep(step + 1);
+                setIsTouched(false);
+                console.log(res);
+            })
+            .catch((err) => toast.error(err?.message));
+    }
 
     function getSelectedProducts() {
         let arr = [];
@@ -502,7 +547,7 @@ function Register({ open, close }) {
                         <Grid item xs={12} display="flex" justifyContent="center">
                             <Typography
                                 component={Button}
-                                onClick={() => close(true, false)}
+                                onClick={switchToLogin}
                                 varient="p"
                                 sx={{ textTransform: 'none', fontSize: '0.7rem', color: colors.primary }}
                             >
