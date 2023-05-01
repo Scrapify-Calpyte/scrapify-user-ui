@@ -12,20 +12,23 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import { AxiosProvider } from './components/useAxios';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { AuthProvider } from './context/AuthProvider/index';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     // <React.StrictMode>
-    <ReactKeycloakProvider authClient={keycloak}>
+    // <ReactKeycloakProvider authClient={keycloak}>
+    <AuthProvider>
         <AxiosProvider>
             <BrowserRouter>
                 <ThemeProvider>
                     <App />
-                    <ToastContainer position="top-center" autoClose={1000} />
+                    <ToastContainer position="top-center" autoClose={2000} />
                 </ThemeProvider>
             </BrowserRouter>
         </AxiosProvider>
-    </ReactKeycloakProvider>
+    </AuthProvider>
+    // </ReactKeycloakProvider>
     // </React.StrictMode>
 );
 

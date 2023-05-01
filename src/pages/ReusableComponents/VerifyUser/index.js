@@ -1,35 +1,37 @@
 import { useEffect, useState } from 'react';
 import Login from '../Login/index';
 import Register from '../Register/index';
+import { useNavigate } from 'react-router-dom';
 
-const VerifyUser = ({ type, handleClose }) => {
+const VerifyUser = ({ onClose }) => {
     const [isLogin, setIsLogin] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        alert('hitted');
-        if (type === 'login') {
-            setIsLogin(true);
-        }
-        if (type === 'register') {
-            setIsRegister(false);
-        }
+        setIsLogin(true);
     }, []);
 
-    const switchPage = (isLogin, isRegister) => {
-        setIsLogin(isLogin);
-        setIsRegister(isRegister);
+    const switchToLogin = () => {
+        setIsLogin(true);
+        setIsRegister(false);
+    };
+
+    const switchToRegister = () => {
+        setIsRegister(true);
+        setIsLogin(false);
     };
 
     function handleClose() {
-        handleClose(true);
+        setIsLogin(false);
+        setIsRegister(false);
+        onClose(false);
     }
 
     return (
         <>
-            <p>works</p>
-            {/* {isLogin ? <Login open={isLogin} switchPage={switchPage} close={handleClose} /> : <></>}
-            {isRegister ? <Register open={isRegister} switchPage={switchPage} close={handleClose}></Register> : <></>} */}
+            {isLogin ? <Login open={isLogin} switchToRegister={switchToRegister} close={handleClose} /> : <></>}
+            {isRegister ? <Register open={isRegister} switchToLogin={switchToLogin} close={handleClose}></Register> : <></>}
         </>
     );
 };

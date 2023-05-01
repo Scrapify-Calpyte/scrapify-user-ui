@@ -1,22 +1,32 @@
 import React, { createContext, useContext } from 'react';
-import { useKeycloak } from '@react-keycloak/web';
+// import { useKeycloak } from '@react-keycloak/web';
 import { environment } from '~/util/Environment';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { AuthContext } from '~/context/AuthProvider/index';
+import { useEffect } from 'react';
 
 const AxiosContext = createContext(null);
 
 const AxiosProvider = ({ children }) => {
-    const { keycloak } = useKeycloak();
+    const { authData } = useContext(AuthContext);
+
+    useEffect(() => {}, [authData]);
+    // const { keycloak } = useKeycloak();
     const instance = axios.create({
-        baseURL: environment.productBaseURL // Set your base URL here
+        baseURL: environment.baseURL // Set your base URL here
     });
 
     instance.interceptors.request.use(
         async (config) => {
             config.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000';
-            if (keycloak.authenticated) {
-                config.headers.Authorization = `Bearer ${keycloak.token}`;
+            // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+            // if (keycloak.authenticated) {
+            //     config.headers.Authorization = `Bearer ${keycloak.token}`;
+            // }
+            if (authData?.token) {
+                config.headers.Authorization = `Bearer ${authData?.token}`;
             }
             return config;
         },
