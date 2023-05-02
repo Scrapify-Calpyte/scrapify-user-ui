@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 const AxiosContext = createContext(null);
 
 const AxiosProvider = ({ children }) => {
-    const { authData } = useContext(AuthContext);
+    const { authData, setAuthData } = useContext(AuthContext);
 
     useEffect(() => {}, [authData]);
     // const { keycloak } = useKeycloak();
@@ -53,9 +53,10 @@ const AxiosProvider = ({ children }) => {
                     .then((response) => {
                         const { token, refreshToken } = response.data;
                         Cookies.set('token', token);
-                        Cookies.set('refreshToken', token);
-                        originalRequest.headers.Authorization = `Bearer ${Cookies.get('token')}`;
-                        return axiosInstance(originalRequest);
+                        Cookies.set('refreshToken', refreshToken);
+                        setAuthData((old) => ({ ...old, ['token']: token }));
+                        originalRequest.headers.Authorization = `Bearer ${token}`;
+                        return instance(originalRequest);
                     })
                     .catch((error) => {
                         // Cookies.remove('token');
