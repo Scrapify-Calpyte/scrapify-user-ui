@@ -10,7 +10,6 @@ import JwtDecode from '~/util/JwtDecode';
 
 const BuyerScreen = Loadable(lazy(() => import('../pages/BuyerScreen')));
 const SellerScreen = Loadable(lazy(() => import('../pages/SellerScreen')));
-const SignUpScreen = Loadable(lazy(() => import('../pages/BuyerScreen/SignUp')));
 const Home = Loadable(lazy(() => import('../pages/Home')));
 
 const ThemeRoutes = () => {
@@ -39,12 +38,8 @@ const ThemeRoutes = () => {
             ),
             children: [
                 {
-                    path: 'buyer',
-                    element: (
-                        <PrivateRoute isAuth={true}>
-                            <BuyerScreen />
-                        </PrivateRoute>
-                    )
+                    path: 'home/:type',
+                    element: <Home />
                 },
                 {
                     path: 'seller/*',
@@ -55,14 +50,10 @@ const ThemeRoutes = () => {
                     )
                 },
                 {
-                    path: 'home/:type',
-                    element: <Home />
-                },
-                {
-                    path: 'login',
+                    path: 'buyer',
                     element: (
                         <PrivateRoute isAuth={true}>
-                            <SignUpScreen />
+                            <BuyerScreen />
                         </PrivateRoute>
                     )
                 },
@@ -74,6 +65,7 @@ const ThemeRoutes = () => {
                     path: '/',
                     element: <Navigate to="/home/seller" replace={true} />
                 }
+                // ,
                 // {
                 //     path: '*',
                 //     element: <BuyerScreen />
