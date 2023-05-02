@@ -22,6 +22,7 @@ import { useAxios } from '~/components/useAxios';
 import { AuthContext } from '~/context/AuthProvider/index';
 import Cookies from 'js-cookie';
 import JwtDecode from '~/util/JwtDecode';
+import { ApiConfig } from '~/components/ApiConfig';
 
 export default function Login({ open, close, switchToRegister }) {
     const { colors, fonts } = useContext(ThemeContext);
@@ -127,7 +128,7 @@ export default function Login({ open, close, switchToRegister }) {
             password: formValues.otp
         };
         axios
-            .post('user/unsecure/access/token', obj)
+            .post(ApiConfig.getAccessToken, obj)
             .then((res) => {
                 Cookies.set('token', res?.data?.auth);
                 Cookies.set('refreshToken', res?.data?.token);

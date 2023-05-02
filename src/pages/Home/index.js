@@ -27,6 +27,7 @@ import { animations } from 'react-animation';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '~/context/AuthProvider/index';
 import { useAxios } from '~/components/useAxios';
+import { ApiConfig } from '~/components/ApiConfig';
 
 function Home() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -174,7 +175,7 @@ function Home() {
 
     function getProducts() {
         axios
-            .get('product/category')
+            .get(ApiConfig.getAllCategories)
             .then((res) => {
                 console.log(res);
                 if (res?.data && res?.data?.length > 0) {

@@ -149,23 +149,6 @@ function SellerInventory() {
                         </Stack>
                     </Grid>
                 </Grid>
-                {/* <Stack
-                    flexDirection="row"
-                    justifyContent="space-between"
-                    sx={{ backgroundColor: '#f2f6f8', width: '100%', padding: '3% 2%', boxShadow: '0px 20px 30px rgba(0, 0, 0, 0.25)' }}
-                >
-                    <Button size="small" sx={{ dimensions: 'fit-content', textTransform: 'none' }}>
-                        Go to Dashboard &nbsp; <NavigateNextIcon />
-                    </Button>
-                    <Box>
-                        <Stack flexDirection="row" gap={2}>
-                            <ThemeButton2 size="small">Reset Changes</ThemeButton2>
-                            <ThemeButton size="small" onClick={handleSubmit}>
-                                Update Inventory
-                            </ThemeButton>
-                        </Stack>
-                    </Box>
-                </Stack> */}
             </Box>
         </Box>
     );
