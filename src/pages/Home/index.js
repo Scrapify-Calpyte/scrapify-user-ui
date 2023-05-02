@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import IconButton from '@mui/material/IconButton';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
@@ -25,6 +25,8 @@ import Button from '@mui/material/Button';
 import './home.css';
 import { animations } from 'react-animation';
 import { useParams } from 'react-router-dom';
+import { AuthContext } from '~/context/AuthProvider/index';
+import { useAxios } from '~/components/useAxios';
 
 function Home() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -33,6 +35,9 @@ function Home() {
     const [sideNav, setSideNav] = useState(true);
     const [viewAll, setViewAll] = useState(false);
     const { type } = useParams();
+    const { authData, setAuthData } = useContext(AuthContext);
+    const [categories, setCategories] = useState([]);
+    const axios = useAxios();
 
     const sampleData = {
         availableProducts: [
@@ -161,8 +166,23 @@ function Home() {
     ];
 
     useEffect(() => {
+        if (authData?.token) {
+            getProducts();
+        }
         if (matches) setSideNav(false);
     }, [matches, type]);
+
+    function getProducts() {
+        axios
+            .get('product/category')
+            .then((res) => {
+                console.log(res);
+                if (res?.data && res?.data?.length > 0) {
+                    setCategories(res?.data.filter((obj) => obj?.id != null));
+                }
+            })
+            .catch((err) => console.log(err));
+    }
 
     const handlePopOver = (open) => {
         setOpen(open);

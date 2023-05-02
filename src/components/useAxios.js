@@ -5,6 +5,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { AuthContext } from '~/context/AuthProvider/index';
 import { useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 const AxiosContext = createContext(null);
 
@@ -19,19 +20,49 @@ const AxiosProvider = ({ children }) => {
 
     instance.interceptors.request.use(
         async (config) => {
-            config.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000';
+            config.headers['Access-Control-Allow-Origin'] = '*';
             // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
             // if (keycloak.authenticated) {
             //     config.headers.Authorization = `Bearer ${keycloak.token}`;
             // }
-            if (authData?.token) {
-                config.headers.Authorization = `Bearer ${authData?.token}`;
+            let token = Cookies.get('token');
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
             }
             return config;
         },
         (error) => {
             // Do something with request error
+            return Promise.reject(error);
+        }
+    );
+
+    instance.interceptors.response.use(
+        (response) => {
+            return response;
+        },
+        (error) => {
+            const originalRequest = error.config;
+            const statusCode = error.response.status;
+            if (statusCode === 401 && !originalRequest._retry) {
+                originalRequest._retry = true;
+                const refreshToken = Cookies.get('refreshToken');
+                return axios
+                    .post(environment.baseURL + 'user/unsecure/token', { token: refreshToken })
+                    .then((response) => {
+                        const { token, refreshToken } = response.data;
+                        Cookies.set('token', token);
+                        Cookies.set('refreshToken', token);
+                        originalRequest.headers.Authorization = `Bearer ${Cookies.get('token')}`;
+                        return axiosInstance(originalRequest);
+                    })
+                    .catch((error) => {
+                        // Cookies.remove('token');
+                        // Cookies.remove('refreshToken');
+                        return Promise.reject(error);
+                    });
+            }
             return Promise.reject(error);
         }
     );
