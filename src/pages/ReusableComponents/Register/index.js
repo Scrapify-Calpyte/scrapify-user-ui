@@ -26,13 +26,13 @@ import LocationPicker from '~/pages/SellerScreen/LocationPicker';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
-import ProductSelection from './ProductSelection';
 import { useAxios } from '~/components/useAxios';
 import SelectedProducts from './SelectedProducts';
 import FormHelperText from '@mui/material/FormHelperText';
 import { AuthContext } from '~/context/AuthProvider/index';
 import Cookies from 'js-cookie';
 import JwtDecode from '~/util/JwtDecode';
+import { ApiConfig } from '~/components/ApiConfig';
 
 // import keycloak from '~/keycloak';
 
@@ -178,7 +178,7 @@ function Register({ open, close, switchToLogin }) {
             password: formValues?.otp
         };
         axios
-            .post('user/scrap/save', data)
+            .post(ApiConfig.saveConsumer, data)
             .then((res) => {
                 login(res?.data);
                 console.log(res);
@@ -192,7 +192,7 @@ function Register({ open, close, switchToLogin }) {
             password: data?.password
         };
         axios
-            .post('user/unsecure/access/token', obj)
+            .post(ApiConfig.getAccessToken, obj)
             .then((res) => {
                 Cookies.set('token', res?.data?.auth);
                 Cookies.set('refreshToken', res?.data?.token);
