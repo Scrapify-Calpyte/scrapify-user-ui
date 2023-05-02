@@ -15,7 +15,6 @@ const Home = Loadable(lazy(() => import('../pages/Home')));
 
 const ThemeRoutes = () => {
     const { setAuthData } = useContext(AuthContext);
-
     useEffect(() => {
         const token = Cookies.get('token');
         if (token) {
@@ -27,7 +26,7 @@ const ThemeRoutes = () => {
             });
         }
         return () => {
-            alert('routes');
+            alert('main routes unmount');
         };
     }, []);
 
@@ -42,7 +41,11 @@ const ThemeRoutes = () => {
             children: [
                 {
                     path: 'buyer',
-                    element: <BuyerScreen />
+                    element: (
+                        <PrivateRoute isAuth={true}>
+                            <BuyerScreen />
+                        </PrivateRoute>
+                    )
                 },
                 {
                     path: 'seller/*',

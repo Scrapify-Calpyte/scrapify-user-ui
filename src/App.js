@@ -1,5 +1,4 @@
 import ScrollTop from './components/ScrollTop';
-import { AuthProvider } from './context/AuthProvider/index';
 import ThemeRoutes from './routes/index';
 // import { useKeycloak } from '@react-keycloak/web';
 

@@ -130,6 +130,7 @@ export default function Login({ open, close, switchToRegister }) {
             .post('user/unsecure/access/token', obj)
             .then((res) => {
                 Cookies.set('token', res?.data?.auth);
+                Cookies.set('refreshToken', res?.data?.token);
                 const { given_name, email } = JwtDecode(res?.data?.auth);
                 setAuthData({
                     token: res?.data?.auth,

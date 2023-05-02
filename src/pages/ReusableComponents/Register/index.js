@@ -58,7 +58,7 @@ function Register({ open, close, switchToLogin }) {
 
     function getProducts() {
         axios
-            .get('category')
+            .get('product/category')
             .then((res) => {
                 if (res?.data && res?.data?.length > 0) {
                     setCategories(res?.data.filter((obj) => obj?.id != null));
@@ -67,9 +67,7 @@ function Register({ open, close, switchToLogin }) {
             .catch((err) => toast.error('Error: ' + err.message));
     }
 
-    useEffect(() => {
-        getProducts();
-    }, []);
+    useEffect(() => {}, []);
 
     const handleClose = () => {
         close();
@@ -147,6 +145,7 @@ function Register({ open, close, switchToLogin }) {
                 // setIsTouched(false);
             }
         } else if (step === 6) {
+            getProducts();
             if (formValues.address.trim() === '') toast.error('Address Is Required');
             else {
                 setStep(step + 1);
@@ -196,6 +195,7 @@ function Register({ open, close, switchToLogin }) {
             .post('user/unsecure/access/token', obj)
             .then((res) => {
                 Cookies.set('token', res?.data?.auth);
+                Cookies.set('refreshToken', res?.data?.token);
                 const { given_name, email } = JwtDecode(res?.data?.auth);
                 setAuthData({
                     token: res?.data?.auth,
