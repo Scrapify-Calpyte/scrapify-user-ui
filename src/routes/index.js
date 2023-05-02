@@ -20,7 +20,6 @@ const ThemeRoutes = () => {
         if (token) {
             const { given_name, email } = JwtDecode(token);
             setAuthData({
-                token: token,
                 userName: given_name,
                 email: email
             });

@@ -138,6 +138,8 @@ export default function MenuProvider() {
     function logout() {
         setAuthData(null);
         Cookies.remove('token');
+        Cookies.remove('refreshToken');
+        window.location.reload();
     }
 
     return (

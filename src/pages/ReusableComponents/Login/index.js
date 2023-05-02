@@ -133,7 +133,6 @@ export default function Login({ open, close, switchToRegister }) {
                 Cookies.set('refreshToken', res?.data?.token);
                 const { given_name, email } = JwtDecode(res?.data?.auth);
                 setAuthData({
-                    token: res?.data?.auth,
                     userName: given_name,
                     email: email
                 });

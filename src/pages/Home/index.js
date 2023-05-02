@@ -166,11 +166,11 @@ function Home() {
     ];
 
     useEffect(() => {
-        if (authData?.token) {
+        if (authData) {
             getProducts();
         }
         if (matches) setSideNav(false);
-    }, [matches, type]);
+    }, [matches, type, authData]);
 
     function getProducts() {
         axios
@@ -261,7 +261,7 @@ function Home() {
                         </List>
                     </Box>
                     <Box sx={{ display: !viewAll ? 'block' : 'none' }}>
-                        <ProductList products={[...sampleData?.availableProducts, ...sampleData?.allProducts]} setProduct={setProduct} />
+                        <ProductList products={categories} setProduct={setProduct} />
                     </Box>
                     {/* <AnimateOnChange animationIn="fadeInUp" animationOut="fadeOut" durationOut={300}> */}
                     <Stack flexDirection="row" justifyContent="space-between" alignItems="center" padding="10px">

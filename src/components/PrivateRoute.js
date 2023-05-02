@@ -20,7 +20,7 @@ export default function PrivateRoute(props) {
     //     }
     // }, [keycloak, initialized]);
 
-    if (!authData?.token && props.isAuth) {
+    if (!authData && props.isAuth) {
         return <VerifyUser onClose={(e) => {}} />;
     } else {
         return <>{props.children}</>;

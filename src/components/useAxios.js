@@ -54,13 +54,13 @@ const AxiosProvider = ({ children }) => {
                         const { token, refreshToken } = response.data;
                         Cookies.set('token', token);
                         Cookies.set('refreshToken', refreshToken);
-                        setAuthData((old) => ({ ...old, ['token']: token }));
                         originalRequest.headers.Authorization = `Bearer ${token}`;
                         return instance(originalRequest);
                     })
                     .catch((error) => {
-                        // Cookies.remove('token');
-                        // Cookies.remove('refreshToken');
+                        setAuthData(null);
+                        Cookies.remove('token');
+                        Cookies.remove('refreshToken');
                         return Promise.reject(error);
                     });
             }
