@@ -18,6 +18,7 @@ module.exports = {
         port: 3000,
         historyApiFallback: true
     },
+    devtool: 'source-map',
     module: {
         rules: [
             {
@@ -26,7 +27,8 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env', '@babel/preset-react']
+                        presets: ['@babel/preset-env', '@babel/preset-react'],
+                        sourceMaps: true
                     }
                 }
             },
