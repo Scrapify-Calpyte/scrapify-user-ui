@@ -177,12 +177,11 @@ function Home() {
         axios
             .get(ApiConfig.getAllCategories)
             .then((res) => {
-                console.log(res);
                 if (res?.data && res?.data?.length > 0) {
                     setCategories(res?.data.filter((obj) => obj?.id != null));
                 }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.error(err));
     }
 
     const handlePopOver = (open) => {

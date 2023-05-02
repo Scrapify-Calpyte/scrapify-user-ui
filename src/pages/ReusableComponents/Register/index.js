@@ -30,6 +30,7 @@ import { useAxios } from '~/components/useAxios';
 import SelectedProducts from './SelectedProducts';
 import FormHelperText from '@mui/material/FormHelperText';
 import { AuthContext } from '~/context/AuthProvider/index';
+import ProductSelection from './ProductSelection';
 import Cookies from 'js-cookie';
 import JwtDecode from '~/util/JwtDecode';
 import { ApiConfig } from '~/components/ApiConfig';
@@ -55,6 +56,7 @@ function Register({ open, close, switchToLogin }) {
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [isTouched, setIsTouched] = useState(false);
     const { authData, setAuthData } = useContext(AuthContext);
+    var userId = null;
 
     function getProducts() {
         axios
@@ -141,8 +143,6 @@ function Register({ open, close, switchToLogin }) {
             } else {
                 saveConsumer();
                 console.log(formValues);
-                // setStep(step + 1);
-                // setIsTouched(false);
             }
         } else if (step === 6) {
             getProducts();
@@ -160,6 +160,8 @@ function Register({ open, close, switchToLogin }) {
         } else if (step === 8) {
             console.log(selectedProducts);
             console.log(formValues);
+            saveAddress();
+            saveProducts();
             toast.success('Registered Successfully !');
             handleClose();
         } else {
@@ -180,8 +182,8 @@ function Register({ open, close, switchToLogin }) {
         axios
             .post(ApiConfig.saveConsumer, data)
             .then((res) => {
+                userId = res?.data?.id;
                 login(res?.data);
-                console.log(res);
             })
             .catch((err) => toast.error(err?.message));
     }
@@ -194,17 +196,47 @@ function Register({ open, close, switchToLogin }) {
         axios
             .post(ApiConfig.getAccessToken, obj)
             .then((res) => {
-                Cookies.set('token', res?.data?.auth);
-                Cookies.set('refreshToken', res?.data?.token);
-                const { given_name, email } = JwtDecode(res?.data?.auth);
-                setAuthData({
-                    userName: given_name,
-                    email: email
-                });
-                setStep(step + 1);
+                if(res?.data?.auth && res?.data?.token){
+                    Cookies.set('token', res?.data?.auth);
+                    Cookies.set('refreshToken', res?.data?.token);
+                    const { given_name, email } = JwtDecode(res?.data?.auth);
+                    setAuthData({
+                        userName: given_name,
+                        email: email
+                    });
+                    setStep(step + 1);
+                }
                 setIsTouched(false);
+              
             })
             .catch((err) => toast.error(err?.message));
+    }
+
+    function saveAddress(){
+        let addressData = {
+            id: userId,
+            addresses : [
+               {
+                   "name": formValues.address,
+                   "latitude": formValues.location.lat,
+                   "longitude": formValues.location.lng,
+                   "geocode": null
+               }
+            ]
+        }
+       axios.put(ApiConfig.saveConsumerAddress,addressData).then((res)=>{
+            toast.success("Address Added");
+       }).catch(err => toast.error(err.message));
+    }
+
+    function saveProducts(){
+        let productsData = {
+            id: userId,
+            products : formValues.selectedProducts
+        }
+        axios.put(ApiConfig.saveConsumerAddress,productsData).then((res)=>{
+            toast.success("Products Added");
+        }).catch(err => toast.error(err.message));
     }
 
     function getSelectedProducts() {

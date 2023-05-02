@@ -137,7 +137,6 @@ export default function Login({ open, close, switchToRegister }) {
                     userName: given_name,
                     email: email
                 });
-                console.log(toggle);
                 toast.success('😉 Login Successfully !');
                 close();
             })
