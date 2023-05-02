@@ -23,7 +23,7 @@ import {
     Grid,
     Typography
 } from '@mui/material/index';
-import LocationPicker from './LocationPicker';
+import LocationPicker from '~/pages/ReusableComponents/LocationPicker';
 import { useNavigate } from 'react-router-dom';
 import './Seller.css';
 import OtpInput from 'react-otp-input';

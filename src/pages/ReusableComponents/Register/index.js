@@ -22,7 +22,7 @@ import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 import PersonIcon from '@mui/icons-material/Person';
 import StorefrontIcon from '@mui/icons-material/Storefront';
-import LocationPicker from '~/pages/SellerScreen/LocationPicker';
+import LocationPicker from '~/pages/ReusableComponents/LocationPicker';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
@@ -58,7 +58,7 @@ function Register({ open, close, switchToLogin }) {
 
     function getProducts() {
         axios
-            .get('product/category')
+            .get(ApiConfig.getAllCategories)
             .then((res) => {
                 if (res?.data && res?.data?.length > 0) {
                     setCategories(res?.data.filter((obj) => obj?.id != null));
