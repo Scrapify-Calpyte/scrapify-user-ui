@@ -73,7 +73,7 @@ export default function ProductPage() {
                     setProducts(res?.data[0]?.products);
                 }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.error(err));
     }
 
     useEffect(() => {

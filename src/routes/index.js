@@ -24,7 +24,7 @@ const ThemeRoutes = () => {
             });
         }
         return () => {
-            alert('main routes unmount');
+            // alert('main routes unmount');
         };
     }, []);
 

@@ -35,7 +35,7 @@ function MapComponent({ data, handlePopOver }) {
             },
             (error) => {
                 setLocation(center);
-                console.log(error);
+                console.error(error);
                 alert('Location is not enabled and default location is chennai');
             }
         );

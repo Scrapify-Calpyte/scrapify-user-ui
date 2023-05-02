@@ -7,6 +7,8 @@ import { AuthContext } from '~/context/AuthProvider/index';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { ApiConfig } from './ApiConfig';
+import { toast } from 'react-toastify';
+
 
 const AxiosContext = createContext(null);
 
@@ -53,10 +55,14 @@ const AxiosProvider = ({ children }) => {
                     .post(environment.baseURL + ApiConfig.getRefreshToken, { token: refreshToken })
                     .then((response) => {
                         const { token, refreshToken } = response.data;
-                        Cookies.set('token', token);
-                        Cookies.set('refreshToken', refreshToken);
-                        originalRequest.headers.Authorization = `Bearer ${token}`;
-                        return instance(originalRequest);
+                        if(response?.data && token && refreshToken){
+                            Cookies.set('token', token);
+                            Cookies.set('refreshToken', refreshToken);
+                            originalRequest.headers.Authorization = `Bearer ${token}`;
+                            return instance(originalRequest);
+                        }else {
+                            toast.error("Un Authorized");
+                        }
                     })
                     .catch((error) => {
                         setAuthData(null);
