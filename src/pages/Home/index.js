@@ -86,10 +86,6 @@ function Home() {
             .catch((err) => console.error(err));
     }
 
-    const handlePopOver = (open) => {
-        setOpen(open);
-    };
-
     function setProduct(product) {
         // alert(product);
     }
@@ -272,7 +268,7 @@ function Home() {
                         animation: animations.popIn
                     }}
                 >
-                    <MapComponent location={location} consumersData={consumersData} handlePopOver={handlePopOver} />
+                    <MapComponent location={location} consumersData={consumersData} />
                 </Box>
             </Stack>
             <Popup open={open} setOpen={setOpen} consumerData={consumersData[selectedIndex]} />
