@@ -14,10 +14,11 @@ const center = {
     lng: 80.2707
 };
 
-function MapComponent({ location, consumersData, handlePopOver }) {
+function MapComponent({ location, consumersData }) {
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [map, setMap] = React.useState(null);
     const [infoOptions, setInfoOptions] = useState({});
+    const [isShowMore, setIsShowMore] = useState(false);
     const containerStyle = {
         width: '100%',
         height: '92vh'
@@ -111,41 +112,7 @@ function MapComponent({ location, consumersData, handlePopOver }) {
                         handlePopOver(false);
                     }}
                 >
-                    <Grid container spacing={0}>
-                        {/* <Grid item md={12} xs={12} sm={12} sx={{ paddingBottom: '5px' }}>
-                            <Stack flexDirection="row" gap={2} justifyContent="flex-start">
-                                <Avatar
-                                    src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
-                                    variant="square"
-                                    alt="P"
-                                    sx={{ height: 50, width: 50 }}
-                                ></Avatar>
-                                <Stack>
-                                    <Typography sx={{ color: '#013f56', width: '100%', display: 'flex', justifyContent: 'space-between' }}>
-                                        <b>{selectedMarker?.seller?.firstName + selectedMarker?.seller?.lastName}</b>
-                                        <>
-                                            <StarRateRoundedIcon sx={{ color: 'orange' }} style={{ fontSize: '20px' }} />
-                                            <b style={{ fontSize: '12px' }}>{selectedMarker?.seller?.rating}</b>
-                                        </>
-                                    </Typography>
-                                    <Typography sx={{ color: 'grey', fontWeight: 'bold' }}>
-                                        <LocationOnIcon style={{ fontSize: '15px' }} />
-                                        20km
-                                    </Typography>
-                                </Stack>
-                            </Stack>
-                        </Grid> */}
-                        {/* <Stack flexDirection="row" gap={2}>
-                            <Avatar
-                                src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
-                                variant="square"
-                                alt="P"
-                                sx={{ height: 50, width: 50 }}
-                            ></Avatar>
-                            <Typography sx={{ color: '#013f56' }}>
-                                <b>{selectedMarker?.seller?.firstName + selectedMarker?.seller?.lastName}</b>
-                            </Typography>
-                        </Stack> */}
+                    <Stack spacing={2}>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
                             <Avatar
                                 src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
@@ -194,22 +161,45 @@ function MapComponent({ location, consumersData, handlePopOver }) {
                                 <tr></tr>
                             </tbody>
                         </table>
-
-                        {/* <Grid item md={12} xs={12} sm={12} sx={{ paddingTop: '5px' }}>
-                            <Stack flexDirection="row" sx={{ justifyContent: 'space-between', width: '100%' }} gap={2}>
-                                <button className="btn1" style={{ width: '50%' }}>
-                                    Bid Now
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => handlePopOver(true)}
-                                    style={{ color: '#1bd7a0', border: 'none', width: '50%' }}
-                                >
-                                    View Details
-                                </button>
-                            </Stack>
-                        </Grid> */}
-                    </Grid>
+                        {isShowMore && (
+                            <>
+                                <Typography variant="p" fontWeight="bold" color="#013f56" component="div">
+                                    Images
+                                </Typography>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', gap: 2 }}>
+                                    {selectedMarker?.stock.map((p, index) => {
+                                        return (
+                                            <Avatar
+                                                key={index}
+                                                alt="waste"
+                                                src="https://images.unsplash.com/photo-1562077981-4d7eafd44932?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d2FzdGV8ZW58MHx8MHx8&w=1000&q=80"
+                                                variant="square"
+                                                sx={{ height: 75, width: '24%' }}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                                <Typography variant="p" fontWeight="bold" color="#013f56" component="div">
+                                    Seller Location
+                                </Typography>
+                                <Typography variant="p" color="#013f56" component="div">
+                                    {selectedMarker?.displayLocation?.address}
+                                </Typography>
+                            </>
+                        )}
+                        <Stack flexDirection="row" sx={{ justifyContent: 'space-between', width: '100%' }} gap={2}>
+                            <button className="btn1" style={{ width: '50%' }}>
+                                Bid Now
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setIsShowMore(!isShowMore)}
+                                style={{ color: '#1bd7a0', border: 'none', width: '50%' }}
+                            >
+                                {isShowMore ? 'View less' : 'View More'}
+                            </button>
+                        </Stack>
+                    </Stack>
                 </InfoWindow>
             )}
             <Circle

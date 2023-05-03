@@ -60,7 +60,7 @@ const AxiosProvider = ({ children }) => {
                             originalRequest.headers.Authorization = `Bearer ${token}`;
                             return instance(originalRequest);
                         } else {
-                            toast.error('Un Authorized');
+                            console.error('un authorized user');
                         }
                     })
                     .catch((error) => {
