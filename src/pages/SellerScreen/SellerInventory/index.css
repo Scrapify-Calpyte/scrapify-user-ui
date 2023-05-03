@@ -1,0 +1,17 @@
+
+.inventory-outer {
+  width: '100% !important';
+  height: 'auto !important';
+  display: 'flex !important';
+  justify-content: 'center !important';
+}
+
+.inventory-bottom {
+  display: 'flex';
+  flex-wrap: 'wrap';
+  gap: 2;
+  padding: '20px 2px';
+  justify-content: 'space-between';
+  background-color: '#f2f6f8';
+  width: '100%';
+}

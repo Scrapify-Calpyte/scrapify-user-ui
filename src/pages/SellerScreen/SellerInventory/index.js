@@ -1,3 +1,4 @@
+import './index.css';
 import { Grid, Stack, Box, Typography, useMediaQuery, Button } from '@mui/material/index';
 import { useContext, useState } from 'react';
 import { ThemeContext } from '~/util/ThemeProvider';
@@ -7,11 +8,18 @@ import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { styled } from '@mui/material/styles';
 import { ThemeButton, ThemeButton2 } from '~/util/MyComponents';
+import { useAxios } from '~/components/useAxios';
+import { ApiConfig } from '~/components/ApiConfig';
+import { toast } from 'react-toastify';
+import { animations } from 'react-animation';
+import InventoryHome from './InventoryHome';
 
 function SellerInventory() {
     const { colors, fonts } = useContext(ThemeContext);
     const matches = useMediaQuery('(max-width:768px)');
     const [formData, setFormData] = useState({});
+    const axios = useAxios();
+    const [inventoryData, setInventoryData] = useState([]);
 
     function handleFormDataChange(childIndex, childFormData) {
         setFormData((prevFormData) => ({
@@ -55,7 +63,15 @@ function SellerInventory() {
         }
     ];
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        axios
+            .get(ApiConfig.findMe)
+            .then((res) => {
+                setInventoryData(res?.data?.products);
+                console.log(res);
+            })
+            .catch((err) => toast.error(err.message));
+    }, []);
 
     function handleSubmit() {
         console.log(formData);
@@ -68,10 +84,11 @@ function SellerInventory() {
                 height: 'auto',
                 display: 'flex',
                 justifyContent: 'center',
-                backgroundColor: colors.theme
+                backgroundColor: colors.theme,
+                animation: animations.popIn
             }}
         >
-            <Box sx={{ width: matches ? '100%' : '60%', padding: '2%' }}>
+            <Box sx={{ width: matches ? '100%' : '75%', padding: '2%' }}>
                 <Grid container spacing={1}>
                     <Grid item lg={6} md={6} sm={12} xs={12}>
                         <Typography fontWeight="bold" fontSize="large" color={colors.primary}>
@@ -84,44 +101,52 @@ function SellerInventory() {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Stack
-                    gap={2}
-                    alignItems="center"
-                    sx={{ boxShadow: '0px 20px 30px rgba(0, 0, 0, 0.25)', backgroundColor: 'white', padding: '2%', width: '100%' }}
-                >
-                    {inventoryList.map((inventory, index) => {
-                        return (
-                            <InventoryProduct
-                                key={index}
-                                inventoryData={inventory}
-                                onFormDataChange={handleFormDataChange}
-                                formData={formData}
-                                index={inventory?.id}
-                            />
-                        );
-                    })}
-                    <Button sx={{ color: colors.primary, fontWeight: 'bold', textTransform: 'none' }} size="small">
-                        <ControlPointOutlinedIcon /> &nbsp; Add More Products
-                    </Button>
-                </Stack>
-                <Grid
-                    container
-                    sx={{ backgroundColor: '#f2f6f8', width: '100%', padding: '3% 2%', boxShadow: '0px 20px 30px rgba(0, 0, 0, 0.25)' }}
-                >
-                    <Grid item xs={12} sm={12} md={6} order={{ sm: 2, xs: 2, lg: 1, lg: 1 }}>
+                {/* <InventoryHome /> */}
+                <div>
+                    <Stack
+                        gap={2}
+                        alignItems="center"
+                        sx={{ boxShadow: '0px 20px 30px rgba(0, 0, 0, 0.25)', backgroundColor: 'white', padding: '2%', width: '100%' }}
+                    >
+                        {inventoryList.map((inventory, index) => {
+                            return (
+                                <InventoryProduct
+                                    key={index}
+                                    inventoryData={inventory}
+                                    onFormDataChange={handleFormDataChange}
+                                    formData={formData}
+                                    index={inventory?.id}
+                                />
+                            );
+                        })}
+                        <Button sx={{ color: colors.primary, fontWeight: 'bold', textTransform: 'none' }} size="small">
+                            <ControlPointOutlinedIcon /> &nbsp; Add More Products
+                        </Button>
+                    </Stack>
+                    <div
+                        className="inventory-bottom"
+                        style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            gap: 2,
+                            padding: '20px 20px',
+                            justifyContent: 'space-between',
+                            backgroundColor: '#f2f6f8',
+                            width: '100%',
+                            boxShadow: '0px 20px 30px rgba(0, 0, 0, 0.25)'
+                        }}
+                    >
                         <Button size="small" sx={{ dimensions: 'fit-content', textTransform: 'none' }}>
                             Go to Dashboard &nbsp; <NavigateNextIcon />
                         </Button>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6} order={{ sm: 1, xs: 1, lg: 2, lg: 2 }}>
                         <Stack flexDirection="row-reverse" gap={2}>
                             <ThemeButton size="small" onClick={handleSubmit}>
                                 Update Inventory
                             </ThemeButton>
                             <ThemeButton2 size="small">Reset Changes</ThemeButton2>
                         </Stack>
-                    </Grid>
-                </Grid>
+                    </div>
+                </div>
             </Box>
         </Box>
     );
