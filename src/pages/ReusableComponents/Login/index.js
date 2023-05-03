@@ -130,14 +130,16 @@ export default function Login({ open, close, switchToRegister }) {
         axios
             .post(ApiConfig.getAccessToken, obj)
             .then((res) => {
-                Cookies.set('token', res?.data?.auth);
-                Cookies.set('refreshToken', res?.data?.token);
-                const { given_name, email } = JwtDecode(res?.data?.auth);
-                setAuthData({
-                    userName: given_name,
-                    email: email
-                });
-                toast.success('😉 Login Successfully !');
+                if (res?.data && res?.data?.auth && res?.data?.token) {
+                    Cookies.set('token', res?.data?.auth);
+                    Cookies.set('refreshToken', res?.data?.token);
+                    const { given_name, email } = JwtDecode(res?.data?.auth);
+                    setAuthData({
+                        userName: given_name,
+                        email: email
+                    });
+                    toast.success('😉 Login Successfully !');
+                }
                 close();
             })
             .catch((err) => toast.error(err?.message));

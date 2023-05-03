@@ -8,6 +8,8 @@ import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Grid, Stack, Typography, IconButton } from '@mui/material/index';
 import { Polyline } from '@react-google-maps/api';
+import { useAxios } from '~/components/useAxios';
+import { ApiConfig } from '~/components/ApiConfig';
 
 const center = {
     lat: 13.0827,
@@ -19,27 +21,50 @@ function MapComponent({ data, handlePopOver }) {
     const [location, setLocation] = useState(null);
     const [map, setMap] = React.useState(null);
     const [infoOptions, setInfoOptions] = useState({});
+    // const [markers, setMarkers] = useState([]);
+    const [mapData, setMapData] = useState([]);
+    const axios = useAxios();
     const containerStyle = {
         width: '100%',
         height: '92vh'
     };
 
     useEffect(() => {
-        // alert(JSON.stringify(navigator.userAgentData));
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 setLocation({
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 });
+                loadMapData([position.coords.latitude, position.coords.longitude]);
             },
             (error) => {
                 setLocation(center);
                 console.error(error);
+                loadMapData([center?.lat, center?.lng]);
                 alert('Location is not enabled and default location is chennai');
             }
         );
     }, []);
+
+    function loadMapData(coordinatesArr) {
+        axios
+            .get(ApiConfig.getInventoriesByCoordinates(coordinatesArr[0], coordinatesArr[1]))
+            .then((res) => {
+                let result = res?.data;
+                setMapData(result);
+                // let markersArr = [];
+                // result?.forEach((e) => {
+                //     let coordinates = e?.displayLocation?.coordinates;
+                //     if (coordinates.length == 2) {
+                //         markersArr = [...markersArr, { lat: coordinates[0], lng: coordinates[1] }];
+                //     }
+                // });
+                // setMarkers(markersArr);
+                // console.log(res);
+            })
+            .catch((err) => console.error(err));
+    }
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -57,21 +82,6 @@ function MapComponent({ data, handlePopOver }) {
         setMap(null);
     }, []);
 
-    const markers = [
-        {
-            lat: 13.0827,
-            lng: 80.2707
-        },
-        {
-            lat: 13.0418,
-            lng: 80.2341
-        },
-        {
-            lat: 13.0694,
-            lng: 80.1948
-        }
-    ];
-
     const markerOptions = {
         clickable: true,
         draggable: false,
@@ -82,7 +92,7 @@ function MapComponent({ data, handlePopOver }) {
                 height: 40
             }
         },
-        position: center,
+        // position: center,
         style: { pointerEvents: 'none' }
     };
 
@@ -120,11 +130,11 @@ function MapComponent({ data, handlePopOver }) {
 
     return isLoaded ? (
         <GoogleMap zoom={8} mapContainerStyle={containerStyle} options={mapOptions} center={location} onLoad={onLoad} onUnmount={onUnmount}>
-            {data.map((marker, index) => (
+            {mapData.map((marker, index) => (
                 <Marker
                     options={markerOptions}
                     key={index}
-                    position={{ lat: marker?.latitude, lng: marker?.longitude }}
+                    position={{ lat: marker?.displayLocation?.coordinates[0], lng: marker?.displayLocation?.coordinates[1] }}
                     onClick={(e) => setSelectedMarker(marker)}
                 />
             ))}
@@ -133,7 +143,10 @@ function MapComponent({ data, handlePopOver }) {
             {selectedMarker && (
                 <InfoWindow
                     options={infoOptions}
-                    position={{ lat: selectedMarker?.latitude, lng: selectedMarker?.longitude }}
+                    position={{
+                        lat: selectedMarker?.displayLocation?.coordinates[0],
+                        lng: selectedMarker?.displayLocation?.coordinates[1]
+                    }}
                     onCloseClick={() => {
                         setSelectedMarker(null);
                         handlePopOver(false);
@@ -156,7 +169,7 @@ function MapComponent({ data, handlePopOver }) {
                                 ></Avatar>
                                 <Stack>
                                     <Typography sx={{ color: '#013f56', width: '100%', display: 'flex', justifyContent: 'space-between' }}>
-                                        <b>{selectedMarker?.seller?.name}</b>
+                                        <b>{selectedMarker?.seller?.firstName + selectedMarker?.seller?.lastName}</b>
                                         <>
                                             <StarRateRoundedIcon sx={{ color: 'orange' }} style={{ fontSize: '20px' }} />
                                             <b style={{ fontSize: '12px' }}>{selectedMarker?.seller?.rating}</b>

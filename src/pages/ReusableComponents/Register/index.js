@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -50,12 +50,12 @@ function Register({ open, close, switchToLogin }) {
         phone: '',
         otp: '',
         address: '',
-        location: '',
         userType: 'seller'
     });
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [isTouched, setIsTouched] = useState(false);
     const { authData, setAuthData } = useContext(AuthContext);
+    const [location, setLocation] = useState(null);
     var userId = null;
 
     function getProducts() {
@@ -69,7 +69,24 @@ function Register({ open, close, switchToLogin }) {
             .catch((err) => toast.error('Error: ' + err.message));
     }
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                setLocation({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                });
+            },
+            (error) => {
+                setLocation({
+                    lat: 13.0827,
+                    lng: 80.2707
+                });
+                console.log(error);
+                alert('Location is not enabled and default location is chennai');
+            }
+        );
+    }, []);
 
     const handleClose = () => {
         close();
@@ -108,7 +125,7 @@ function Register({ open, close, switchToLogin }) {
         color: 'red'
     });
 
-    const handleForward = () => {
+    const handleForward = async () => {
         setIsTouched(true);
         if (step === 1) {
             if (formValues.name.trim() === '') {
@@ -141,10 +158,13 @@ function Register({ open, close, switchToLogin }) {
             if (formValues.otp.trim() === '' || formValues.otp.length !== 6) {
                 toast.error('Enter OTP');
             } else {
+                // setStep(step + 1);
+                // setIsTouched(false);
                 saveConsumer();
                 console.log(formValues);
             }
         } else if (step === 6) {
+            console.log(location);
             getProducts();
             if (formValues.address.trim() === '') toast.error('Address Is Required');
             else {
@@ -158,9 +178,7 @@ function Register({ open, close, switchToLogin }) {
                 getSelectedProducts();
             } else toast.error('Please selected atleast 1 product but should not exceed 9');
         } else if (step === 8) {
-            console.log(selectedProducts);
-            console.log(formValues);
-            saveAddress();
+            await saveAddress();
             saveProducts();
             toast.success('Registered Successfully !');
             handleClose();
@@ -196,7 +214,7 @@ function Register({ open, close, switchToLogin }) {
         axios
             .post(ApiConfig.getAccessToken, obj)
             .then((res) => {
-                if(res?.data?.auth && res?.data?.token){
+                if (res?.data?.auth && res?.data?.token) {
                     Cookies.set('token', res?.data?.auth);
                     Cookies.set('refreshToken', res?.data?.token);
                     const { given_name, email } = JwtDecode(res?.data?.auth);
@@ -207,36 +225,45 @@ function Register({ open, close, switchToLogin }) {
                     setStep(step + 1);
                 }
                 setIsTouched(false);
-              
             })
             .catch((err) => toast.error(err?.message));
     }
 
-    function saveAddress(){
+    async function saveAddress() {
         let addressData = {
             id: userId,
-            addresses : [
-               {
-                   "name": formValues.address,
-                   "latitude": formValues.location.lat,
-                   "longitude": formValues.location.lng,
-                   "geocode": null
-               }
+            addresses: [
+                {
+                    name: formValues.address,
+                    latitude: location.lat,
+                    longitude: location.lng,
+                    geocode: null
+                }
             ]
-        }
-       axios.put(ApiConfig.saveConsumerAddress,addressData).then((res)=>{
-            toast.success("Address Added");
-       }).catch(err => toast.error(err.message));
+        };
+        await axios
+            .put(ApiConfig.saveConsumerAddress, addressData)
+            .then((res) => {
+                toast.success('Address Added');
+            })
+            .catch((err) => toast.error(err.message));
     }
 
-    function saveProducts(){
+    async function saveProducts() {
+        let products = [];
+        selectedProducts.forEach((e) => {
+            products = [...products, ...e.products];
+        });
         let productsData = {
             id: userId,
-            products : formValues.selectedProducts
-        }
-        axios.put(ApiConfig.saveConsumerAddress,productsData).then((res)=>{
-            toast.success("Products Added");
-        }).catch(err => toast.error(err.message));
+            products: products
+        };
+        await axios
+            .put(ApiConfig.saveConsumerProducts, productsData)
+            .then((res) => {
+                toast.success('Products Added');
+            })
+            .catch((err) => toast.error(err.message));
     }
 
     function getSelectedProducts() {
@@ -525,11 +552,9 @@ function Register({ open, close, switchToLogin }) {
                                                     Select your shop location
                                                 </Typography>
                                                 <br></br>
-                                                <LocationPicker
-                                                    handleLocation={(e) => handleChange({ name: 'location', value: e })}
-                                                    height="35vh"
-                                                />
+                                                <LocationPicker location={location} setLocation={setLocation} height="35vh" />
                                                 <TextField
+                                                    sx={{ zIndex: 2 }}
                                                     id="address"
                                                     name="address"
                                                     label="Address"
