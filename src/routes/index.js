@@ -16,7 +16,7 @@ const ThemeRoutes = () => {
     const { setAuthData } = useContext(AuthContext);
     useEffect(() => {
         const token = Cookies.get('token');
-        if (token) {
+        if (token && token != undefined && token != 'undefined') {
             const { given_name, email } = JwtDecode(token);
             setAuthData({
                 userName: given_name,

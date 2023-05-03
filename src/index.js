@@ -17,20 +17,18 @@ const jwt_decode = require('jwt-decode');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        {/* <ReactKeycloakProvider authClient={keycloak}> */}
-        <AuthProvider>
-            <AxiosProvider>
-                <BrowserRouter>
-                    <ThemeProvider>
-                        <App />
-                        <ToastContainer position="top-center" autoClose={2000} />
-                    </ThemeProvider>
-                </BrowserRouter>
-            </AxiosProvider>
-        </AuthProvider>
-        {/* </ReactKeycloakProvider> */}
-    </React.StrictMode>
+    <AuthProvider>
+        <AxiosProvider>
+            <BrowserRouter>
+                <ThemeProvider>
+                    <App />
+                    <ToastContainer position="top-center" autoClose={2000} />
+                </ThemeProvider>
+            </BrowserRouter>
+        </AxiosProvider>
+    </AuthProvider>
+    //    <ReactKeycloakProvider authClient={keycloak}>
+    //     </ReactKeycloakProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

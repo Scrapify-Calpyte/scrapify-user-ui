@@ -16,5 +16,7 @@ export const ApiConfig = {
     //stock
     saveInventory: 'order/scrap',
     getInventoriesBySellerId: 'order/scrap/seller/{id}',
-    getInventoriesByCoordinates: 'order/scrap/location/lat/{lat}/lon/{lon}'
+    getInventoriesByCoordinates: (lat, lng) => {
+        return 'order/scrap/location/lat/' + lat + '/lon/' + lng;
+    }
 };

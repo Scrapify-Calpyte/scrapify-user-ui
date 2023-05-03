@@ -9,7 +9,6 @@ import Cookies from 'js-cookie';
 import { ApiConfig } from './ApiConfig';
 import { toast } from 'react-toastify';
 
-
 const AxiosContext = createContext(null);
 
 const AxiosProvider = ({ children }) => {
@@ -30,7 +29,7 @@ const AxiosProvider = ({ children }) => {
             //     config.headers.Authorization = `Bearer ${keycloak.token}`;
             // }
             let token = Cookies.get('token');
-            if (token) {
+            if (token && token != 'undefined') {
                 config.headers.Authorization = `Bearer ${token}`;
             }
             return config;
@@ -55,13 +54,13 @@ const AxiosProvider = ({ children }) => {
                     .post(environment.baseURL + ApiConfig.getRefreshToken, { token: refreshToken })
                     .then((response) => {
                         const { token, refreshToken } = response.data;
-                        if(response?.data && token && refreshToken){
+                        if (response?.data && token && refreshToken) {
                             Cookies.set('token', token);
                             Cookies.set('refreshToken', refreshToken);
                             originalRequest.headers.Authorization = `Bearer ${token}`;
                             return instance(originalRequest);
-                        }else {
-                            toast.error("Un Authorized");
+                        } else {
+                            toast.error('Un Authorized');
                         }
                     })
                     .catch((error) => {
