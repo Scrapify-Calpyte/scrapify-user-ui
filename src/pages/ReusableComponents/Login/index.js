@@ -23,6 +23,7 @@ import { AuthContext } from '~/context/AuthProvider/index';
 import Cookies from 'js-cookie';
 import JwtDecode from '~/util/JwtDecode';
 import { ApiConfig } from '~/components/ApiConfig';
+import { MyToggleButtonGroup, ThemeButton, ThemeButton2 } from '~/util/MyComponents';
 
 export default function Login({ open, close, switchToRegister }) {
     const { colors, fonts } = useContext(ThemeContext);
@@ -49,57 +50,6 @@ export default function Login({ open, close, switchToRegister }) {
         setToggle(value);
         setStep(0);
     }
-
-    const MyToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        border: '1px solid ' + colors.primary,
-        padding: '1px',
-        borderRadius: '30px',
-        overflow: 'hidden',
-        width: '60%',
-        height: 'fit-content',
-        '.MuiToggleButton-root': {
-            color: '#333',
-            border: 'none',
-            backgroundColor: 'transparent',
-            borderRadius: '30px !important',
-            padding: '6px 10px',
-            width: '100%',
-            '&.Mui-selected': {
-                backgroundColor: colors.primary,
-                transition: 'background-color 500ms',
-                color: '#fff'
-            },
-            '&.Mui-selected:hover': {
-                backgroundColor: '#013f56'
-            }
-        }
-    }));
-
-    const ThemeButton = styled(Button)({
-        backgroundColor: colors.primary,
-        color: 'white',
-        borderRadius: '30px',
-        width: '250px',
-        '&:hover': {
-            backgroundColor: colors.primary // new background color on hover
-        }
-    });
-
-    const ThemeButton2 = styled(Button)({
-        backgroundColor: 'white',
-        color: colors.primary,
-        borderRadius: '30px',
-        border: 'solid 1px' + colors.primary,
-        width: '250px',
-        '&:hover': {
-            backgroundColor: 'white' // new background color on hover
-        }
-    });
 
     function handleOTP() {
         if (step === 0) {
@@ -215,10 +165,10 @@ export default function Login({ open, close, switchToRegister }) {
                                     <br></br>
                                     <br></br>
                                     <Stack spacing={1}>
-                                        <ThemeButton type="submit" varient="contained" onClick={handleOTP}>
+                                        <ThemeButton sx={{ width: '100%' }} type="submit" varient="contained" onClick={handleOTP}>
                                             GET OTP
                                         </ThemeButton>
-                                        <ThemeButton2 varient="contained">
+                                        <ThemeButton2 sx={{ width: '100%' }} varient="contained">
                                             Login With&nbsp;
                                             <GoogleIcon sx={{ height: '0.7rem' }} />
                                         </ThemeButton2>
@@ -272,10 +222,15 @@ export default function Login({ open, close, switchToRegister }) {
                                     <br></br>
                                     <br></br>
                                     <Stack spacing={1}>
-                                        <ThemeButton2 type="submit" varient="contained" onClick={() => toast.success('OTP is resended !')}>
+                                        <ThemeButton2
+                                            type="submit"
+                                            sx={{ width: '100%' }}
+                                            varient="contained"
+                                            onClick={() => toast.success('OTP is resended !')}
+                                        >
                                             Resend Code
                                         </ThemeButton2>
-                                        <ThemeButton onClick={handleOTP} varient="contained">
+                                        <ThemeButton sx={{ width: '100%' }} onClick={handleOTP} varient="contained">
                                             Verify
                                         </ThemeButton>
                                         <Stack sx={{ alignItems: 'center' }}>

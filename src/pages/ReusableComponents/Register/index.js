@@ -34,6 +34,7 @@ import ProductSelection from './ProductSelection';
 import Cookies from 'js-cookie';
 import JwtDecode from '~/util/JwtDecode';
 import { ApiConfig } from '~/components/ApiConfig';
+import { ThemeButton, ThemeButton2 } from '~/util/MyComponents';
 
 // import keycloak from '~/keycloak';
 
@@ -96,30 +97,6 @@ function Register({ open, close, switchToLogin }) {
         const { name, value } = event;
         setFormValues((prevState) => ({ ...prevState, [name]: value }));
     };
-
-    const ThemeButton = styled(Button)({
-        backgroundColor: colors.primary,
-        color: 'white',
-        borderRadius: '30px',
-        width: '100%',
-        height: 'fit-content',
-        border: 'solid 1px' + colors.primary,
-        '&:hover': {
-            backgroundColor: colors.primary // new background color on hover
-        }
-    });
-
-    const ThemeButton2 = styled(Button)({
-        backgroundColor: 'white',
-        color: colors.primary,
-        borderRadius: '30px',
-        border: 'solid 1px' + colors.primary,
-        width: '100%',
-        height: 'fit-content',
-        '&:hover': {
-            backgroundColor: 'white' // new background color on hover
-        }
-    });
 
     const HelperText = styled(FormHelperText)({
         color: 'red'
@@ -592,13 +569,13 @@ function Register({ open, close, switchToLogin }) {
                         }
                         {step !== 0 && (
                             <Grid item xs={6} sx={{ marginTop: '20px' }}>
-                                <ThemeButton2 varient="contained" onClick={handleBackward}>
+                                <ThemeButton2 varient="contained" onClick={handleBackward} sx={{ width: '100%' }}>
                                     Back
                                 </ThemeButton2>
                             </Grid>
                         )}
                         <Grid item xs={step === 0 ? 12 : 6} sx={{ marginTop: '20px' }}>
-                            <ThemeButton varient="contained" onClick={handleForward}>
+                            <ThemeButton varient="contained" onClick={handleForward} sx={{ width: '100%' }}>
                                 {step === 4 ? 'Get OTP' : step === 8 ? 'Done' : 'Next'}
                             </ThemeButton>
                         </Grid>

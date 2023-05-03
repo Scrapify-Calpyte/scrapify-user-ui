@@ -18,5 +18,7 @@ export const ApiConfig = {
     getInventoriesBySellerId: 'order/scrap/seller/{id}',
     getInventoriesByCoordinates: (lat, lng) => {
         return 'order/scrap/location/lat/' + lat + '/lon/' + lng;
-    }
+    },
+    //findMe
+    findMe: 'user/consumer/me'
 };

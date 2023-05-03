@@ -12,6 +12,8 @@ import Divider from '@mui/material/Divider';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const CustomBackdrop = styled('div')({
     position: 'fixed',
@@ -23,8 +25,14 @@ const CustomBackdrop = styled('div')({
     backgroundColor: 'rgba(0, 0, 0, 0.5)'
 });
 
-export default function Popup({ data, open, setOpen }) {
+export default function Popup({ consumerData, open, setOpen }) {
     const matches = useMediaQuery('(max-width:768px)');
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        setData(consumerData);
+    }, [consumerData]);
+
     return (
         <Popover
             anchorReference="anchorPosition"
@@ -32,8 +40,6 @@ export default function Popup({ data, open, setOpen }) {
             id="account-menu"
             open={open}
             onClose={() => setOpen(false)}
-            // BackdropComponent={CustomBackdrop}
-            // onClick={() => setOpen(false)}
             PaperProps={{
                 elevation: 0,
                 style: {
@@ -50,7 +56,6 @@ export default function Popup({ data, open, setOpen }) {
             transformOrigin={{ vertical: 'top', horizontal: 'left' }}
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
-            {/* <ClickAwayListener onClickAway={() => setOpen(false)}> */}
             <div
                 style={{
                     overflow: 'auto',
@@ -78,7 +83,9 @@ export default function Popup({ data, open, setOpen }) {
                     </ListItemIcon>
                     <div className="container" style={{ padding: '5px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <div style={{ color: '#013f56', fontWeight: 'bold' }}>Dinesh</div>
+                            <div style={{ color: '#013f56', fontWeight: 'bold' }}>
+                                {data?.seller?.firstName + ' ' + data?.seller?.lastName}
+                            </div>
                             <div style={{ color: 'grey', fontWeight: 'bold' }}>
                                 <Tooltip title="close" arrow>
                                     <CloseIcon style={{ fontSize: '20px', color: '#013f56' }} onClick={() => setOpen(false)} />
@@ -115,27 +122,53 @@ export default function Popup({ data, open, setOpen }) {
                     }}
                 >
                     <Stack>
-                        <Typography variant="p" fontWeight="bold" color="#013f56" component="div">
+                        {/* <Typography variant="p" fontWeight="bold" color="#013f56" component="div">
                             Scrap To Bid
-                        </Typography>
-                        {[...data].map((product, index) => {
-                            return (
-                                <Typography key={index} variant="p" color="#013f56" component="div">
-                                    {product?.name + ': 10kg'}
-                                </Typography>
-                            );
-                        })}
-                        <br></br>
-                        <button onClick={() => alert('navigate to Bid')} className="btn1">
-                            Bid Now
-                        </button>
+                        </Typography> */}
+                        <table className="table">
+                            <thead>
+                                <tr style={{ color: '#013f56' }}>
+                                    <th>ScrapType</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data?.stock.map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                                    <Avatar size="small" variant="square" alt="P"></Avatar>
+                                                    <Typography component="div" variant="p">
+                                                        {item?.name}
+                                                    </Typography>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <Typography component="div" variant="p">
+                                                    {item?.quantity + item?.unit?.name}
+                                                </Typography>
+                                            </td>
+                                            <td>
+                                                <Typography component="div" variant="p">
+                                                    {item?.price}
+                                                </Typography>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    );
+                                })}
+                                <tr></tr>
+                            </tbody>
+                        </table>
                         <br></br>
                         <Divider />
                         <Typography variant="p" fontWeight="bold" color="#013f56" component="div">
                             Images
                         </Typography>
                         <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', gap: 2 }}>
-                            {data.map((p, index) => {
+                            {data?.stock.map((p, index) => {
                                 return (
                                     <Avatar
                                         key={index}
@@ -147,10 +180,21 @@ export default function Popup({ data, open, setOpen }) {
                                 );
                             })}
                         </div>
+                        <br></br>
+                        <Typography variant="p" fontWeight="bold" color="#013f56" component="div">
+                            Seller Location
+                        </Typography>
+                        <Typography variant="p" color="#013f56" component="div">
+                            {data?.displayLocation?.address}
+                        </Typography>
+                        <br></br>
+                        <button onClick={() => alert('navigate to Bid')} className="btn1">
+                            Bid Now
+                        </button>
+                        <br></br>
                     </Stack>
                 </Box>
             </div>
-            {/* </ClickAwayListener> */}
         </Popover>
     );
 }
