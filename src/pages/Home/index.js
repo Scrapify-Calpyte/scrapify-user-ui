@@ -28,6 +28,7 @@ import { useParams } from 'react-router-dom';
 import { AuthContext } from '~/context/AuthProvider/index';
 import { useAxios } from '~/components/useAxios';
 import { ApiConfig } from '~/components/ApiConfig';
+import { toast } from 'react-toastify';
 
 function Home() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -39,137 +40,38 @@ function Home() {
     const { authData, setAuthData } = useContext(AuthContext);
     const [categories, setCategories] = useState([]);
     const axios = useAxios();
+    const [location, setLocation] = useState(null);
+    const [consumersData, setConsumersData] = useState([]);
 
-    const sampleData = {
-        availableProducts: [
-            {
-                id: 'asd',
-                name: 'Bottles',
-                icon: ''
-            },
-            {
-                id: 'asd',
-                name: 'Glasses',
-                icon: ''
-            }
-        ],
-        allProducts: [
-            {
-                id: 'asd',
-                name: 'Plastics',
-                icon: ''
-            },
-            {
-                id: 'asd',
-                name: 'E-waste',
-                icon: ''
-            },
-            {
-                id: 'asd',
-                name: 'Plastic',
-                icon: ''
-            },
-            {
-                id: 'asd',
-                name: 'E-waste',
-                icon: ''
-            },
-            {
-                id: 'asd',
-                name: 'Plastic',
-                icon: ''
-            },
-            {
-                id: 'asd',
-                name: 'E-waste',
-                icon: ''
-            }
-        ],
-        inventories: [
-            {
-                id: '001',
-                latitude: 13.0403,
-                longitude: 80.1723,
-                seller: {
-                    id: '001',
-                    name: 'Dinesh',
-                    rating: 5,
-                    distance: '5 KM',
-                    image: '',
-                    products: [
-                        {
-                            id: '001',
-                            name: 'Bottles',
-                            weight: '',
-                            price: ''
-                        }
-                    ]
-                }
-            },
-            {
-                id: '002',
-                latitude: 13.0827,
-                longitude: 80.2707,
-                seller: {
-                    id: '001',
-                    name: 'Kumar',
-                    rating: 2,
-                    distance: '3 KM',
-                    image: '',
-                    products: [
-                        {
-                            id: '002',
-                            name: 'Glasses',
-                            weight: '',
-                            price: ''
-                        },
-                        {
-                            id: '002',
-                            name: 'Bottles',
-                            weight: '',
-                            price: ''
-                        }
-                    ]
-                }
-            }
-        ]
-    };
-
-    const products = [
-        {
-            id: 0,
-            name: 'Bottles'
-        },
-        {
-            id: 1,
-            name: 'Cartons'
-        },
-        {
-            id: 2,
-            name: 'Metals'
-        },
-        {
-            id: 3,
-            name: 'Magazines'
-        },
-        {
-            id: 4,
-            name: 'e-waste'
-        },
-        {
-            id: 5,
-            name: 'Glasses'
-        },
-        {
-            id: 6,
-            name: 'Books'
-        }
-    ];
+    function loadMapData(coordinatesArr) {
+        axios
+            .get(ApiConfig.getInventoriesByCoordinates(coordinatesArr[0], coordinatesArr[1]))
+            .then((res) => {
+                let result = res?.data;
+                setConsumersData(result);
+            })
+            .catch((err) => console.error(err));
+    }
 
     useEffect(() => {
-        if (authData) {
-            getProducts();
-        }
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                setLocation({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                });
+                loadMapData([position.coords.latitude, position.coords.longitude]);
+            },
+            (error) => {
+                toast.error(error.message);
+                setLocation({
+                    lat: 13.0827,
+                    lng: 80.2707
+                });
+                loadMapData([13.0827, 80.2707]);
+            }
+        );
+        getProducts();
         if (matches) setSideNav(false);
     }, [matches, type, authData]);
 
@@ -272,7 +174,7 @@ function Home() {
                     </Stack>
                     <Box sx={{ flexGrow: 0 }}>
                         <List>
-                            {sampleData?.inventories.map((data, index) => {
+                            {consumersData.map((data, index) => {
                                 return (
                                     <div key={index}>
                                         <ListItemButton
@@ -306,14 +208,15 @@ function Home() {
                                                 }}
                                             >
                                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                    <div style={{ color: '#013f56', fontWeight: 'bold' }}>{data?.seller?.name}</div>
+                                                    <div style={{ color: '#013f56', fontWeight: 'bold' }}>
+                                                        {data?.seller?.firstName + data?.seller?.lastName}
+                                                    </div>
                                                     <div style={{ color: 'grey', fontWeight: 'bold' }}>
-                                                        <LocationOnIcon style={{ fontSize: '15px' }} />
-                                                        {data?.seller?.distance}
+                                                        <LocationOnIcon style={{ fontSize: '15px' }} />{' '}
                                                     </div>
                                                 </div>
                                                 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                                                    {data?.seller?.products.slice(0, 3).map((product, index) => {
+                                                    {data?.stock?.slice(0, 3).map((product, index) => {
                                                         return (
                                                             <Tooltip key={index} title={product?.name} arrow>
                                                                 <div style={{ marginRight: '2px' }} className="chip">
@@ -322,9 +225,9 @@ function Home() {
                                                             </Tooltip>
                                                         );
                                                     })}
-                                                    {data?.seller?.products.length > 3 ? (
-                                                        <Tooltip title={products.length - 3 + 'more'} arrow>
-                                                            <div className="chip">{'+ ' + (products.length - 3) + 'more'}</div>
+                                                    {data?.stock.length > 3 ? (
+                                                        <Tooltip title={data?.stock.length - 3 + 'more'} arrow>
+                                                            <div className="chip">{'+ ' + (data?.stock.length - 3) + 'more'}</div>
                                                         </Tooltip>
                                                     ) : (
                                                         <></>
@@ -349,7 +252,6 @@ function Home() {
                                                         <StarRateRoundedIcon sx={{ color: 'orange' }} style={{ fontSize: '20px' }} />
                                                         &nbsp; {data?.seller?.rating}
                                                     </div>
-                                                    {/* <div style={{ color: 'grey' }}>20K Reviews</div> */}
                                                     <div style={{ color: '#1bd7a0' }}>View Details</div>
                                                 </div>
                                             </div>
@@ -360,7 +262,6 @@ function Home() {
                             })}
                         </List>
                     </Box>
-                    {/* </AnimateOnChange> */}
                 </Box>
                 <Box
                     sx={{
@@ -371,10 +272,10 @@ function Home() {
                         animation: animations.popIn
                     }}
                 >
-                    <MapComponent data={sampleData?.inventories} handlePopOver={handlePopOver} />
+                    <MapComponent location={location} consumersData={consumersData} handlePopOver={handlePopOver} />
                 </Box>
             </Stack>
-            <Popup open={open} setOpen={setOpen} data={products} />
+            <Popup open={open} setOpen={setOpen} consumerData={consumersData[selectedIndex]} />
         </>
     );
 }

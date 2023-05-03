@@ -8,7 +8,6 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { useEffect } from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Stack from '@mui/material/Stack';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
@@ -34,6 +33,7 @@ const drawerWidth = 300;
 import Profile from './Profile';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import Cookies from 'js-cookie';
+import { MyToggleButtonGroup } from '~/util/MyComponents';
 
 export default function MenuProvider() {
     const [open, setOpen] = useState(false);
@@ -55,32 +55,6 @@ export default function MenuProvider() {
         justifyContent: 'center',
         width: `100%`,
         height: '8vh'
-    }));
-
-    const MyToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: colors.theme,
-        border: '1px solid #ccc',
-        borderRadius: '30px',
-        overflow: 'hidden',
-        '.MuiToggleButton-root': {
-            color: '#333',
-            border: 'none',
-            backgroundColor: 'transparent',
-            borderRadius: '30px !important',
-            padding: '8px 15px',
-            '&.Mui-selected': {
-                backgroundColor: colors.primary,
-                transition: 'background-color 500ms',
-                color: '#fff'
-            },
-            '&.Mui-selected:hover': {
-                backgroundColor: '#013f56'
-            }
-        }
     }));
 
     const handleListItemClick = (event, index) => {

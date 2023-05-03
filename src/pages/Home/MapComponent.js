@@ -8,63 +8,22 @@ import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Grid, Stack, Typography, IconButton } from '@mui/material/index';
 import { Polyline } from '@react-google-maps/api';
-import { useAxios } from '~/components/useAxios';
-import { ApiConfig } from '~/components/ApiConfig';
 
 const center = {
     lat: 13.0827,
     lng: 80.2707
 };
 
-function MapComponent({ data, handlePopOver }) {
+function MapComponent({ location, consumersData, handlePopOver }) {
     const [selectedMarker, setSelectedMarker] = useState(null);
-    const [location, setLocation] = useState(null);
     const [map, setMap] = React.useState(null);
     const [infoOptions, setInfoOptions] = useState({});
-    // const [markers, setMarkers] = useState([]);
-    const [mapData, setMapData] = useState([]);
-    const axios = useAxios();
     const containerStyle = {
         width: '100%',
         height: '92vh'
     };
 
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                setLocation({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                });
-                loadMapData([position.coords.latitude, position.coords.longitude]);
-            },
-            (error) => {
-                setLocation(center);
-                console.error(error);
-                loadMapData([center?.lat, center?.lng]);
-                alert('Location is not enabled and default location is chennai');
-            }
-        );
-    }, []);
-
-    function loadMapData(coordinatesArr) {
-        axios
-            .get(ApiConfig.getInventoriesByCoordinates(coordinatesArr[0], coordinatesArr[1]))
-            .then((res) => {
-                let result = res?.data;
-                setMapData(result);
-                // let markersArr = [];
-                // result?.forEach((e) => {
-                //     let coordinates = e?.displayLocation?.coordinates;
-                //     if (coordinates.length == 2) {
-                //         markersArr = [...markersArr, { lat: coordinates[0], lng: coordinates[1] }];
-                //     }
-                // });
-                // setMarkers(markersArr);
-                // console.log(res);
-            })
-            .catch((err) => console.error(err));
-    }
+    useEffect(() => {}, []);
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -130,7 +89,7 @@ function MapComponent({ data, handlePopOver }) {
 
     return isLoaded ? (
         <GoogleMap zoom={8} mapContainerStyle={containerStyle} options={mapOptions} center={location} onLoad={onLoad} onUnmount={onUnmount}>
-            {mapData.map((marker, index) => (
+            {consumersData.map((marker, index) => (
                 <Marker
                     options={markerOptions}
                     key={index}
@@ -153,13 +112,7 @@ function MapComponent({ data, handlePopOver }) {
                     }}
                 >
                     <Grid container spacing={0}>
-                        <Grid
-                            item
-                            md={12}
-                            xs={12}
-                            sm={12}
-                            sx={{ paddingBottom: '5px', boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px' }}
-                        >
+                        {/* <Grid item md={12} xs={12} sm={12} sx={{ paddingBottom: '5px' }}>
                             <Stack flexDirection="row" gap={2} justifyContent="flex-start">
                                 <Avatar
                                     src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
@@ -181,32 +134,68 @@ function MapComponent({ data, handlePopOver }) {
                                     </Typography>
                                 </Stack>
                             </Stack>
-                        </Grid>
-                        {selectedMarker?.seller?.products.map((product, index) => {
-                            return (
-                                <Grid key={index} item md={3} xs={6} sm={6} sx={{ boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px' }}>
-                                    <Stack sx={{ justifyContent: 'center', textAlign: 'center' }}>
-                                        <Tooltip title={product?.name}>
-                                            <Typography noWrap>{product?.name}</Typography>
-                                        </Tooltip>
-                                        {/* <IconButton size="small"> */}
-                                        <button
-                                            style={{ display: 'flex', backgroundColor: 'white', border: 'none', justifyContent: 'center' }}
-                                        >
-                                            <Avatar
-                                                src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
-                                                variant="square"
-                                                alt="P"
-                                            ></Avatar>
-                                        </button>
+                        </Grid> */}
+                        {/* <Stack flexDirection="row" gap={2}>
+                            <Avatar
+                                src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
+                                variant="square"
+                                alt="P"
+                                sx={{ height: 50, width: 50 }}
+                            ></Avatar>
+                            <Typography sx={{ color: '#013f56' }}>
+                                <b>{selectedMarker?.seller?.firstName + selectedMarker?.seller?.lastName}</b>
+                            </Typography>
+                        </Stack> */}
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                            <Avatar
+                                src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
+                                variant="square"
+                                alt="P"
+                                sx={{ height: 50, width: 50 }}
+                            ></Avatar>
+                            <Typography sx={{ color: '#013f56' }}>
+                                <b>{selectedMarker?.seller?.firstName + selectedMarker?.seller?.lastName}</b>
+                            </Typography>
+                        </div>
+                        <table className="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>ScrapType</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {selectedMarker.stock.map((item, index) => {
+                                    return (
+                                        <tr key={index} style={{ alignItems: 'center' }}>
+                                            <td>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                                    <Avatar size="small" variant="square" alt="P"></Avatar>
+                                                    <Typography component="div" variant="p">
+                                                        {item?.name}
+                                                    </Typography>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <Typography component="div" variant="p">
+                                                    {item?.quantity + item?.unit?.name}
+                                                </Typography>
+                                            </td>
+                                            <td align="center">
+                                                <Typography component="div" variant="p">
+                                                    {item?.price}
+                                                </Typography>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    );
+                                })}
+                                <tr></tr>
+                            </tbody>
+                        </table>
 
-                                        {/* </IconButton> */}
-                                        <Typography>10Kg</Typography>
-                                    </Stack>
-                                </Grid>
-                            );
-                        })}
-                        <Grid item md={12} xs={12} sm={12} sx={{ paddingTop: '5px' }}>
+                        {/* <Grid item md={12} xs={12} sm={12} sx={{ paddingTop: '5px' }}>
                             <Stack flexDirection="row" sx={{ justifyContent: 'space-between', width: '100%' }} gap={2}>
                                 <button className="btn1" style={{ width: '50%' }}>
                                     Bid Now
@@ -219,7 +208,7 @@ function MapComponent({ data, handlePopOver }) {
                                     View Details
                                 </button>
                             </Stack>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </InfoWindow>
             )}

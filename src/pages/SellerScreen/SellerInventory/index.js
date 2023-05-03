@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { styled } from '@mui/material/styles';
+import { ThemeButton, ThemeButton2 } from '~/util/MyComponents';
 
 function SellerInventory() {
     const { colors, fonts } = useContext(ThemeContext);
@@ -59,34 +60,6 @@ function SellerInventory() {
     function handleSubmit() {
         console.log(formData);
     }
-
-    const ThemeButton = styled(Button)({
-        backgroundColor: colors.primary,
-        textTransform: 'none',
-        color: 'white',
-        borderRadius: '30px',
-        padding: '5px 10px',
-        width: 'fit-content',
-        height: 'fit-content',
-        border: 'solid 1px' + colors.primary,
-        '&:hover': {
-            backgroundColor: colors.primary // new background color on hover
-        }
-    });
-
-    const ThemeButton2 = styled(Button)({
-        backgroundColor: 'white',
-        textTransform: 'none',
-        color: colors.primary,
-        borderRadius: '30px',
-        padding: '5px 10px',
-        border: 'solid 1px' + colors.primary,
-        width: 'fit-content',
-        height: 'fit-content',
-        '&:hover': {
-            backgroundColor: 'white' // new background color on hover
-        }
-    });
 
     return (
         <Box
