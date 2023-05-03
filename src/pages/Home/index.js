@@ -38,8 +38,11 @@ function Home() {
     const [viewAll, setViewAll] = useState(false);
     const { type } = useParams();
     const { authData, setAuthData } = useContext(AuthContext);
+    //for product list component
     const [categories, setCategories] = useState([]);
+    //server calls
     const axios = useAxios();
+    //for location component
     const [location, setLocation] = useState(null);
     const [consumersData, setConsumersData] = useState([]);
 
