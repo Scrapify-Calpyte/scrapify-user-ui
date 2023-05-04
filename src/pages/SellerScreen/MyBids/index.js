@@ -57,7 +57,8 @@ function MyBids() {
                         top: 0,
                         zIndex: 1,
                         padding: !matches && '0  15%',
-                        boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.2)'
+                        boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.2)',
+                        animation: animations.fadeIn
                     }}
                 >
                     <Header />
