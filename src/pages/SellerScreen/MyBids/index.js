@@ -35,6 +35,10 @@ function MyBids() {
         }
     ];
 
+    function tabChange(tab) {
+        console.log(tab);
+    }
+
     return (
         <>
             <Box
@@ -61,7 +65,7 @@ function MyBids() {
                         animation: animations.fadeIn
                     }}
                 >
-                    <Header />
+                    <Header tabChange={tabChange} />
                 </Box>
                 <br></br>
                 <Box sx={{ justifyContent: 'center', width: '100%', display: 'flex', padding: '2%' }}>
