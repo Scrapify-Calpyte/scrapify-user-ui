@@ -1,18 +1,19 @@
 import Box from '@mui/material/Box';
 import { Avatar, Badge, Stack, Typography } from '@mui/material/index';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { ThemeContext } from '~/util/ThemeProvider';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
-export default function Header() {
+export default function Header({ tabChange }) {
     const { colors, fonts } = useContext(ThemeContext);
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
 
     function handleChange(e, newValue) {
         setValue(newValue);
         console.log(newValue);
+        tabChange(newValue);
     }
 
     let tabs = [
@@ -38,20 +39,18 @@ export default function Header() {
         <>
             <Box
                 sx={{
-                    backgroundColor: '#FFFFFF',
-                    boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.2)',
                     padding: '10px 10px 0 10px',
-                    width: '100%'
+                    width: '100%',
+                    textAlign: 'start'
                 }}
             >
-                <Typography color={colors.primary} component="div" variant="h6" fontWeight="bold">
+                <Typography color={colors.primary} component="div" variant="subtitle1" fontWeight="bold">
                     My Bids
                 </Typography>
                 <Tabs
-                    sx={{ width: '100%' }}
+                    sx={{ maxWidth: '85vw' }}
                     variant="scrollable"
                     scrollButtons="auto"
-                    aria-label="scrollable auto tabs example"
                     value={value}
                     onChange={handleChange}
                     textColor={colors.primary}
