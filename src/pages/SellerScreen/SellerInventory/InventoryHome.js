@@ -28,6 +28,7 @@ export default function InventoryHome({ handleDialog }) {
                         fontWeight: 'bold',
                         textTransform: 'none',
                         borderRadius: '31px',
+                        paddingRight: '1%',
                         '&:hover': {
                             backgroundColor: colors.primary,
                             color: 'white'
