@@ -12,7 +12,6 @@ export default function Header({ tabChange }) {
 
     function handleChange(e, newValue) {
         setValue(newValue);
-        console.log(newValue);
         tabChange(newValue);
     }
 
