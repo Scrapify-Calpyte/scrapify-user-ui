@@ -21,6 +21,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import ProductSelection from '~/pages/ReusableComponents/Register/ProductSelection';
 import SelectedProducts from '~/pages/ReusableComponents/Register/SelectedProducts';
+import bg from '~/assets/images/bg.png';
 
 function SellerInventory() {
     const { colors, fonts } = useContext(ThemeContext);
@@ -148,17 +149,17 @@ function SellerInventory() {
     return (
         <>
             <Box
+                style={{ backgroundImage: 'url(' + bg + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', objectFit: 'cover' }}
                 sx={{
                     width: '100%',
-                    height: 'auto',
+                    height: '92vh',
                     display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: colors.theme,
-                    animation: animations.popIn
+                    justifyContent: 'center'
+                    // alignItems: 'center',
+                    // backgroundColor: colors.theme,
                 }}
             >
-                <Box sx={{ width: matches ? '100%' : '75%', padding: '2%' }}>
+                <Box sx={{ width: matches ? '100%' : '75%', padding: '2%', animation: animations.popIn }}>
                     <Grid container spacing={1}>
                         <Grid item lg={6} md={6} sm={12} xs={12}>
                             <Typography fontWeight="bold" fontSize="large" color={colors.primary}>

@@ -8,11 +8,7 @@ import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Grid, Stack, Typography, IconButton } from '@mui/material/index';
 import { Polyline } from '@react-google-maps/api';
-
-const center = {
-    lat: 13.0827,
-    lng: 80.2707
-};
+import PropTypes from 'prop-types';
 
 function MapComponent({ location, consumersData }) {
     const [selectedMarker, setSelectedMarker] = useState(null);
@@ -46,7 +42,7 @@ function MapComponent({ location, consumersData }) {
         clickable: true,
         draggable: false,
         icon: {
-            url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+            url: 'https://www.shareicon.net/data/512x512/2016/07/24/800943_location_512x512.png',
             scaledSize: {
                 width: 40,
                 height: 40
@@ -100,7 +96,7 @@ function MapComponent({ location, consumersData }) {
                     />
                 ))}
             {location ? <Marker position={location} /> : <></>}
-            <Polyline onLoad={onLoad} path={path} options={options} />
+            {/* <Polyline onLoad={onLoad} path={path} options={options} /> */}
             {selectedMarker && (
                 <InfoWindow
                     options={infoOptions}
@@ -219,5 +215,10 @@ function MapComponent({ location, consumersData }) {
         <></>
     );
 }
+
+MapComponent.propTypes = {
+    location: PropTypes.any,
+    consumersData: PropTypes.any
+};
 
 export default React.memo(MapComponent);
