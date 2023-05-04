@@ -53,7 +53,6 @@ export default function Header({ tabChange }) {
                     scrollButtons="auto"
                     value={value}
                     onChange={handleChange}
-                    textColor={colors.primary}
                     TabIndicatorProps={{
                         style: {
                             backgroundColor: colors.secondary
