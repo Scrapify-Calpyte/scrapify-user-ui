@@ -90,14 +90,15 @@ function MapComponent({ location, consumersData }) {
 
     return isLoaded ? (
         <GoogleMap zoom={8} mapContainerStyle={containerStyle} options={mapOptions} center={location} onLoad={onLoad} onUnmount={onUnmount}>
-            {consumersData.map((marker, index) => (
-                <Marker
-                    options={markerOptions}
-                    key={index}
-                    position={{ lat: marker?.displayLocation?.coordinates[0], lng: marker?.displayLocation?.coordinates[1] }}
-                    onClick={(e) => setSelectedMarker(marker)}
-                />
-            ))}
+            {consumersData?.length > 0 &&
+                consumersData.map((marker, index) => (
+                    <Marker
+                        options={markerOptions}
+                        key={index}
+                        position={{ lat: marker?.displayLocation?.coordinates[0], lng: marker?.displayLocation?.coordinates[1] }}
+                        onClick={(e) => setSelectedMarker(marker)}
+                    />
+                ))}
             {location ? <Marker position={location} /> : <></>}
             <Polyline onLoad={onLoad} path={path} options={options} />
             {selectedMarker && (
