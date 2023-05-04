@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-
+import PropTypes from 'prop-types';
 export default function ProductList({ products, setProduct }) {
     const [selectedProduct, setSelectedProduct] = useState([]);
 
@@ -86,3 +86,8 @@ export default function ProductList({ products, setProduct }) {
         </div>
     );
 }
+
+ProductList.propTypes = {
+    products: PropTypes.array,
+    setProduct: PropTypes.func
+};

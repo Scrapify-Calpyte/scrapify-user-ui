@@ -14,6 +14,7 @@ import { styled } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const CustomBackdrop = styled('div')({
     position: 'fixed',
@@ -200,3 +201,9 @@ export default function Popup({ consumerData, open, setOpen }) {
         </Popover>
     );
 }
+
+Popup.propTypes = {
+    consumerData: PropTypes.any,
+    open: PropTypes.bool,
+    setOpen: PropTypes.func
+};

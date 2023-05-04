@@ -85,6 +85,7 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                                     name="quantity"
                                     onChange={(e) => handleChange1(e.target)}
                                     size="small"
+                                    type="number"
                                     value={formData[index]?.quantity ? formData[index]?.quantity : ''}
                                     InputProps={{
                                         endAdornment: (
@@ -121,6 +122,7 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                                     name="price"
                                     value={formData[index]?.price ? formData[index]?.price : ''}
                                     size="small"
+                                    type="number"
                                     onChange={(e) => handleChange1(e.target)}
                                     InputProps={{
                                         endAdornment: <InputAdornment position="end">₹</InputAdornment>

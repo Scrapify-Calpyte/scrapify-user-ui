@@ -76,7 +76,7 @@ export default function MenuProvider() {
         {
             icon: <PersonAddAltOutlinedIcon />,
             label: 'My Bids',
-            link: '/become-buyer'
+            link: '/seller/bids'
         },
         {
             icon: <CurrencyExchangeOutlinedIcon />,
