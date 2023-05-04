@@ -23,21 +23,22 @@ function SelectedProducts({ categories = [] }) {
                 }}
                 subheader={<li />}
             >
-                {categories.map((category, index) => (
-                    <li key={index}>
-                        <ul>
-                            <ListSubheader sx={{ fontWeight: 'bold' }}>{category?.name}</ListSubheader>
-                            {category?.products.map((product, index) => (
-                                <ListItem key={index}>
-                                    <ListItemIcon size="small">
-                                        <CheckIcon size="small" sx={{ color: '#1bd7a0' }} />
-                                    </ListItemIcon>
-                                    <ListItemText primary={product?.name} />
-                                </ListItem>
-                            ))}
-                        </ul>
-                    </li>
-                ))}
+                {categories?.length > 0 &&
+                    categories.map((category, index) => (
+                        <li key={index}>
+                            <ul>
+                                <ListSubheader sx={{ fontWeight: 'bold' }}>{category?.name}</ListSubheader>
+                                {category?.products.map((product, index) => (
+                                    <ListItem key={index}>
+                                        <ListItemIcon size="small">
+                                            <CheckIcon size="small" sx={{ color: '#1bd7a0' }} />
+                                        </ListItemIcon>
+                                        <ListItemText primary={product?.name} />
+                                    </ListItem>
+                                ))}
+                            </ul>
+                        </li>
+                    ))}
             </List>
         </>
     );

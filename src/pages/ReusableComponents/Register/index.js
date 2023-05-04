@@ -419,13 +419,14 @@ function Register({ open, close, switchToLogin }) {
                                                     sx={{ minWidth: '300px' }}
                                                     onChange={(e) => handleChange(e.target)}
                                                 >
-                                                    {buisnessTypes.map((type, index) => {
-                                                        return (
-                                                            <MenuItem key={index} value={type?.id}>
-                                                                {type?.name}
-                                                            </MenuItem>
-                                                        );
-                                                    })}
+                                                    {buisnessTypes?.length > 0 &&
+                                                        buisnessTypes.map((type, index) => {
+                                                            return (
+                                                                <MenuItem key={index} value={type?.id}>
+                                                                    {type?.name}
+                                                                </MenuItem>
+                                                            );
+                                                        })}
                                                 </Select>
                                             </FormControl>
                                         </Grid>

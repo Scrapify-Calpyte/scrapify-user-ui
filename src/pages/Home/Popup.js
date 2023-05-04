@@ -134,31 +134,32 @@ export default function Popup({ consumerData, open, setOpen }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data?.stock.map((item, index) => {
-                                    return (
-                                        <tr key={index}>
-                                            <td>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                                    <Avatar size="small" variant="square" alt="P"></Avatar>
+                                {data?.stock?.length > 0 &&
+                                    data?.stock.map((item, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                                        <Avatar size="small" variant="square" alt="P"></Avatar>
+                                                        <Typography component="div" variant="p">
+                                                            {item?.name}
+                                                        </Typography>
+                                                    </div>
+                                                </td>
+                                                <td>
                                                     <Typography component="div" variant="p">
-                                                        {item?.name}
+                                                        {item?.quantity + item?.unit?.name}
                                                     </Typography>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <Typography component="div" variant="p">
-                                                    {item?.quantity + item?.unit?.name}
-                                                </Typography>
-                                            </td>
-                                            <td>
-                                                <Typography component="div" variant="p">
-                                                    {item?.price}
-                                                </Typography>
-                                            </td>
-                                            <td></td>
-                                        </tr>
-                                    );
-                                })}
+                                                </td>
+                                                <td>
+                                                    <Typography component="div" variant="p">
+                                                        {item?.price}
+                                                    </Typography>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        );
+                                    })}
                                 <tr></tr>
                             </tbody>
                         </table>
@@ -168,17 +169,18 @@ export default function Popup({ consumerData, open, setOpen }) {
                             Images
                         </Typography>
                         <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', gap: 2 }}>
-                            {data?.stock.map((p, index) => {
-                                return (
-                                    <Avatar
-                                        key={index}
-                                        alt="waste"
-                                        src="https://images.unsplash.com/photo-1562077981-4d7eafd44932?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d2FzdGV8ZW58MHx8MHx8&w=1000&q=80"
-                                        variant="square"
-                                        sx={{ height: 75, width: '24%' }}
-                                    />
-                                );
-                            })}
+                            {data?.stock?.length > 0 &&
+                                data?.stock.map((p, index) => {
+                                    return (
+                                        <Avatar
+                                            key={index}
+                                            alt="waste"
+                                            src="https://images.unsplash.com/photo-1562077981-4d7eafd44932?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d2FzdGV8ZW58MHx8MHx8&w=1000&q=80"
+                                            variant="square"
+                                            sx={{ height: 75, width: '24%' }}
+                                        />
+                                    );
+                                })}
                         </div>
                         <br></br>
                         <Typography variant="p" fontWeight="bold" color="#013f56" component="div">

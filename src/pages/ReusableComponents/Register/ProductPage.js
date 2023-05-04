@@ -102,29 +102,32 @@ export default function ProductPage() {
                 <Grid container spacing={1}>
                     <Grid item xs={4} sx={{ height: '40vh', overflow: 'auto' }}>
                         <Stack spacing={0}>
-                            {categories.map((category, index) => {
-                                return (
-                                    <Stack
-                                        key={index}
-                                        alignItems="center"
-                                        justifyContent="center"
-                                        onClick={() => handleCategoryChange(category?.id)}
-                                        sx={{
-                                            bgcolor: selectedCategory === category?.id ? 'white' : '#e9ecef',
-                                            padding: '10px',
-                                            borderRight:
-                                                selectedCategory === category?.id ? 'solid 3px ' + colors.secondary : 'solid 3px #e9ecef'
-                                        }}
-                                    >
-                                        <IconButton>
-                                            <Avatar src={img} alt="ico"></Avatar>
-                                        </IconButton>
-                                        <Typography component="div" varient="p">
-                                            {category?.name}
-                                        </Typography>
-                                    </Stack>
-                                );
-                            })}
+                            {categories?.length > 0 &&
+                                categories.map((category, index) => {
+                                    return (
+                                        <Stack
+                                            key={index}
+                                            alignItems="center"
+                                            justifyContent="center"
+                                            onClick={() => handleCategoryChange(category?.id)}
+                                            sx={{
+                                                bgcolor: selectedCategory === category?.id ? 'white' : '#e9ecef',
+                                                padding: '10px',
+                                                borderRight:
+                                                    selectedCategory === category?.id
+                                                        ? 'solid 3px ' + colors.secondary
+                                                        : 'solid 3px #e9ecef'
+                                            }}
+                                        >
+                                            <IconButton>
+                                                <Avatar src={img} alt="ico"></Avatar>
+                                            </IconButton>
+                                            <Typography component="div" varient="p">
+                                                {category?.name}
+                                            </Typography>
+                                        </Stack>
+                                    );
+                                })}
                         </Stack>
                     </Grid>
                     <Grid item xs={8} sx={{ height: '40vh', overflow: 'auto' }}>
@@ -138,28 +141,29 @@ export default function ProductPage() {
                                 </Typography>
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                {products.map((product, index) => {
-                                    return (
-                                        <FormControlLabel
-                                            key={index}
-                                            label={product?.name}
-                                            control={
-                                                <Checkbox
-                                                    id={product?.id}
-                                                    checked={checkedValues.includes(product?.id)}
-                                                    onChange={handleProductChange}
-                                                    sx={{
-                                                        color: colors.secondary,
-                                                        '&.Mui-checked': {
-                                                            color: colors.secondary
-                                                        }
-                                                    }}
-                                                    size="small"
-                                                />
-                                            }
-                                        />
-                                    );
-                                })}
+                                {products?.length > 0 &&
+                                    products.map((product, index) => {
+                                        return (
+                                            <FormControlLabel
+                                                key={index}
+                                                label={product?.name}
+                                                control={
+                                                    <Checkbox
+                                                        id={product?.id}
+                                                        checked={checkedValues.includes(product?.id)}
+                                                        onChange={handleProductChange}
+                                                        sx={{
+                                                            color: colors.secondary,
+                                                            '&.Mui-checked': {
+                                                                color: colors.secondary
+                                                            }
+                                                        }}
+                                                        size="small"
+                                                    />
+                                                }
+                                            />
+                                        );
+                                    })}
                             </Box>
                         </Stack>
                     </Grid>
