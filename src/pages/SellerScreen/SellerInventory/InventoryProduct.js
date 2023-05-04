@@ -46,14 +46,14 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
 
     useEffect(() => {
         let tformData = {
-            availableQty: inventoryData?.availableQty,
-            expectedPrice: inventoryData?.expectedPrice,
-            marketPrice: inventoryData?.marketPrice,
+            quantity: inventoryData?.quantity ? inventoryData?.quantity : '',
+            price: inventoryData?.price ? inventoryData?.price : '',
+            marketPrice: inventoryData?.marketPrice ? inventoryData?.marketPrice : '',
             image1: [],
             image2: []
         };
         onFormDataChange(index, tformData);
-    }, []);
+    }, [inventoryData]);
 
     function handleChange1(event) {
         const tformData = { ...formData[index] };
@@ -69,7 +69,7 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                     <Box sx={{ display: 'flex', gap: 2 }}>
                         <Avatar varient="square" src={img} sx={{ height: 65, width: 65 }}></Avatar>
                         <Stack>
-                            <Typography fontSize="medium">{inventoryData?.product}</Typography>
+                            <Typography fontSize="medium">{inventoryData?.name}</Typography>
                             <Typography fontSize="small">Metals</Typography>
                             <Typography fontSize="small">ExpAmt : $200</Typography>
                         </Stack>
@@ -81,11 +81,11 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                             <FormControl fullWidth>
                                 <FormHelperText sx={{ margin: 0 }}>Available Quantity</FormHelperText>
                                 <TextField
-                                    id="availableQty"
-                                    name="availableQty"
+                                    id="quantity"
+                                    name="quantity"
                                     onChange={(e) => handleChange1(e.target)}
                                     size="small"
-                                    value={formData[index]?.availableQty ? formData[index]?.availableQty : ''}
+                                    value={formData[index]?.quantity ? formData[index]?.quantity : ''}
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
@@ -117,9 +117,9 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                             <FormControl fullWidth>
                                 <FormHelperText sx={{ margin: 0 }}>Expected Price/kg</FormHelperText>
                                 <TextField
-                                    id="expectedPrice"
-                                    name="expectedPrice"
-                                    value={formData[index]?.expectedPrice ? formData[index]?.expectedPrice : ''}
+                                    id="price"
+                                    name="price"
+                                    value={formData[index]?.price ? formData[index]?.price : ''}
                                     size="small"
                                     onChange={(e) => handleChange1(e.target)}
                                     InputProps={{

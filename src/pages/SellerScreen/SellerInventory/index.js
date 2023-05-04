@@ -27,7 +27,7 @@ function SellerInventory() {
     const matches = useMediaQuery('(max-width:768px)');
     const [formData, setFormData] = useState({});
     const axios = useAxios();
-    const [inventoryData, setInventoryData] = useState([]);
+    const [inventoryData, setInventoryData] = useState({});
     const [page, setPage] = useState(0);
     const [checkedValues, setCheckedValues] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -42,64 +42,52 @@ function SellerInventory() {
         }));
     }
 
-    const inventoryList = [
-        {
-            id: '324234',
-            product: 'Aluminium',
-            category: 'Metals',
-            availableQty: 23,
-            expectedPrice: 345,
-            marketPrice: 400
-        },
-        {
-            id: '3452',
-            product: 'Bottles',
-            category: 'Metals',
-            availableQty: 23,
-            expectedPrice: 345,
-            marketPrice: 400
-        },
-        {
-            id: '3425',
-            product: 'Plastic',
-            category: 'Metals',
-            availableQty: 23,
-            expectedPrice: 345,
-            marketPrice: 400
-        },
-        {
-            id: '3426',
-            product: 'Household',
-            category: 'Metals',
-            availableQty: 23,
-            expectedPrice: 345,
-            marketPrice: 400
-        }
-    ];
-
     function getProducts() {
         axios
             .get(ApiConfig.getAllCategories)
             .then((res) => {
                 setCategories(res?.data);
-                console.log(res);
             })
             .catch((err) => toast.error(err.message));
     }
 
     useEffect(() => {
         getProducts();
-        axios
-            .get(ApiConfig.findMe)
-            .then((res) => {
-                setInventoryData(res?.data?.products);
-                console.log(res);
-            })
-            .catch((err) => toast.error(err.message));
+        getInventories();
     }, []);
 
+    function getInventories() {
+        axios
+            .get(ApiConfig.getInventoriesByToken)
+            .then((res) => {
+                if (res?.data && res?.data?.stock?.length > 0) {
+                    setInventoryData(res?.data);
+                    let stockIds = res?.data?.stock.map((s) => s?.id);
+                    if (stockIds.length > 0) {
+                        setCategories((oldArr) =>
+                            oldArr.map((old) => {
+                                old['products'] = old?.products.filter((p) => !stockIds.includes(p?.id));
+                                return old;
+                            })
+                        );
+                    }
+                    setStep(0);
+                    setOpen(false);
+                    setPage(1);
+                }
+            })
+            .catch((err) => console.log(err.message));
+    }
+
     function handleSubmit() {
-        console.log(formData);
+        let stockArr = [];
+        inventoryData?.stock?.forEach((stock) => {
+            let temp = { ...stock };
+            temp['quantity'] = formData[temp?.id]?.quantity;
+            temp['price'] = formData[temp?.id]?.price;
+            stockArr.push(temp);
+        });
+        updateStocks({ id: inventoryData?.id, stock: stockArr });
     }
 
     function handleDialog(status) {
@@ -126,11 +114,33 @@ function SellerInventory() {
             getSelectedProducts();
             setStep(1);
         } else if (step === 1) {
-            console.log(selectedProducts);
-            setPage(1);
-            setStep(0);
-            setOpen(false);
+            let stock = [];
+            selectedProducts.forEach((category) => {
+                stock = [...stock, ...category?.products];
+            });
+            let obj = {};
+            if (Object.keys(inventoryData)?.length > 0) {
+                (obj.id = inventoryData?.id), (obj.stock = [...inventoryData?.stock, ...stock]);
+            } else {
+                obj.stock = stock;
+            }
+            updateStocks(obj);
         }
+    }
+
+    function updateStocks(obj) {
+        axios
+            .post(ApiConfig.saveInventory, obj)
+            .then((res) => {
+                toast.success('Inventory Updated');
+                getInventories();
+            })
+            .catch((err) => toast.error(err.message));
+    }
+
+    function resetChanges() {
+        setFormData({});
+        getInventories();
     }
 
     return (
@@ -155,7 +165,7 @@ function SellerInventory() {
                         </Grid>
                         <Grid item lg={6} md={6} sm={12} xs={12} sx={{ display: 'flex', flexDirection: matches ? 'row' : 'row-reverse' }}>
                             <Typography fontWeight="bold" color={colors.primary} fontSize="small">
-                                Estimated Scrap Amt. #200.00
+                                {step === 0 ? '' : ' Estimated Scrap Amt. #200.00'}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -174,17 +184,18 @@ function SellerInventory() {
                                             width: '100%'
                                         }}
                                     >
-                                        {inventoryList.map((inventory, index) => {
-                                            return (
-                                                <InventoryProduct
-                                                    key={index}
-                                                    inventoryData={inventory}
-                                                    onFormDataChange={handleFormDataChange}
-                                                    formData={formData}
-                                                    index={inventory?.id}
-                                                />
-                                            );
-                                        })}
+                                        {inventoryData &&
+                                            inventoryData?.stock?.map((inventory, index) => {
+                                                return (
+                                                    <InventoryProduct
+                                                        key={index}
+                                                        inventoryData={inventory}
+                                                        onFormDataChange={handleFormDataChange}
+                                                        formData={formData}
+                                                        index={inventory?.id}
+                                                    />
+                                                );
+                                            })}
                                         <Button
                                             onClick={() => setOpen(true)}
                                             sx={{ color: colors.primary, fontWeight: 'bold', textTransform: 'none' }}
@@ -213,7 +224,9 @@ function SellerInventory() {
                                             <ThemeButton size="small" onClick={handleSubmit}>
                                                 Update Inventory
                                             </ThemeButton>
-                                            <ThemeButton2 size="small">Reset Changes</ThemeButton2>
+                                            <ThemeButton2 size="small" onClick={resetChanges}>
+                                                Reset Changes
+                                            </ThemeButton2>
                                         </Stack>
                                     </div>
                                 </div>
@@ -235,7 +248,7 @@ function SellerInventory() {
                 <DialogTitle id="alert-dialog-title">
                     <Stack flexDirection="row" justifyContent="space-between">
                         <Typography fontWeight="bold" color={colors.primary} component="div" variant="subtitle1">
-                            Select Scrap Product
+                            {step === 0 ? ' Select Scrap Product' : 'Selected Scrap Products'}
                         </Typography>
                         <IconButton size="small" onClick={() => handleDialog(false)}>
                             <Tooltip title="close">
