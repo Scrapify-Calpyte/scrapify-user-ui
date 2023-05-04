@@ -140,6 +140,8 @@ function SellerInventory() {
 
     function resetChanges() {
         setFormData({});
+        // let data = { ...inventoryData };
+        // setInventoryData(data);
         getInventories();
     }
 
