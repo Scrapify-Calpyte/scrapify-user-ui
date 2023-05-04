@@ -36,11 +36,22 @@ export default function Header() {
 
     return (
         <>
-            <Box sx={{ backgroundColor: '#FFFFFF', boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.2)', padding: '10px 0 0 25%' }}>
+            <Box
+                sx={{
+                    backgroundColor: '#FFFFFF',
+                    boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.2)',
+                    padding: '10px 10px 0 10px',
+                    width: '100%'
+                }}
+            >
                 <Typography color={colors.primary} component="div" variant="h6" fontWeight="bold">
                     My Bids
                 </Typography>
                 <Tabs
+                    sx={{ width: '100%' }}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                    aria-label="scrollable auto tabs example"
                     value={value}
                     onChange={handleChange}
                     textColor={colors.primary}
@@ -82,7 +93,6 @@ export default function Header() {
                         })}
                 </Tabs>
             </Box>
-            <p>sjkdhgf</p>
         </>
     );
 }
