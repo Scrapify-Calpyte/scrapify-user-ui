@@ -5,8 +5,10 @@ import { useContext } from 'react';
 import { ThemeContext } from '~/util/ThemeProvider';
 import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import img from '~assets/images/seller_img1.PNG';
+import ProductSelection from '~/pages/ReusableComponents/Register/ProductSelection';
+import SelectedProducts from '~/pages/ReusableComponents/Register/SelectedProducts';
 
-export default function InventoryHome() {
+export default function InventoryHome({ handleDialog }) {
     const { colors, fonts } = useContext(ThemeContext);
     return (
         <>
@@ -25,13 +27,14 @@ export default function InventoryHome() {
                         backgroundColor: colors.primary,
                         fontWeight: 'bold',
                         textTransform: 'none',
-                        borderRadius: '30px',
+                        borderRadius: '31px',
                         '&:hover': {
                             backgroundColor: colors.primary,
                             color: 'white'
                         }
                     }}
                     size="small"
+                    onClick={() => handleDialog(true)}
                 >
                     <ControlPointOutlinedIcon /> &nbsp; Add Scrap Products
                 </Button>
