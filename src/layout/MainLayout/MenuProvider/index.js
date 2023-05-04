@@ -186,25 +186,26 @@ export default function MenuProvider() {
             >
                 <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     <List component="nav" aria-label="main mailbox folders">
-                        {menus.map((menu, index) => {
-                            return (
-                                <ListItemButton
-                                    component={Link}
-                                    to={menu.link}
-                                    key={index}
-                                    selected={selectedIndex === index}
-                                    onClick={(event) => handleListItemClick(event, index)}
-                                >
-                                    <ListItemIcon sx={selectedIndex === index ? { color: '#1bd7a0' } : { color: '#013f56' }}>
-                                        {menu?.icon}
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        sx={selectedIndex === index ? { color: '#1bd7a0' } : { color: '#013f56' }}
-                                        primary={menu?.label}
-                                    />
-                                </ListItemButton>
-                            );
-                        })}
+                        {menus?.length > 0 &&
+                            menus.map((menu, index) => {
+                                return (
+                                    <ListItemButton
+                                        component={Link}
+                                        to={menu.link}
+                                        key={index}
+                                        selected={selectedIndex === index}
+                                        onClick={(event) => handleListItemClick(event, index)}
+                                    >
+                                        <ListItemIcon sx={selectedIndex === index ? { color: '#1bd7a0' } : { color: '#013f56' }}>
+                                            {menu?.icon}
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            sx={selectedIndex === index ? { color: '#1bd7a0' } : { color: '#013f56' }}
+                                            primary={menu?.label}
+                                        />
+                                    </ListItemButton>
+                                );
+                            })}
                     </List>
                     <Divider />
                 </Box>

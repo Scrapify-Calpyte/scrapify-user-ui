@@ -216,15 +216,16 @@ function Home() {
                                                         </div>
                                                     </div>
                                                     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                                                        {data?.stock?.slice(0, 3).map((product, index) => {
-                                                            return (
-                                                                <Tooltip key={index} title={product?.name} arrow>
-                                                                    <div style={{ marginRight: '2px' }} className="chip">
-                                                                        {product?.name}
-                                                                    </div>
-                                                                </Tooltip>
-                                                            );
-                                                        })}
+                                                        {data?.stock?.length > 0 &&
+                                                            data?.stock?.slice(0, 3).map((product, index) => {
+                                                                return (
+                                                                    <Tooltip key={index} title={product?.name} arrow>
+                                                                        <div style={{ marginRight: '2px' }} className="chip">
+                                                                            {product?.name}
+                                                                        </div>
+                                                                    </Tooltip>
+                                                                );
+                                                            })}
                                                         {data?.stock.length > 3 ? (
                                                             <Tooltip title={data?.stock.length - 3 + 'more'} arrow>
                                                                 <div className="chip">{'+ ' + (data?.stock.length - 3) + 'more'}</div>

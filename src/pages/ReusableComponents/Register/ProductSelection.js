@@ -49,49 +49,53 @@ function ProductSelection({ checkedValues = [], setCheckedValues, categories = [
             <TextField label="Search Products" fullWidth margin="normal" onChange={handleSearch} variant="outlined" size="small" />
             <div style={{ height: '40vh', overflow: 'auto', padding: '10px', justifyContent: 'center' }}>
                 <Typography sx={{ display: filterArr.length === 0 ? 'block' : 'none' }}>No Record Found !</Typography>
-                {filterArr.map((category, index) => {
-                    return (
-                        <Accordion
-                            key={index}
-                            expanded={expanded === category?.id}
-                            onChange={handleChange(category.id)}
-                            sx={{
-                                boxShadow: 'rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em',
-                                margin: 'auto  !important'
-                            }}
-                        >
-                            <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1bh-content" id="panel1bh-header">
-                                <Stack flexDirection="row" justifyContent="center" alignItems="center">
-                                    <Avatar src={img} varient="square" alt="ico"></Avatar>
-                                    <Typography>{category?.name}</Typography>
-                                </Stack>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Stack paddingLeft="10px">
-                                    {products.map((product, index) => {
-                                        return (
-                                            <Stack key={index} flexDirection="row" justifyContent="space-between">
-                                                <Typography sx={{ textOverflow: 'word-wrap', width: '95%' }}>{product?.name}</Typography>
-                                                <Checkbox
-                                                    id={product?.id}
-                                                    checked={checkedValues.includes(product?.id)}
-                                                    onChange={handleProductChange}
-                                                    sx={{
-                                                        color: colors.secondary,
-                                                        '&.Mui-checked': {
-                                                            color: colors.secondary
-                                                        }
-                                                    }}
-                                                    size="small"
-                                                />
-                                            </Stack>
-                                        );
-                                    })}
-                                </Stack>
-                            </AccordionDetails>
-                        </Accordion>
-                    );
-                })}
+                {filterArr?.length > 0 &&
+                    filterArr.map((category, index) => {
+                        return (
+                            <Accordion
+                                key={index}
+                                expanded={expanded === category?.id}
+                                onChange={handleChange(category.id)}
+                                sx={{
+                                    boxShadow: 'rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em',
+                                    margin: 'auto  !important'
+                                }}
+                            >
+                                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1bh-content" id="panel1bh-header">
+                                    <Stack flexDirection="row" justifyContent="center" alignItems="center">
+                                        <Avatar src={img} varient="square" alt="ico"></Avatar>
+                                        <Typography>{category?.name}</Typography>
+                                    </Stack>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Stack paddingLeft="10px">
+                                        {products?.length > 0 &&
+                                            products.map((product, index) => {
+                                                return (
+                                                    <Stack key={index} flexDirection="row" justifyContent="space-between">
+                                                        <Typography sx={{ textOverflow: 'word-wrap', width: '95%' }}>
+                                                            {product?.name}
+                                                        </Typography>
+                                                        <Checkbox
+                                                            id={product?.id}
+                                                            checked={checkedValues.includes(product?.id)}
+                                                            onChange={handleProductChange}
+                                                            sx={{
+                                                                color: colors.secondary,
+                                                                '&.Mui-checked': {
+                                                                    color: colors.secondary
+                                                                }
+                                                            }}
+                                                            size="small"
+                                                        />
+                                                    </Stack>
+                                                );
+                                            })}
+                                    </Stack>
+                                </AccordionDetails>
+                            </Accordion>
+                        );
+                    })}
             </div>
         </div>
     );
