@@ -278,7 +278,7 @@ function BidDetail({ setIsDetail }) {
                             display: 'flex',
                             flexWrap: 'wrap',
                             gap: 2,
-                            padding: '20px 20px',
+                            padding: '10px',
                             justifyContent: 'space-between',
                             backgroundColor: '#f2f6f8',
                             width: '100%'
