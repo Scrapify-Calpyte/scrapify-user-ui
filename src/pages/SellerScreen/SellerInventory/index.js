@@ -159,7 +159,7 @@ function SellerInventory() {
                     // backgroundColor: colors.theme,
                 }}
             >
-                <Box sx={{ width: matches ? '100%' : '75%', padding: '2%', animation: animations.popIn }}>
+                <Box sx={{ width: matches ? '100%' : '70%', padding: '2%', animation: animations.popIn }}>
                     <Grid container spacing={1}>
                         <Grid item lg={6} md={6} sm={12} xs={12}>
                             <Typography fontWeight="bold" fontSize="large" color={colors.primary}>
@@ -208,7 +208,6 @@ function SellerInventory() {
                                         </Button>
                                     </Stack>
                                     <div
-                                        className="inventory-bottom"
                                         style={{
                                             display: 'flex',
                                             flexWrap: 'wrap',
