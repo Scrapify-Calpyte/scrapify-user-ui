@@ -6,7 +6,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 export const ThemeButton = styled(Button)({
     backgroundColor: theme.colors.primary,
     textTransform: 'none',
-    color: 'white',
+    color: '#FDFEFE',
     borderRadius: '30px',
     padding: '5px 10px',
     width: 'fit-content',
@@ -18,7 +18,7 @@ export const ThemeButton = styled(Button)({
 });
 
 export const ThemeButton2 = styled(Button)({
-    backgroundColor: 'white',
+    backgroundColor: '#FDFEFE',
     textTransform: 'none',
     color: theme.colors.primary,
     borderRadius: '30px',

@@ -5,6 +5,7 @@ import { ThemeContext } from '~/util/ThemeProvider';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import { animations } from 'react-animation';
 
 export default function Header({ tabChange }) {
     const { colors, fonts } = useContext(ThemeContext);
@@ -40,7 +41,8 @@ export default function Header({ tabChange }) {
                 sx={{
                     padding: '10px 10px 0 10px',
                     width: '100%',
-                    textAlign: 'start'
+                    textAlign: 'start',
+                    animation: animations.fadeIn
                 }}
             >
                 <Typography color={colors.primary} component="div" variant="subtitle1" fontWeight="bold">
