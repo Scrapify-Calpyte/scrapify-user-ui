@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import bg from '~/assets/images/bg.png';
 import { animations } from 'react-animation';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext } from 'react';
 import { ThemeContext } from '~/util/ThemeProvider';
 import BidList from './BidList';
 import { useState } from 'react';
@@ -20,10 +20,6 @@ function MyBids() {
         setSelectedTab(tab);
     }
 
-    useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'auto' });
-    }, [isDetail]);
-
     const bids = [
         {
             id: 0,
@@ -32,19 +28,19 @@ function MyBids() {
         {
             id: 2,
             name: 'sdf'
-        },
-        {
-            id: 3,
-            name: 'sdf'
-        },
-        {
-            id: 2,
-            name: 'sdf'
-        },
-        {
-            id: 3,
-            name: 'sdf'
         }
+        // {
+        //     id: 3,
+        //     name: 'sdf'
+        // },
+        // {
+        //     id: 2,
+        //     name: 'sdf'
+        // },
+        // {
+        //     id: 3,
+        //     name: 'sdf'
+        // }
     ];
 
     function getSelectedBid(id, action) {
@@ -64,16 +60,10 @@ function MyBids() {
         <>
             <Box
                 sx={{
-                    // backgroundImage: 'url(' + bg + ')',
-                    // backgroundRepeat: 'no-repeat',
-                    // backgroundSize: 'cover',
-                    // objectFit: 'cover',
-                    position: 'absolute',
+                    position: 'relative',
                     width: '100%',
-                    height: 'auto',
-                    top: '8vh',
+                    height: '92vh',
                     textAlign: 'center'
-                    // animation: animations.fadeIn
                 }}
             >
                 <div style={{ position: 'fixed', width: '100%', height: '100%' }}>
