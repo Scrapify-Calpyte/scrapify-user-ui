@@ -9,16 +9,32 @@ import BidList from './BidList';
 import { useState } from 'react';
 import BidDetail from './BidDetail';
 import DetailHeader from './DetailHeader';
+import { useEffect } from 'react';
+import { useAxios } from '~/components/useAxios';
+import { ToastContainer, toast } from 'react-toastify';
 
 function MyBids() {
     const matches = useMediaQuery('(max-width:768px)');
     const { colors, fonts } = useContext(ThemeContext);
     const [isDetail, setIsDetail] = useState(false);
     const [selectedTab, setSelectedTab] = useState(0);
+    const [bidList, setBidList] = useState([]);
+    const axios = useAxios();
 
     function tabChange(tab) {
         setSelectedTab(tab);
     }
+
+    function getMyBids() {
+        axios
+            .get()
+            .then((res) => {
+                setBidList(res);
+            })
+            .catch((err) => toast.error(err?.message));
+    }
+
+    useEffect(() => {}, []);
 
     const bids = [
         {
