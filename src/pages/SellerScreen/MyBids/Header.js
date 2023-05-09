@@ -1,15 +1,18 @@
 import Box from '@mui/material/Box';
-import { Avatar, Badge, Stack, Typography } from '@mui/material/index';
-import { useContext, useState } from 'react';
+import { Avatar, Badge, Stack, Typography, useMediaQuery } from '@mui/material/index';
+import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '~/util/ThemeProvider';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { animations } from 'react-animation';
 
-export default function Header({ tabChange }) {
+export default function Header({ tabChange, count }) {
     const { colors, fonts } = useContext(ThemeContext);
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState('open');
+    const matches = useMediaQuery('(max-width:768px)');
+
+    useEffect(() => {}, []);
 
     function handleChange(e, newValue) {
         setValue(newValue);
@@ -18,20 +21,24 @@ export default function Header({ tabChange }) {
 
     let tabs = [
         {
-            key: 0,
-            value: 'Open'
+            key: 'open',
+            value: 'Open',
+            count: count?.open
         },
         {
-            key: 1,
-            value: 'Modified'
+            key: 'modified',
+            value: 'Modified',
+            count: count?.modified
         },
         {
-            key: 2,
-            value: 'Confirmed'
+            key: 'confirmed',
+            value: 'Confirmed',
+            count: count?.confirmed
         },
         {
-            key: 3,
-            value: 'Closed'
+            key: 'closed',
+            value: 'Closed',
+            count: count?.closed
         }
     ];
 
@@ -40,7 +47,7 @@ export default function Header({ tabChange }) {
             <Box
                 sx={{
                     padding: '10px 10px 0 10px',
-                    width: '100%',
+                    width: matches ? '100%' : '70%',
                     textAlign: 'start',
                     animation: animations.fadeIn
                 }}
@@ -82,7 +89,7 @@ export default function Header({ tabChange }) {
                                                     backgroundColor: value === tab?.key && colors.secondary
                                                 }}
                                             >
-                                                30
+                                                {tab?.count}
                                             </Avatar>
                                         </Stack>
                                     }

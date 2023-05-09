@@ -29,7 +29,7 @@ function SellerInventory() {
     const [formData, setFormData] = useState({});
     const axios = useAxios();
     const [inventoryData, setInventoryData] = useState({});
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(null);
     const [checkedValues, setCheckedValues] = useState([]);
     const [categories, setCategories] = useState([]);
     const [open, setOpen] = useState(false);
@@ -75,9 +75,14 @@ function SellerInventory() {
                     setStep(0);
                     setOpen(false);
                     setPage(1);
+                } else {
+                    setPage(0);
                 }
             })
-            .catch((err) => console.log(err.message));
+            .catch((err) => {
+                console.log(err.message);
+                setPage(0);
+            });
     }
 
     function handleSubmit() {

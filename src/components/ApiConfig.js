@@ -21,5 +21,7 @@ export const ApiConfig = {
         return 'order/scrap/location/lat/' + lat + '/lon/' + lng;
     },
     //findMe
-    findMe: 'user/consumer/me'
+    findMe: 'user/consumer/me',
+    //bids
+    getSellerBids: 'order/bid/seller/bids'
 };

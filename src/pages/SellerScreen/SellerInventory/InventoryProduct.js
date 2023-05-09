@@ -71,7 +71,9 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                         <Stack>
                             <Typography fontSize="medium">{inventoryData?.name}</Typography>
                             <Typography fontSize="small">Metals</Typography>
-                            <Typography fontSize="small">ExpAmt : $200</Typography>
+                            <Typography fontSize="small">
+                                ExpAmt : {parseFloat(formData[index]?.quantity) * parseFloat(formData[index]?.price)}
+                            </Typography>
                         </Stack>
                     </Box>
                 </Grid>

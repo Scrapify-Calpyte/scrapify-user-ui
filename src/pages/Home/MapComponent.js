@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow, Circle } from '@react-google-maps/api';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -6,15 +6,19 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Grid, Stack, Typography, IconButton } from '@mui/material/index';
+import { Grid, Stack, Typography, IconButton, Box } from '@mui/material/index';
 import { Polyline } from '@react-google-maps/api';
 import PropTypes from 'prop-types';
+import { ThemeContext } from '~/util/ThemeProvider';
+import { ThemeButton, ThemeButton2 } from '~/util/MyComponents';
 
-function MapComponent({ location, consumersData }) {
+function MapComponent({ location, consumersData, placeBid }) {
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [map, setMap] = React.useState(null);
     const [infoOptions, setInfoOptions] = useState({});
     const [isShowMore, setIsShowMore] = useState(false);
+    const { colors, fonts } = useContext(ThemeContext);
+
     const containerStyle = {
         width: '100%',
         height: '92vh'
@@ -29,7 +33,8 @@ function MapComponent({ location, consumersData }) {
 
     const onLoad = React.useCallback(function callback(map) {
         setInfoOptions({
-            pixelOffset: new window.google.maps.Size(0, -30)
+            pixelOffset: new window.google.maps.Size(0, -30),
+            maxWidth: '30vw'
         });
         setMap(map);
     }, []);
@@ -84,6 +89,20 @@ function MapComponent({ location, consumersData }) {
         zIndex: 1
     };
 
+    const tableHeaderStyle = {
+        fontWeight: '500',
+        color: '#818694'
+    };
+
+    const tableBodyStyle = {
+        fontWeight: 600,
+        fontSize: '15px',
+        lineHeight: ' 24px',
+        leadingTrim: 'both',
+        textEdge: 'cap',
+        color: '#3B4357'
+    };
+
     return isLoaded ? (
         <GoogleMap zoom={8} mapContainerStyle={containerStyle} options={mapOptions} center={location} onLoad={onLoad} onUnmount={onUnmount}>
             {consumersData?.length > 0 &&
@@ -106,27 +125,28 @@ function MapComponent({ location, consumersData }) {
                     }}
                     onCloseClick={() => {
                         setSelectedMarker(null);
-                        handlePopOver(false);
+                        // handlePopOver(false);
                     }}
                 >
-                    <Stack spacing={2}>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                    <Stack spacing={2} style={{ width: '100%', maxWidth: '90vw' }}>
+                        <Stack flexDirection="row" gap={1} alignItems="start">
                             <Avatar
                                 src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
                                 variant="square"
                                 alt="P"
                                 sx={{ height: 50, width: 50 }}
                             ></Avatar>
-                            <Typography sx={{ color: '#013f56' }}>
+                            <Typography sx={{ color: colors.primary }}>
                                 <b>{selectedMarker?.seller?.firstName + selectedMarker?.seller?.lastName}</b>
                             </Typography>
-                        </div>
+                        </Stack>
                         <table className="table table-responsive">
                             <thead>
                                 <tr>
-                                    <th>ScrapType</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
+                                    <td style={tableHeaderStyle}>SCRAP TYPE</td>
+                                    <td style={tableHeaderStyle}>QUANTITY</td>
+                                    <td style={tableHeaderStyle}>MARKET PRICE</td>
+                                    <td style={tableHeaderStyle}>EXPECTED PRICE</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -134,25 +154,29 @@ function MapComponent({ location, consumersData }) {
                                     selectedMarker.stock.map((item, index) => {
                                         return (
                                             <tr key={index} style={{ alignItems: 'center' }}>
-                                                <td>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                                        <Avatar size="small" variant="square" alt="P"></Avatar>
+                                                <td style={tableBodyStyle}>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                                                        <Avatar size="small" variant="rounded" alt="P"></Avatar>
                                                         <Typography component="div" variant="p">
                                                             {item?.name}
                                                         </Typography>
                                                     </div>
                                                 </td>
-                                                <td align="center">
+                                                <td style={tableBodyStyle}>
                                                     <Typography component="div" variant="p">
                                                         {item?.quantity + item?.unit?.name}
                                                     </Typography>
                                                 </td>
-                                                <td align="center">
+                                                <td style={tableBodyStyle}>
                                                     <Typography component="div" variant="p">
                                                         {item?.price}
                                                     </Typography>
                                                 </td>
-                                                <td></td>
+                                                <td style={tableBodyStyle}>
+                                                    <Typography component="div" variant="p">
+                                                        {item?.price}
+                                                    </Typography>
+                                                </td>
                                             </tr>
                                         );
                                     })}
@@ -161,7 +185,7 @@ function MapComponent({ location, consumersData }) {
                         </table>
                         {isShowMore && (
                             <>
-                                <Typography variant="p" fontWeight="bold" color="#013f56" component="div">
+                                <Typography variant="subtitle1" fontWeight="bold" color={colors.primary} component="div">
                                     Images
                                 </Typography>
                                 <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', gap: 2 }}>
@@ -172,31 +196,38 @@ function MapComponent({ location, consumersData }) {
                                                     key={index}
                                                     alt="waste"
                                                     src="https://images.unsplash.com/photo-1562077981-4d7eafd44932?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d2FzdGV8ZW58MHx8MHx8&w=1000&q=80"
-                                                    variant="square"
-                                                    sx={{ height: 75, width: '24%' }}
+                                                    variant="rounded"
+                                                    sx={{ height: 75, width: 75 }}
                                                 />
                                             );
                                         })}
                                 </div>
-                                <Typography variant="p" fontWeight="bold" color="#013f56" component="div">
+                                <Typography variant="subtitle1" fontWeight="bold" color={colors.primary} component="div">
                                     Seller Location
                                 </Typography>
-                                <Typography variant="p" color="#013f56" component="div">
-                                    {selectedMarker?.displayLocation?.address}
-                                </Typography>
+                                <Stack flexDirection="row">
+                                    <Box sx={{ width: 80 }}>
+                                        <Avatar
+                                            alt="waste"
+                                            src="https://images.unsplash.com/photo-1562077981-4d7eafd44932?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d2FzdGV8ZW58MHx8MHx8&w=1000&q=80"
+                                            variant="rounded"
+                                            sx={{ height: 75, width: 75 }}
+                                        />
+                                    </Box>
+                                    <Typography variant="subtitle1" color={colors.primary} component="div" sx={{ width: '50%' }}>
+                                        {selectedMarker?.displayLocation?.address}
+                                    </Typography>
+                                </Stack>
                             </>
                         )}
+                        <br></br>
                         <Stack flexDirection="row" sx={{ justifyContent: 'space-between', width: '100%' }} gap={2}>
-                            <button className="btn1" style={{ width: '50%' }}>
+                            <ThemeButton style={{ width: '50%' }} onClick={() => placeBid(true, selectedMarker)}>
                                 Bid Now
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => setIsShowMore(!isShowMore)}
-                                style={{ color: '#1bd7a0', border: 'none', width: '50%' }}
-                            >
+                            </ThemeButton>
+                            <ThemeButton2 type="button" onClick={() => setIsShowMore(!isShowMore)} style={{ width: '50%' }}>
                                 {isShowMore ? 'View less' : 'View More'}
-                            </button>
+                            </ThemeButton2>
                         </Stack>
                     </Stack>
                 </InfoWindow>
@@ -218,7 +249,8 @@ function MapComponent({ location, consumersData }) {
 
 MapComponent.propTypes = {
     location: PropTypes.any,
-    consumersData: PropTypes.any
+    consumersData: PropTypes.any,
+    placeBid: PropTypes.func
 };
 
 export default React.memo(MapComponent);

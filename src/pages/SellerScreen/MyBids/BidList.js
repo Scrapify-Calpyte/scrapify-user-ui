@@ -56,7 +56,7 @@ function BidList({ bids = [], handleActions }) {
                     {bids?.length > 0 &&
                         bids.map((data, index) => {
                             return (
-                                <Stack key={index} spacing={2} padding="10px">
+                                <Stack key={index} spacing={2} padding="10px" sx={{ animation: animations.fadeIn }}>
                                     <Grid container spacing={1} justifyContent="start" alignItems="center">
                                         <Grid item lg={3} md={12} sm={12} xs={12}>
                                             <Stack alignItems="start">
@@ -70,7 +70,7 @@ function BidList({ bids = [], handleActions }) {
                                                 </Stack>
                                                 <Stack alignItems="start">
                                                     <Typography color={colors.primary} fontWeight="bold" component="div" variant="p">
-                                                        Company Name
+                                                        {data?.buyer?.firstName + ' ' + data?.buyer?.lastName}
                                                     </Typography>
                                                     <Typography
                                                         color="#bfc2c9"
@@ -95,46 +95,54 @@ function BidList({ bids = [], handleActions }) {
                                                 </Stack>
                                             </Stack>
                                         </Grid>
-                                        {products?.length > 0 &&
-                                            products.map((product, index) => {
-                                                return (
-                                                    <Grid key={index} item lg={2} md={4} sm={6} xs={6}>
-                                                        <Box
-                                                            sx={{
-                                                                border: 'solid 1px #bfc2c9',
-                                                                borderRadius: '10px',
-                                                                textAlign: 'start',
-                                                                padding: '3%'
-                                                            }}
-                                                        >
-                                                            <Stack flexDirection="row" gap={1}>
-                                                                <Avatar sx={{ width: '45px', height: '45px' }} variant="rounded">
-                                                                    sdf
-                                                                </Avatar>
-                                                                <Stack spacing={0}>
-                                                                    <Typography component="div" variant="p">
-                                                                        {product?.name}
-                                                                    </Typography>
-                                                                    <Typography component="div" variant="subtitle2">
-                                                                        {product?.weight}
-                                                                    </Typography>
+                                        {data?.consumer?.proposals?.length > 0 &&
+                                            data?.consumer?.proposals?.map((proposal, index) => {
+                                                if (index < 3) {
+                                                    return (
+                                                        <Grid key={index} item lg={2} md={4} sm={6} xs={6}>
+                                                            <Box
+                                                                sx={{
+                                                                    border: 'solid 1px #bfc2c9',
+                                                                    borderRadius: '10px',
+                                                                    textAlign: 'start',
+                                                                    padding: '5px'
+                                                                }}
+                                                            >
+                                                                <Stack flexDirection="row" gap={1}>
+                                                                    <Avatar sx={{ width: '45px', height: '45px' }} variant="rounded">
+                                                                        sdf
+                                                                    </Avatar>
+                                                                    <Stack spacing={0}>
+                                                                        <Typography component="div" variant="p">
+                                                                            {proposal?.product?.name}
+                                                                        </Typography>
+                                                                        <Typography component="div" variant="subtitle2">
+                                                                            {proposal?.qty} kg
+                                                                        </Typography>
+                                                                    </Stack>
                                                                 </Stack>
-                                                            </Stack>
-                                                        </Box>
-                                                    </Grid>
-                                                );
+                                                            </Box>
+                                                        </Grid>
+                                                    );
+                                                }
                                             })}
-                                        <Grid item lg={3} md={12} sm={12} xs={12}>
+                                        <Grid
+                                            item
+                                            lg={data?.consumer?.proposals?.length < 3 ? (3 - data?.consumer?.proposals?.length) * 2 + 3 : 3}
+                                            md={12}
+                                            sm={12}
+                                            xs={12}
+                                        >
                                             <Box
                                                 sx={{
                                                     border: 'solid 1px #bfc2c9',
                                                     borderRadius: '10px',
                                                     textAlign: 'start',
-                                                    padding: '2%'
+                                                    padding: '6px'
                                                 }}
                                             >
                                                 <Stack spacing={0}>
-                                                    <Typography color="#bfc2c9" fontWeight="bold" component="div" variant="subtitle2">
+                                                    <Typography color="#818694" component="div" variant="subtitle2">
                                                         Expected BID Amt.
                                                     </Typography>
                                                     <Typography fontWeight="bold" component="div" variant="p">
@@ -148,28 +156,28 @@ function BidList({ bids = [], handleActions }) {
                                         <ThemeButton2
                                             startIcon={<MoreHorizOutlinedIcon />}
                                             sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
-                                            onClick={(e) => handleAction(data?.id, 'more')}
+                                            onClick={(e) => handleAction(data?.buyer?.id, 'more')}
                                         >
                                             More details
                                         </ThemeButton2>
                                         <ThemeButton2
                                             startIcon={<EditRoundedIcon />}
                                             sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
-                                            onClick={(e) => handleAction(data?.id, 'modify')}
+                                            onClick={(e) => handleAction(data?.buyer?.id, 'modify')}
                                         >
                                             Modify
                                         </ThemeButton2>
                                         <ThemeButton2
                                             startIcon={<ClearRoundedIcon />}
                                             sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
-                                            onClick={(e) => handleAction(data?.id, 'reject')}
+                                            onClick={(e) => handleAction(data?.buyer?.id, 'reject')}
                                         >
                                             Reject
                                         </ThemeButton2>
                                         <ThemeButton
                                             startIcon={<CheckRoundedIcon />}
                                             sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
-                                            onClick={(e) => handleAction(data?.id, 'accept')}
+                                            onClick={(e) => handleAction(data?.buyer?.id, 'accept')}
                                         >
                                             Accept
                                         </ThemeButton>
@@ -178,6 +186,11 @@ function BidList({ bids = [], handleActions }) {
                                 </Stack>
                             );
                         })}
+                    {bids?.length === 0 && (
+                        <Box sx={{ padding: '30px', animation: animations.popIn }}>
+                            <Typography>No Bids Found !</Typography>
+                        </Box>
+                    )}
                 </Box>
             ) : (
                 <></>
