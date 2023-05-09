@@ -56,9 +56,10 @@ export default function Header({ tabChange, count }) {
                     My Bids
                 </Typography>
                 <Tabs
-                    sx={{ maxWidth: '85vw' }}
+                    sx={{ maxWidth: '100vw' }}
                     variant="scrollable"
-                    scrollButtons="auto"
+                    scrollButtons={true}
+                    allowScrollButtonsMobile
                     value={value}
                     onChange={handleChange}
                     TabIndicatorProps={{
