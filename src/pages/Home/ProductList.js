@@ -46,7 +46,7 @@ export default function ProductList({ products, setProduct }) {
                                         boxShadow: selectedProduct.includes(index) ? '0px 4px 4px rgba(0, 0, 0, 0.25)' : 'none'
                                     }}
                                 >
-                                    <Avatar variant="rounded" src={img} sx={{ height: '70px', width: '70px' }}></Avatar>
+                                    <Avatar src={img} sx={{ height: '70px', width: '70px' }}></Avatar>
                                 </Box>
                                 <Typography component="div" variant="subtitle2" color={colors?.primary} fontWeight="bold">
                                     {product?.name}

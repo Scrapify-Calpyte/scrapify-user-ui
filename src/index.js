@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { AuthProvider } from './context/AuthProvider/index';
 const jwt_decode = require('jwt-decode');
+import 'typeface-inter';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

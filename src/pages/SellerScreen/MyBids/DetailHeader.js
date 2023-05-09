@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import { Button, Stack, Typography } from '@mui/material/index';
+import { Button, Stack, Typography, useMediaQuery } from '@mui/material/index';
 import { useContext } from 'react';
 import { ThemeContext } from '~/util/ThemeProvider';
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
@@ -8,6 +8,7 @@ import { animations } from 'react-animation';
 
 function DetailHeader({ setIsDetail }) {
     const { colors } = useContext(ThemeContext);
+    const matches = useMediaQuery('(max-width:768px)');
 
     return (
         <>
@@ -15,8 +16,8 @@ function DetailHeader({ setIsDetail }) {
                 flexDirection="row"
                 justifyContent="space-between"
                 sx={{
-                    padding: '10px',
-                    width: '100%',
+                    padding: '10px 0',
+                    width: matches ? '100%' : '70%',
                     animation: animations.fadeIn
                 }}
             >

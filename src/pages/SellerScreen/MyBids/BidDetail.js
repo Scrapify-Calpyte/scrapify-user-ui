@@ -28,37 +28,14 @@ import { animations } from 'react-animation';
 import { useEffect } from 'react';
 import { animateScroll as scroll } from 'react-scroll';
 
-function BidDetail({ setIsDetail }) {
+function BidDetail({ setIsDetail, bid }) {
     const { colors, fonts } = useContext(ThemeContext);
     const matches = useMediaQuery('(max-width:768px)');
     const [isComplete, setIsComplete] = useState(false);
 
     useEffect(() => {
         setTimeout(setIsComplete(true), 300);
-        // scroll.scrollToTop({ duration: 500, smooth: true });
     }, []);
-
-    const products = [
-        {
-            id: 0,
-            name: 'Bootle',
-            reqQty: '200kg',
-            expAmt: '200',
-            marketPrice: '309',
-            bidPrice: '23',
-            totalAmt: '348'
-        },
-        {
-            id: 1,
-            name: 'plastic',
-            weight: '300kg'
-        },
-        {
-            id: 2,
-            name: 'wood',
-            weight: '300kg'
-        }
-    ];
 
     return (
         <>
@@ -71,7 +48,7 @@ function BidDetail({ setIsDetail }) {
                         animation: animations.fadeInUp
                     }}
                 >
-                    <div style={{ padding: '10px' }}>
+                    <div style={{ padding: '10px', animation: animations.fadeIn }}>
                         <Grid container spacing={1} justifyContent="start" alignItems="center">
                             <Grid item lg={3} md={12} sm={12} xs={12}>
                                 <Stack flexDirection="row" gap={1}>
@@ -82,7 +59,7 @@ function BidDetail({ setIsDetail }) {
                                     </Stack>
                                     <Stack alignItems="start">
                                         <Typography color={colors.primary} fontWeight="bold" component="div" variant="p">
-                                            Company Name
+                                            {bid?.buyer?.firstName + ' ' + bid?.buyer?.lastName}
                                         </Typography>
                                         <Typography color="#818694" sx={{ fontSize: '12px' }} fontWeight="bold" component="div" variant="p">
                                             <LocationOnIcon sx={{ fontSize: '12px' }} />
@@ -109,7 +86,7 @@ function BidDetail({ setIsDetail }) {
                                             Pickup Date
                                         </Typography>
                                         <Typography component="div" variant="p">
-                                            Sunday April 30,2023
+                                            {bid?.consumer?.pickupDate}
                                         </Typography>
                                     </Stack>
                                 </Stack>
@@ -122,7 +99,7 @@ function BidDetail({ setIsDetail }) {
                                             Time
                                         </Typography>
                                         <Typography component="div" variant="p">
-                                            Sunday April 30,2023
+                                            {bid?.consumer?.pickupTime}
                                         </Typography>
                                     </Stack>
                                 </Stack>
@@ -144,8 +121,8 @@ function BidDetail({ setIsDetail }) {
                         <Divider />
                         <br></br>
                         <Stack gap={2}>
-                            {products?.length > 0 &&
-                                products.map((product, index) => {
+                            {bid?.consumer?.proposals?.length > 0 &&
+                                bid?.consumer?.proposals.map((proposal, index) => {
                                     return (
                                         <Grid key={index} container spacing={1} justifyContent="start" alignItems="center">
                                             <Grid item lg={3} md={12} sm={12} xs={12}>
@@ -157,7 +134,7 @@ function BidDetail({ setIsDetail }) {
                                                     </Stack>
                                                     <Stack alignItems="start">
                                                         <Typography color={colors.primary} component="div" variant="p">
-                                                            Aluminium
+                                                            {proposal?.product?.name}
                                                         </Typography>
                                                         <Typography
                                                             color="#818694"
@@ -177,37 +154,17 @@ function BidDetail({ setIsDetail }) {
                                                         {' '}
                                                         Requested Quantity
                                                     </FormHelperText>
-                                                    <TextField
-                                                        InputProps={{
-                                                            endAdornment: (
-                                                                <InputAdornment position="end">
-                                                                    <Typography component="p">kg</Typography>
-                                                                </InputAdornment>
-                                                            )
-                                                        }}
-                                                        fullWidth
-                                                        disabled
-                                                        defaultValue="200"
-                                                        size="small"
-                                                    />
+                                                    <Typography component="div" variant="p" color="#3B4357" fontWeight="bold">
+                                                        {proposal?.qty} kg
+                                                    </Typography>
                                                 </Stack>
                                             </Grid>
                                             <Grid item lg={1.8} md={4} sm={6} xs={6}>
                                                 <Stack alignItems="start">
                                                     <FormHelperText sx={{ margin: 0, color: '#818694' }}> Market Price / kg</FormHelperText>
-                                                    <TextField
-                                                        InputProps={{
-                                                            startAdornment: (
-                                                                <InputAdornment position="start">
-                                                                    <Typography component="p">₹</Typography>
-                                                                </InputAdornment>
-                                                            )
-                                                        }}
-                                                        fullWidth
-                                                        disabled
-                                                        defaultValue="200"
-                                                        size="small"
-                                                    />
+                                                    <Typography component="div" variant="p" color="#3B4357" fontWeight="bold">
+                                                        ₹ 200
+                                                    </Typography>
                                                 </Stack>
                                             </Grid>
                                             <Grid item lg={1.5} md={4} sm={6} xs={6}>
@@ -216,55 +173,25 @@ function BidDetail({ setIsDetail }) {
                                                         {' '}
                                                         Expected Price / kg
                                                     </FormHelperText>
-                                                    <TextField
-                                                        fullWidth
-                                                        InputProps={{
-                                                            startAdornment: (
-                                                                <InputAdornment position="start">
-                                                                    <Typography component="p">₹</Typography>
-                                                                </InputAdornment>
-                                                            )
-                                                        }}
-                                                        disabled
-                                                        defaultValue="200"
-                                                        size="small"
-                                                    />
+                                                    <Typography component="div" variant="p" color="#3B4357" fontWeight="bold">
+                                                        ₹ 200
+                                                    </Typography>
                                                 </Stack>
                                             </Grid>
                                             <Grid item lg={1.8} md={4} sm={6} xs={6}>
                                                 <Stack alignItems="start">
                                                     <FormHelperText sx={{ margin: 0, color: '#818694' }}> Bid Price / kg</FormHelperText>
-                                                    <TextField
-                                                        InputProps={{
-                                                            startAdornment: (
-                                                                <InputAdornment position="start">
-                                                                    <Typography component="p">₹</Typography>
-                                                                </InputAdornment>
-                                                            )
-                                                        }}
-                                                        fullWidth
-                                                        disabled
-                                                        defaultValue="200"
-                                                        size="small"
-                                                    />
+                                                    <Typography component="div" variant="p" color="#3B4357" fontWeight="bold">
+                                                        ₹ {proposal?.amount}
+                                                    </Typography>
                                                 </Stack>
                                             </Grid>
                                             <Grid item lg={1.8} md={4} sm={6} xs={6}>
                                                 <Stack alignItems="start">
                                                     <FormHelperText sx={{ margin: 0, color: '#818694' }}> Expected Bid Amt</FormHelperText>
-                                                    <TextField
-                                                        InputProps={{
-                                                            startAdornment: (
-                                                                <InputAdornment position="start">
-                                                                    <Typography component="p">₹</Typography>
-                                                                </InputAdornment>
-                                                            )
-                                                        }}
-                                                        fullWidth
-                                                        disabled
-                                                        defaultValue="200"
-                                                        size="small"
-                                                    />
+                                                    <Typography component="div" variant="p" color="#3B4357" fontWeight="bold">
+                                                        ₹ {parseFloat(proposal?.qty) * parseFloat(proposal?.amount)}
+                                                    </Typography>
                                                 </Stack>
                                             </Grid>
                                         </Grid>
@@ -310,7 +237,8 @@ function BidDetail({ setIsDetail }) {
 }
 
 BidDetail.propTypes = {
-    setIsDetail: PropTypes.func.isRequired
+    setIsDetail: PropTypes.func.isRequired,
+    bid: PropTypes.any
 };
 
 export default BidDetail;

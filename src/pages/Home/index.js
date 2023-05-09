@@ -29,6 +29,7 @@ import { AuthContext } from '~/context/AuthProvider/index';
 import { useAxios } from '~/components/useAxios';
 import { ApiConfig } from '~/components/ApiConfig';
 import { toast } from 'react-toastify';
+import BuyerBids from '../BuyerScreen/BuyerBids';
 
 function Home() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -45,6 +46,8 @@ function Home() {
     //for location component
     const [location, setLocation] = useState(null);
     const [consumersData, setConsumersData] = useState([]);
+    const [isBid, setIsBid] = useState(false);
+    const [selectedConsumerData, setSelectedConsumerData] = useState(null);
 
     function loadMapData(coordinatesArr) {
         axios
@@ -56,7 +59,7 @@ function Home() {
             .catch((err) => console.error(err));
     }
 
-    useEffect(() => {
+    function getCurrentLocation() {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 setLocation({
@@ -74,6 +77,10 @@ function Home() {
                 loadMapData([13.0827, 80.2707]);
             }
         );
+    }
+
+    useEffect(() => {
+        getCurrentLocation();
         getProducts();
         if (matches) setSideNav(false);
     }, [matches, type, authData]);
@@ -91,6 +98,11 @@ function Home() {
 
     function setProduct(product) {
         // alert(product);
+    }
+
+    function placeBid(isBid, data) {
+        setSelectedConsumerData(data);
+        setIsBid(isBid);
     }
 
     return (
@@ -273,10 +285,16 @@ function Home() {
                         animation: animations.popIn
                     }}
                 >
-                    <MapComponent location={location} consumersData={consumersData} />
+                    <MapComponent location={location} consumersData={consumersData} placeBid={placeBid} />
                 </Box>
             </Stack>
-            <Popup open={open} setOpen={setOpen} consumerData={consumersData?.length > 0 ? consumersData[selectedIndex] : null} />
+            <Popup
+                open={open}
+                setOpen={setOpen}
+                consumerData={consumersData?.length > 0 ? consumersData[selectedIndex] : null}
+                placeBid={placeBid}
+            />
+            {isBid && <BuyerBids open={isBid} setOpen={setIsBid} consumerData={selectedConsumerData ? selectedConsumerData : null} />}
         </>
     );
 }
