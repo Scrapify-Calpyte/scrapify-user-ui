@@ -23,7 +23,7 @@ const AxiosProvider = ({ children }) => {
     instance.interceptors.request.use(
         async (config) => {
             config.headers['Access-Control-Allow-Origin'] = '*';
-            // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+            // config.headers['Content-Type'] = 'multipart/form-data';
 
             // if (keycloak.authenticated) {
             //     config.headers.Authorization = `Bearer ${keycloak.token}`;

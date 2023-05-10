@@ -85,7 +85,8 @@ export default function Header({ tabChange, count }) {
                                             <Avatar
                                                 sx={{
                                                     height: '20px',
-                                                    width: '20px',
+                                                    width: 'fit-content',
+                                                    minWidth: '20px',
                                                     fontSize: '10px',
                                                     backgroundColor: value === tab?.key && colors.secondary
                                                 }}

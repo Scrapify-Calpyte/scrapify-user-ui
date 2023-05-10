@@ -11,6 +11,7 @@ import { Polyline } from '@react-google-maps/api';
 import PropTypes from 'prop-types';
 import { ThemeContext } from '~/util/ThemeProvider';
 import { ThemeButton, ThemeButton2 } from '~/util/MyComponents';
+import { useLoadScript } from '@react-google-maps/api';
 
 function MapComponent({ location, consumersData, placeBid }) {
     const [selectedMarker, setSelectedMarker] = useState(null);

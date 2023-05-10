@@ -96,12 +96,12 @@ export default function MenuProvider() {
         {
             icon: <CurrencyExchangeOutlinedIcon />,
             label: 'FAQ',
-            link: '/refer-earn'
+            link: '/faq'
         },
         {
             icon: <CallOutlinedIcon />,
             label: 'Contact',
-            link: '/contatc'
+            link: '/contact'
         }
     ];
     useEffect(() => {

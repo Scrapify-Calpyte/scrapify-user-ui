@@ -11,6 +11,8 @@ import JwtDecode from '~/util/JwtDecode';
 const BuyerScreen = Loadable(lazy(() => import('../pages/BuyerScreen')));
 const SellerScreen = Loadable(lazy(() => import('../pages/SellerScreen')));
 const Home = Loadable(lazy(() => import('../pages/Home')));
+const Contact = Loadable(lazy(() => import('../pages/Contact')));
+const FAQ = Loadable(lazy(() => import('../pages/FAQ')));
 
 const ThemeRoutes = () => {
     const { setAuthData } = useContext(AuthContext);
@@ -56,6 +58,14 @@ const ThemeRoutes = () => {
                             <BuyerScreen />
                         </PrivateRoute>
                     )
+                },
+                {
+                    path: 'contact',
+                    element: <Contact />
+                },
+                {
+                    path: 'faq',
+                    element: <FAQ />
                 },
                 {
                     path: 'home',
