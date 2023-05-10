@@ -27,6 +27,7 @@ import Profile from './Profile';
 import Cookies from 'js-cookie';
 import { AppBar, MyToggleButtonGroup, ThemeButton } from '~/util/MyComponents';
 import { CommonMenus } from '~/components/CommonMenu';
+import { useTheme } from '@mui/material/styles';
 
 export default function MenuProvider() {
     const [open, setOpen] = useState(false);
@@ -36,6 +37,7 @@ export default function MenuProvider() {
     const location = useLocation();
     const [isVerify, setIsVerify] = useState(false);
     const { authData, setAuthData } = useContext(AuthContext);
+    const { palette } = useTheme();
     // const { keycloak } = useKeycloak();
 
     const handleListItemClick = (event, index) => {
@@ -133,11 +135,21 @@ export default function MenuProvider() {
                                         selected={selectedIndex === index}
                                         onClick={(event) => handleListItemClick(event, index)}
                                     >
-                                        <ListItemIcon sx={selectedIndex === index ? { color: '#1bd7a0' } : { color: '#013f56' }}>
+                                        <ListItemIcon
+                                            sx={
+                                                selectedIndex === index
+                                                    ? { color: palette?.primary?.main }
+                                                    : { color: palette?.secondary?.main }
+                                            }
+                                        >
                                             {menu?.icon}
                                         </ListItemIcon>
                                         <ListItemText
-                                            sx={selectedIndex === index ? { color: '#1bd7a0' } : { color: '#013f56' }}
+                                            sx={
+                                                selectedIndex === index
+                                                    ? { color: palette?.primary?.main }
+                                                    : { color: palette?.secondary?.main }
+                                            }
                                             primary={menu?.label}
                                         />
                                     </ListItemButton>
