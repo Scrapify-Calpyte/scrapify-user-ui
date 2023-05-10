@@ -20,6 +20,7 @@ import { ThemeButton } from '~/util/MyComponents';
 import BidByCategory from './BidByCategory';
 import SellersList from './SellersList';
 import LocateMe from './LocateMe';
+import { ThemeContext } from '~/util/ThemeProvider';
 
 function Home() {
     const [selectedIndex, setSelectedIndex] = useState(0);
