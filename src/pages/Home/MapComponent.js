@@ -11,7 +11,7 @@ function MapComponent({ location, consumersData, placeBid }) {
     const [map, setMap] = React.useState(null);
     const [infoOptions, setInfoOptions] = useState({});
     const [isShowMore, setIsShowMore] = useState(false);
-    const { palette } = useTheme();
+    const { palette, typography } = useTheme();
 
     const containerStyle = {
         width: '100%',
@@ -134,7 +134,7 @@ function MapComponent({ location, consumersData, placeBid }) {
                                 <b>{selectedMarker?.seller?.firstName + selectedMarker?.seller?.lastName}</b>
                             </Typography>
                         </Stack>
-                        <table className="table table-responsive">
+                        <table className="table table-responsive" style={{ fontFamily: typography.fontFamily }}>
                             <thead>
                                 <tr>
                                     <td style={tableHeaderStyle}>SCRAP TYPE</td>
