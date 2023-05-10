@@ -3,21 +3,17 @@ import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import bg from '~/assets/images/bg.png';
 import { animations } from 'react-animation';
-import { useContext } from 'react';
-import { ThemeContext } from '~/util/ThemeProvider';
 import BidList from './BidList';
 import { useState } from 'react';
 import BidDetail from './BidDetail';
 import DetailHeader from './DetailHeader';
 import { useEffect } from 'react';
 import { useAxios } from '~/components/useAxios';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import MessageDrawer from './MessageDrawer';
 import { ApiConfig } from '~/components/ApiConfig';
 
 function MyBids() {
-    const matches = useMediaQuery('(max-width:768px)');
-    const { colors, fonts } = useContext(ThemeContext);
     const [isDetail, setIsDetail] = useState(false);
     const [selectedTab, setSelectedTab] = useState('open');
     const [bidStore, setBidStore] = useState({

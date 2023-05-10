@@ -1,19 +1,18 @@
 import { Grid, Box, Stack, IconButton, Avatar, Typography, FormControlLabel } from '@mui/material/index';
 import img from '~assets/images/product.png';
-import { useState, useContext } from 'react';
-import { ThemeContext } from '~/util/ThemeProvider';
+import { useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import { useEffect } from 'react';
 import { useAxios } from '~/components/useAxios';
+import { useTheme } from '@mui/material/styles';
 
 export default function ProductPage() {
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedProduct, setSelectedProduct] = useState([]);
-    const { colors, fonts } = useContext(ThemeContext);
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
     const axios = useAxios();
     const [checkedValues, setCheckedValues] = useState([]);
+    const { palette } = useTheme();
 
     const categoriess = [
         {
@@ -111,12 +110,12 @@ export default function ProductPage() {
                                             justifyContent="center"
                                             onClick={() => handleCategoryChange(category?.id)}
                                             sx={{
-                                                bgcolor: selectedCategory === category?.id ? 'white' : '#e9ecef',
+                                                bgcolor: selectedCategory === category?.id ? palette?.light?.main : '#e9ecef',
                                                 padding: '10px',
                                                 borderRight:
                                                     selectedCategory === category?.id
-                                                        ? 'solid 3px ' + colors.secondary
-                                                        : 'solid 3px #e9ecef'
+                                                        ? 'solid 3px ' + palette?.primary?.main
+                                                        : 'solid 3px ' + palette?.secondary?.main
                                             }}
                                         >
                                             <IconButton>
@@ -152,12 +151,12 @@ export default function ProductPage() {
                                                         id={product?.id}
                                                         checked={checkedValues.includes(product?.id)}
                                                         onChange={handleProductChange}
-                                                        sx={{
-                                                            color: colors.secondary,
-                                                            '&.Mui-checked': {
-                                                                color: colors.secondary
-                                                            }
-                                                        }}
+                                                        // sx={{
+                                                        //     color: colors.secondary,
+                                                        //     '&.Mui-checked': {
+                                                        //         color: colors.secondary
+                                                        //     }
+                                                        // }}
                                                         size="small"
                                                     />
                                                 }

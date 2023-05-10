@@ -20,7 +20,7 @@ import { ThemeButton } from '~/util/MyComponents';
 import BidByCategory from './BidByCategory';
 import SellersList from './SellersList';
 import LocateMe from './LocateMe';
-import { ThemeContext } from '~/util/ThemeProvider';
+import { useTheme } from '@mui/material/styles';
 
 function Home() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -40,6 +40,7 @@ function Home() {
     const [isBid, setIsBid] = useState(false);
     const [selectedConsumerData, setSelectedConsumerData] = useState(null);
     const [isByCategory, setIsByCategory] = useState(false);
+    const { palette } = useTheme();
 
     function loadMapData(coordinatesArr) {
         axios
@@ -101,7 +102,7 @@ function Home() {
         height: '92vh',
         position: 'absolute',
         boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
-        backgroundColor: 'white',
+        backgroundColor: palette.light.main,
         overflow: 'auto',
         justifyContent: 'start',
         opacity: matches && !sideNav ? 0 : 1,
@@ -147,10 +148,12 @@ function Home() {
                     )}
                     {isByCategory && !viewAll && <BidByCategory setIsByCategory={setIsByCategory} categories={categories} />}
                     <Stack flexDirection="row" justifyContent="space-between" alignItems="center" padding="10px">
-                        <Typography component="div" variant="p" color="#013f56" fontWeight="bold">
+                        <Typography component="div" variant="p" color="secondary" fontWeight="bold">
                             Sellers Near By
                         </Typography>
-                        <Button onClick={() => setViewAll(!viewAll)}> {!viewAll ? 'View All' : 'Show Less'} </Button>
+                        <Button color="secondary" onClick={() => setViewAll(!viewAll)}>
+                            {!viewAll ? 'View All' : 'Show Less'}{' '}
+                        </Button>
                     </Stack>
                     <SellersList
                         consumersData={consumersData}

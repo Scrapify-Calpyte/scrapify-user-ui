@@ -8,8 +8,11 @@ import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import Divider from '@mui/material/Divider';
 import PropTypes from 'prop-types';
 import './home.css';
+import { useTheme } from '@mui/material/styles';
+import { Stack, Typography } from '@mui/material/index';
 
 function SellersList({ consumersData = [], selectedIndex, setSelectedIndex, setOpen }) {
+    const { palette } = useTheme();
     return (
         <>
             <List>
@@ -27,29 +30,21 @@ function SellersList({ consumersData = [], selectedIndex, setSelectedIndex, setO
                                     sx={{
                                         padding: 0,
                                         width: '100%',
-                                        borderRight: selectedIndex === index ? 'solid 3px #013f56' : 'default'
+                                        borderRight: selectedIndex === index ? 'solid 3px ' + palette.secondary.main : 'inherit'
                                     }}
                                 >
                                     <ListItemIcon>
                                         <Avatar src={data?.seller?.image} variant="square" alt="P" sx={{ height: 50, width: 50 }}></Avatar>
                                     </ListItemIcon>
-                                    <div
-                                        className="container"
-                                        style={{
-                                            lineHeight: 1.5,
-                                            fontSize: '12px',
-                                            padding: '5px',
-                                            alignItems: 'space-between'
-                                        }}
-                                    >
-                                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                            <div style={{ color: '#013f56', fontWeight: 'bold' }}>
+                                    <Stack alignItems="space-between" width="100%" padding="5px">
+                                        <Stack flexDirection="row" justifyContent="space-between">
+                                            <Typography color="secondary" fontWeight="bold" variant="subtitle2">
                                                 {data?.seller?.firstName + data?.seller?.lastName}
-                                            </div>
-                                            <div style={{ color: 'grey', fontWeight: 'bold' }}>
-                                                <LocationOnIcon style={{ fontSize: '15px' }} />{' '}
-                                            </div>
-                                        </div>
+                                            </Typography>
+                                            <Stack flexDirection="row">
+                                                <LocationOnIcon color="grey" style={{ fontSize: '15px' }} />
+                                            </Stack>
+                                        </Stack>
                                         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                                             {data?.stock?.length > 0 &&
                                                 data?.stock?.slice(0, 3).map((product, index) => {
@@ -69,28 +64,16 @@ function SellersList({ consumersData = [], selectedIndex, setSelectedIndex, setO
                                                 <></>
                                             )}
                                         </div>
-                                        <div
-                                            style={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between',
-                                                alignItems: 'center',
-                                                fontSize: '11px'
-                                            }}
-                                        >
-                                            <div
-                                                style={{
-                                                    color: '#013f56',
-                                                    fontWeight: 'bold',
-                                                    display: 'flex',
-                                                    alignItems: 'end'
-                                                }}
-                                            >
-                                                <StarRateRoundedIcon sx={{ color: 'orange' }} style={{ fontSize: '20px' }} />
-                                                &nbsp; {data?.seller?.rating}
-                                            </div>
-                                            <div style={{ color: '#1bd7a0' }}>View Details</div>
-                                        </div>
-                                    </div>
+                                        <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
+                                            <Typography color="secondary" fontWeight="bold" fontSize="11px">
+                                                <StarRateRoundedIcon sx={{ color: 'orange', fontSize: '13px' }} />
+                                                &nbsp; 4.0
+                                            </Typography>
+                                            <Typography color="primary" fontSize="11px">
+                                                View Details
+                                            </Typography>
+                                        </Stack>
+                                    </Stack>
                                 </ListItemButton>
                                 <Divider />
                             </div>

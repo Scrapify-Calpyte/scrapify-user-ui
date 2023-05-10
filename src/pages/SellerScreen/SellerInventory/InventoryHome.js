@@ -1,14 +1,11 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { useContext } from 'react';
-import { ThemeContext } from '~/util/ThemeProvider';
 import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import img from '~assets/images/seller_img1.PNG';
 import PropTypes from 'prop-types';
 
 export default function InventoryHome({ handleDialog }) {
-    const { colors, fonts } = useContext(ThemeContext);
     return (
         <>
             <Stack
@@ -19,19 +16,16 @@ export default function InventoryHome({ handleDialog }) {
                 <div style={{ width: '100%', textAlign: 'center' }}>
                     <img className="img-fluid" style={{ objectFit: 'contain' }} src={img} loading="lazy" alt="ico"></img>
                 </div>
-                <Typography sx={{ color: colors.primary, fontWeight: 'bold' }}>Sell Scrap to contribute for a circular economy</Typography>
+                <Typography color="secondary" fontWeight="bold">
+                    Sell Scrap to contribute for a circular economy
+                </Typography>
                 <Button
+                    color="secondary"
                     sx={{
-                        color: 'white',
-                        backgroundColor: colors.primary,
                         fontWeight: 'bold',
                         textTransform: 'none',
                         borderRadius: '31px',
-                        paddingRight: '1%',
-                        '&:hover': {
-                            backgroundColor: colors.primary,
-                            color: 'white'
-                        }
+                        paddingRight: '1%'
                     }}
                     size="small"
                     onClick={() => handleDialog(true)}

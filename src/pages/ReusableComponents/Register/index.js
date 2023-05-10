@@ -1,23 +1,16 @@
-import { useEffect, useState, useContext, useRef } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
-import { Box, FormControl, IconButton, Stack, Tooltip, Typography } from '@mui/material/index';
-import { useMediaQuery } from '@mui/material/index';
-import { ThemeContext } from '~/util/ThemeProvider';
+import { FormControl, IconButton, Stack, Tooltip, Typography } from '@mui/material/index';
 import { styled } from '@mui/material/styles';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import GoogleIcon from '@mui/icons-material/Google';
 import OtpInput from 'react-otp-input';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Badge from '@mui/material/Badge';
 import CloseIcon from '@mui/icons-material/Close';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 import PersonIcon from '@mui/icons-material/Person';
@@ -36,17 +29,13 @@ import JwtDecode from '~/util/JwtDecode';
 import { ApiConfig } from '~/components/ApiConfig';
 import { ThemeButton, ThemeButton2 } from '~/util/MyComponents';
 import ImageUploading from 'react-images-uploading';
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import { useTheme } from '@mui/material/styles';
 
 // import keycloak from '~/keycloak';
 
 function Register({ open, close, switchToLogin }) {
-    const { colors, fonts } = useContext(ThemeContext);
     const [step, setStep] = useState(0);
     const [checkedValues, setCheckedValues] = useState([]);
     const axios = useAxios();
@@ -65,6 +54,7 @@ function Register({ open, close, switchToLogin }) {
     const [isTouched, setIsTouched] = useState(false);
     const { authData, setAuthData } = useContext(AuthContext);
     const [location, setLocation] = useState(null);
+    const { palette } = useTheme();
     var userId = null;
 
     function getProducts() {
@@ -326,7 +316,8 @@ function Register({ open, close, switchToLogin }) {
                         <Typography
                             noWrap
                             component="div"
-                            sx={{ color: colors.secondary, fontSize: '2rem', fontWeight: 'bold', overflow: 'hidden' }}
+                            color="primary"
+                            sx={{ fontSize: '2rem', fontWeight: 'bold', overflow: 'hidden' }}
                         >
                             Scrapify
                         </Typography>
@@ -346,11 +337,14 @@ function Register({ open, close, switchToLogin }) {
                                         >
                                             <Stack
                                                 sx={{
-                                                    color: formValues.userType === 'seller' ? colors.secondary : colors.primary,
+                                                    color:
+                                                        formValues.userType === 'seller'
+                                                            ? palette?.primary?.main
+                                                            : palette?.secondary?.main,
                                                     border:
                                                         formValues.userType === 'seller'
-                                                            ? 'solid 2px' + colors.secondary
-                                                            : 'solid 2px #EAECEE',
+                                                            ? 'solid 2px' + palette?.primary?.main
+                                                            : 'solid 2px' + palette?.secondary?.main,
                                                     padding: '10px 25px',
                                                     justifyContent: 'center',
                                                     alignItems: 'center',
@@ -359,10 +353,8 @@ function Register({ open, close, switchToLogin }) {
                                             >
                                                 <IconButton sx={{ textAlign: 'center' }}>
                                                     <StorefrontIcon
-                                                        sx={{
-                                                            fontSize: '2rem',
-                                                            color: formValues.userType === 'seller' ? colors.secondary : colors.primary
-                                                        }}
+                                                        color={formValues.userType === 'seller' ? 'primary' : 'secondary'}
+                                                        sx={{ fontSize: '2rem' }}
                                                     />
                                                 </IconButton>
                                                 <Typography component="div" varient="h6">
@@ -378,11 +370,12 @@ function Register({ open, close, switchToLogin }) {
                                         >
                                             <Stack
                                                 sx={{
-                                                    color: formValues.userType === 'buyer' ? colors.secondary : colors.primary,
+                                                    color:
+                                                        formValues.userType === 'buyer' ? palette?.primary?.main : palette?.secondary?.main,
                                                     border:
                                                         formValues.userType === 'buyer'
-                                                            ? 'solid 2px' + colors.secondary
-                                                            : 'solid 2px #EAECEE',
+                                                            ? 'solid 2px' + palette?.primary?.main
+                                                            : 'solid 2px ' + palette?.secondary?.main,
                                                     padding: '10px 25px',
                                                     justifyContent: 'center',
                                                     alignItems: 'center',
@@ -391,9 +384,9 @@ function Register({ open, close, switchToLogin }) {
                                             >
                                                 <IconButton>
                                                     <PersonIcon
+                                                        color={formValues.userType === 'buyer' ? 'primary' : 'secondary'}
                                                         sx={{
-                                                            fontSize: '2rem',
-                                                            color: formValues.userType === 'buyer' ? colors.secondary : colors.primary
+                                                            fontSize: '2rem'
                                                         }}
                                                     />
                                                 </IconButton>
@@ -561,7 +554,8 @@ function Register({ open, close, switchToLogin }) {
                                                     id="group-label"
                                                     component="div"
                                                     varient="p"
-                                                    sx={{ fontSize: '0.7rem', color: colors.primary }}
+                                                    color="secondary"
+                                                    sx={{ fontSize: '0.7rem' }}
                                                 >
                                                     Verication Code is Sent to <b>+91-{formValues.phone}</b>
                                                 </Typography>
@@ -591,7 +585,8 @@ function Register({ open, close, switchToLogin }) {
                                                     component={Button}
                                                     // onClick={}
                                                     varient="p"
-                                                    sx={{ textTransform: 'none', fontSize: '0.7rem', color: colors.primary }}
+                                                    color="secondary"
+                                                    sx={{ textTransform: 'none', fontSize: '0.7rem' }}
                                                 >
                                                     Resend Code
                                                 </Typography>
@@ -607,7 +602,8 @@ function Register({ open, close, switchToLogin }) {
                                                     id="group-label"
                                                     component="div"
                                                     varient="p"
-                                                    sx={{ fontSize: '1rem', color: colors.primary }}
+                                                    color="secondary"
+                                                    sx={{ fontSize: '1rem' }}
                                                 >
                                                     Select your shop location
                                                 </Typography>
@@ -667,7 +663,8 @@ function Register({ open, close, switchToLogin }) {
                                 component={Button}
                                 onClick={switchToLogin}
                                 varient="p"
-                                sx={{ textTransform: 'none', fontSize: '0.7rem', color: colors.primary }}
+                                color="secondary"
+                                sx={{ textTransform: 'none', fontSize: '0.7rem' }}
                             >
                                 Registered User ? Login
                             </Typography>

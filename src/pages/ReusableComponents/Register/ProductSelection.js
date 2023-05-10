@@ -4,19 +4,16 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Grid, Box, Stack, IconButton, Avatar, FormControlLabel } from '@mui/material/index';
+import { Stack, Avatar } from '@mui/material/index';
 import img from '~assets/images/product.png';
-import { useState, useContext } from 'react';
-import { ThemeContext } from '~/util/ThemeProvider';
+import { useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import { useEffect } from 'react';
-import { useAxios } from '~/components/useAxios';
 import TextField from '@mui/material/TextField';
 import PropTypes from 'prop-types';
 
 function ProductSelection({ checkedValues = [], setCheckedValues, categories = [] }) {
     const [expanded, setExpanded] = React.useState(false);
-    const { colors, fonts } = useContext(ThemeContext);
     const [filterArr, setfilterArr] = useState([]);
     const [products, setProducts] = useState([]);
 
@@ -80,12 +77,6 @@ function ProductSelection({ checkedValues = [], setCheckedValues, categories = [
                                                             id={product?.id}
                                                             checked={checkedValues.includes(product?.id)}
                                                             onChange={handleProductChange}
-                                                            sx={{
-                                                                color: colors.secondary,
-                                                                '&.Mui-checked': {
-                                                                    color: colors.secondary
-                                                                }
-                                                            }}
                                                             size="small"
                                                         />
                                                     </Stack>

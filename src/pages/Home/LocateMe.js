@@ -25,7 +25,7 @@ function LocateMe({ setSideNav }) {
                         <Stack flexDirection="row" gap={2}>
                             <Tooltip title="Locate me" arrow>
                                 <IconButton edge="end" onClick={() => alert('Locate me hitted')}>
-                                    <GpsFixedIcon style={{ color: '#1bd7a0' }} />
+                                    <GpsFixedIcon color="primary" />
                                 </IconButton>
                             </Tooltip>
                             <div
@@ -47,12 +47,20 @@ function LocateMe({ setSideNav }) {
                 >
                     <ListItemAvatar>
                         <Avatar>
-                            <LocationOnIcon style={{ color: '#013f56' }} />
+                            <LocationOnIcon color="secondary" />
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText
-                        primary={<Typography style={{ color: '#013f56', fontWeight: 'bold' }}>Chennai</Typography>}
-                        secondary={<Typography style={{ color: '#1bd7a0', fontSize: '12px' }}>Change Location</Typography>}
+                        primary={
+                            <Typography color="secondary" fontWeight="bold">
+                                Chennai
+                            </Typography>
+                        }
+                        secondary={
+                            <Typography color="primary" variant="subtitle2">
+                                Change Location
+                            </Typography>
+                        }
                     />
                 </ListItem>
             </List>

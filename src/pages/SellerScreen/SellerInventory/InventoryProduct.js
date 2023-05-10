@@ -13,8 +13,7 @@ import {
     Tooltip,
     useMediaQuery
 } from '@mui/material/index';
-import { useContext, useEffect, useState } from 'react';
-import { ThemeContext } from '~/util/ThemeProvider';
+import { useEffect } from 'react';
 import img from '~/assets/images/product.png';
 import ImageUploading from 'react-images-uploading';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
@@ -23,9 +22,7 @@ import Badge from '@mui/material/Badge';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) {
-    const { colors, fonts } = useContext(ThemeContext);
     const matches = useMediaQuery('(max-width:768px)');
-
     const maxNumber = 1;
 
     const onChangeImage1 = (imageList, addUpdateIndex) => {
@@ -217,7 +214,7 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                 <Grid item md={3} lg={1} xs={2} sm={2} sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
                     <Tooltip arrow title="Delete">
                         <IconButton>
-                            <DeleteOutlinedIcon sx={{ color: '#D98880' }} />
+                            <DeleteOutlinedIcon color="error" />
                         </IconButton>
                     </Tooltip>
                 </Grid>

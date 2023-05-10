@@ -1,72 +1,70 @@
 import { styled } from '@mui/material/styles';
-import theme from './theme';
 import Button from '@mui/material/Button';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import MuiAppBar from '@mui/material/AppBar';
 
-export const ThemeButton = styled(Button)({
-    backgroundColor: theme.colors.primary,
+export const ThemeButton = styled(Button)((props) => ({
+    backgroundColor: props.theme.palette.secondary.main,
     textTransform: 'none',
-    color: '#FDFEFE',
+    color: props.theme.palette.light.main,
     borderRadius: '30px',
     padding: '5px 10px',
     width: 'fit-content',
     height: 'fit-content',
-    border: 'solid 1px' + theme.colors.primary,
+    border: 'solid 1px' + props.theme.palette.secondary.main,
     '&:hover': {
-        backgroundColor: theme.colors.primary
+        backgroundColor: props.theme.palette.secondary.main
     }
-});
+}));
 
-export const ThemeButton2 = styled(Button)({
+export const ThemeButton2 = styled(Button)((props) => ({
     backgroundColor: '#FDFEFE',
     textTransform: 'none',
-    color: theme.colors.primary,
+    color: props.theme.palette.secondary.main,
     borderRadius: '30px',
     padding: '5px 10px',
-    border: 'solid 1px' + theme.colors.primary,
+    border: 'solid 1px' + props.theme.palette.secondary.main,
     width: 'fit-content',
     height: 'fit-content',
     '&:hover': {
-        backgroundColor: 'white'
+        backgroundColor: props.theme.palette.light.main
     }
-});
+}));
 
-export const MyToggleButtonGroup = styled(ToggleButtonGroup)({
+export const MyToggleButtonGroup = styled(ToggleButtonGroup)((props) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
-    border: '1px solid #ccc',
+    backgroundColor: props.theme.palette.light.main,
+    border: '1px solid ' + props.theme.palette.light.main,
     padding: '1px',
     borderRadius: '30px',
     overflow: 'hidden',
     height: 'fit-content',
     '.MuiToggleButton-root': {
-        color: '#333',
+        color: props.theme.palette.secondary.main,
         border: 'none',
         backgroundColor: 'transparent',
         borderRadius: '30px !important',
         padding: '6px 10px',
         width: '100%',
-        // padding: '8px 15px',
         '&.Mui-selected': {
-            backgroundColor: theme.colors.primary,
+            backgroundColor: props.theme.palette.secondary.main,
             transition: 'background-color 500ms',
-            color: '#fff'
+            color: props.theme.palette.light.main
         },
         '&.Mui-selected:hover': {
-            backgroundColor: '#013f56'
+            backgroundColor: props.theme.palette.secondary.main
         }
     }
-});
+}));
 
 export const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open'
-})(() => ({
-    background: theme.colors.secondary,
+})((props) => ({
     boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+    color: props.theme.palette.light.main,
     alignItems: 'space-between',
     justifyContent: 'center',
     width: `100%`,

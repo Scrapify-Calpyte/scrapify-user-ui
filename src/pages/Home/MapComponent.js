@@ -1,24 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow, Circle } from '@react-google-maps/api';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Grid, Stack, Typography, IconButton, Box } from '@mui/material/index';
-import { Polyline } from '@react-google-maps/api';
+import { Stack, Typography, Box } from '@mui/material/index';
 import PropTypes from 'prop-types';
-import { ThemeContext } from '~/util/ThemeProvider';
 import { ThemeButton, ThemeButton2 } from '~/util/MyComponents';
-import { useLoadScript } from '@react-google-maps/api';
+import { useTheme } from '@mui/material/styles';
 
 function MapComponent({ location, consumersData, placeBid }) {
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [map, setMap] = React.useState(null);
     const [infoOptions, setInfoOptions] = useState({});
     const [isShowMore, setIsShowMore] = useState(false);
-    const { colors, fonts } = useContext(ThemeContext);
+    const { palette } = useTheme();
 
     const containerStyle = {
         width: '100%',
@@ -71,10 +64,10 @@ function MapComponent({ location, consumersData, placeBid }) {
     ];
 
     const options = {
-        strokeColor: 'yellow',
+        strokeColor: palette.secondary.main,
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        fillColor: 'yellow',
+        fillColor: palette.secondary.main,
         fillOpacity: 0.35,
         clickable: false,
         draggable: false,
@@ -92,16 +85,16 @@ function MapComponent({ location, consumersData, placeBid }) {
 
     const tableHeaderStyle = {
         fontWeight: '500',
-        color: '#818694'
+        color: palette.grey.main
     };
 
     const tableBodyStyle = {
-        fontWeight: 600,
+        fontWeight: 'bold',
         fontSize: '15px',
-        lineHeight: ' 24px',
-        leadingTrim: 'both',
-        textEdge: 'cap',
-        color: '#3B4357'
+        // lineHeight: ' 24px',
+        // leadingTrim: 'both',
+        // textEdge: 'cap',
+        color: palette.dark.main
     };
 
     return isLoaded ? (
@@ -137,7 +130,7 @@ function MapComponent({ location, consumersData, placeBid }) {
                                 alt="P"
                                 sx={{ height: 50, width: 50 }}
                             ></Avatar>
-                            <Typography sx={{ color: colors.primary }}>
+                            <Typography color="secondary">
                                 <b>{selectedMarker?.seller?.firstName + selectedMarker?.seller?.lastName}</b>
                             </Typography>
                         </Stack>
@@ -156,8 +149,8 @@ function MapComponent({ location, consumersData, placeBid }) {
                                         return (
                                             <tr key={index} style={{ alignItems: 'center' }}>
                                                 <td style={tableBodyStyle}>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                                                        <Avatar size="small" variant="rounded" alt="P"></Avatar>
+                                                    <div style={{ display: 'flex', gap: 5 }}>
+                                                        <Avatar size="small" variant="rounded" alt="p"></Avatar>
                                                         <Typography component="div" variant="p">
                                                             {item?.name}
                                                         </Typography>
@@ -186,7 +179,7 @@ function MapComponent({ location, consumersData, placeBid }) {
                         </table>
                         {isShowMore && (
                             <>
-                                <Typography variant="subtitle1" fontWeight="bold" color={colors.primary} component="div">
+                                <Typography variant="subtitle1" fontWeight="bold" color="secondary" component="div">
                                     Images
                                 </Typography>
                                 <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', gap: 2 }}>
@@ -203,7 +196,7 @@ function MapComponent({ location, consumersData, placeBid }) {
                                             );
                                         })}
                                 </div>
-                                <Typography variant="subtitle1" fontWeight="bold" color={colors.primary} component="div">
+                                <Typography variant="subtitle1" fontWeight="bold" color="secondary" component="div">
                                     Seller Location
                                 </Typography>
                                 <Stack flexDirection="row">
@@ -215,7 +208,7 @@ function MapComponent({ location, consumersData, placeBid }) {
                                             sx={{ height: 75, width: 75 }}
                                         />
                                     </Box>
-                                    <Typography variant="subtitle1" color={colors.primary} component="div" sx={{ width: '50%' }}>
+                                    <Typography variant="subtitle1" color="secondary" component="div" sx={{ width: '50%' }}>
                                         {selectedMarker?.displayLocation?.address}
                                     </Typography>
                                 </Stack>
@@ -237,8 +230,8 @@ function MapComponent({ location, consumersData, placeBid }) {
                 center={location}
                 radius={10 * 1000}
                 options={{
-                    fillColor: '#1bd7a0',
-                    strokeColor: '#1bd7a0',
+                    fillColor: palette.primary.main,
+                    strokeColor: palette.primary.main,
                     strokeWeight: 0
                 }}
             />

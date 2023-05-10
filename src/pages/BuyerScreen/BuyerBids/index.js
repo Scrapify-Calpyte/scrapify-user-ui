@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -19,12 +19,10 @@ import {
 import StarIcon from '@mui/icons-material/Star';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CloseIcon from '@mui/icons-material/Close';
-import { ThemeContext } from '~/util/ThemeProvider';
 import { ThemeButton } from '~/util/MyComponents';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 export default function BuyerBids({ open, setOpen, consumerData }) {
-    const { colors, fonts } = useContext(ThemeContext);
     const matches = useMediaQuery('(max-width:768px)');
     const [formData, setFormData] = useState({});
 
@@ -93,7 +91,7 @@ export default function BuyerBids({ open, setOpen, consumerData }) {
                                 </Avatar>
                             </Stack>
                             <Stack alignItems="start">
-                                <Typography color={colors.primary} fontWeight="bold" component="div" variant="subtitle2">
+                                <Typography color="secondary" fontWeight="bold" component="div" variant="subtitle2">
                                     {consumerData?.seller?.firstName + ' ' + consumerData?.seller?.lastName}
                                 </Typography>
                                 <Typography color="#818694" sx={{ fontSize: '12px' }} fontWeight="bold" component="div" variant="p">
@@ -101,14 +99,14 @@ export default function BuyerBids({ open, setOpen, consumerData }) {
                                     Location
                                 </Typography>
                                 <Typography
-                                    color="orange"
+                                    color="secondary"
                                     sx={{ fontSize: '12px', display: 'flex' }}
                                     fontWeight="bold"
                                     component="div"
                                     variant="p"
                                 >
-                                    <StarIcon sx={{ fontSize: '12px' }} />
-                                    <p style={{ color: colors.primary }}>4.5</p>
+                                    <StarIcon sx={{ color: 'orange', fontSize: '12px' }} />
+                                    4.5
                                 </Typography>
                             </Stack>
                         </Stack>
@@ -135,7 +133,7 @@ export default function BuyerBids({ open, setOpen, consumerData }) {
                                                     </Avatar>
                                                 </Stack>
                                                 <Stack alignItems="start">
-                                                    <Typography color={colors.primary} component="div" variant="p">
+                                                    <Typography color="secondary" component="div" variant="p">
                                                         {product?.name}
                                                     </Typography>
                                                     <Typography
@@ -247,7 +245,7 @@ export default function BuyerBids({ open, setOpen, consumerData }) {
                                         <Grid item lg={1.5} md={4} sm={6} xs={6}>
                                             <Stack alignItems="start">
                                                 <FormHelperText>Total Amount</FormHelperText>
-                                                <Typography fontWeight="bold" color={colors.primary}>
+                                                <Typography fontWeight="bold" color="secondary">
                                                     ₹{' '}
                                                     {formData[product?.id]?.reqQty && formData[product?.id]?.bidPrice
                                                         ? parseFloat(formData[product?.id]?.reqQty) *
@@ -262,8 +260,8 @@ export default function BuyerBids({ open, setOpen, consumerData }) {
                     </Stack>
                     <br></br>
                     <Stack flexDirection="row" justifyContent="center">
-                        <Typography color={colors.primary}>Estimated Bid Amt</Typography>&nbsp;&nbsp;
-                        <Typography color={colors.primary} fontWeight="bold">
+                        <Typography color="secondary">Estimated Bid Amt</Typography>&nbsp;&nbsp;
+                        <Typography color="secondary" fontWeight="bold">
                             ₹ {getTotalAmount()}
                         </Typography>
                     </Stack>
