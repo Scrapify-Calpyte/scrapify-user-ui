@@ -19,14 +19,14 @@ import 'typeface-inter';
 
 const theme = createTheme({
     typography: {
-        fontFamily: 'Inter ,Cursive , Arial, sans-serif'
+        fontFamily: 'Cursive ,Inter , Arial, sans-serif'
     },
     palette: {
         primary: {
-            main: '#1bd7a0' // Set the desired primary color
+            main: '#884EA0' // Set the desired primary color
         },
         secondary: {
-            main: '#013f56' // Set the desired secondary color
+            main: '#4A235A' // Set the desired secondary color
         },
         light: {
             main: '#FBFCFC'

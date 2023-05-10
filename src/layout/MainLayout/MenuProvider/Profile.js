@@ -12,10 +12,12 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Stack } from '@mui/material/index';
 import { useState } from 'react';
+import { useTheme } from '@mui/material/styles';
 
 export default function Profile({ userData, logout }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const { palette } = useTheme();
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -34,7 +36,9 @@ export default function Profile({ userData, logout }) {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ bgcolor: '#013f56', height: 32, width: 32 }}>{userData?.userName.slice(0, 1).toUpperCase()}</Avatar>
+                        <Avatar sx={{ bgcolor: palette?.secondary.main, height: 32, width: 32 }}>
+                            {userData?.userName.slice(0, 1).toUpperCase()}
+                        </Avatar>
                     </IconButton>
                 </Tooltip>
             </Box>
