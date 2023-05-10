@@ -26,7 +26,7 @@ function Home() {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [open, setOpen] = useState(false);
     const matches = useMediaQuery('(max-width:768px)');
-    const [sideNav, setSideNav] = useState(true);
+    const [sideNav, setSideNav] = useState(false);
     const [viewAll, setViewAll] = useState(false);
     const { type } = useParams();
     const { authData, setAuthData } = useContext(AuthContext);
@@ -74,8 +74,7 @@ function Home() {
     useEffect(() => {
         getCurrentLocation();
         getProducts();
-        if (matches) setSideNav(false);
-    }, [matches, type, authData]);
+    }, [type, authData]);
 
     function getProducts() {
         axios
