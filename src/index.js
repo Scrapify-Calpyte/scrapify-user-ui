@@ -46,10 +46,8 @@ root.render(
         <AuthProvider>
             <AxiosProvider>
                 <BrowserRouter>
-                    <ThemeProvider>
-                        <App />
-                        <ToastContainer position="top-center" autoClose={2000} />
-                    </ThemeProvider>
+                    <App />
+                    <ToastContainer position="top-center" autoClose={2000} />
                 </BrowserRouter>
             </AxiosProvider>
         </AuthProvider>
