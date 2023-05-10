@@ -2,6 +2,7 @@ import { styled } from '@mui/material/styles';
 import theme from './theme';
 import Button from '@mui/material/Button';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import MuiAppBar from '@mui/material/AppBar';
 
 export const ThemeButton = styled(Button)({
     backgroundColor: theme.colors.primary,
@@ -60,3 +61,14 @@ export const MyToggleButtonGroup = styled(ToggleButtonGroup)({
         }
     }
 });
+
+export const AppBar = styled(MuiAppBar, {
+    shouldForwardProp: (prop) => prop !== 'open'
+})(() => ({
+    background: theme.colors.secondary,
+    boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+    alignItems: 'space-between',
+    justifyContent: 'center',
+    width: `100%`,
+    height: '8vh'
+}));
