@@ -25,9 +25,6 @@ const ThemeRoutes = () => {
                 email: email
             });
         }
-        return () => {
-            // alert('main routes unmount');
-        };
     }, []);
 
     return useRoutes([
