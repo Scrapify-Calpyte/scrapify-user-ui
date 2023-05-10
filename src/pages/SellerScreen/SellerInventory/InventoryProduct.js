@@ -20,9 +20,7 @@ import ImageUploading from 'react-images-uploading';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import Badge from '@mui/material/Badge';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import { styled } from '@mui/material/styles';
 
 function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) {
     const { colors, fonts } = useContext(ThemeContext);

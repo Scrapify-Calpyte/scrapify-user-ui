@@ -5,8 +5,7 @@ import { useContext } from 'react';
 import { ThemeContext } from '~/util/ThemeProvider';
 import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import img from '~assets/images/seller_img1.PNG';
-import ProductSelection from '~/pages/ReusableComponents/Register/ProductSelection';
-import SelectedProducts from '~/pages/ReusableComponents/Register/SelectedProducts';
+import PropTypes from 'prop-types';
 
 export default function InventoryHome({ handleDialog }) {
     const { colors, fonts } = useContext(ThemeContext);
@@ -43,3 +42,7 @@ export default function InventoryHome({ handleDialog }) {
         </>
     );
 }
+
+InventoryHome.propTypes = {
+    handleDialog: PropTypes.func.isRequired
+};
