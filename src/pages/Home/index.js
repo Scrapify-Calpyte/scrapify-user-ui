@@ -145,7 +145,7 @@ function Home() {
                             </Box>
                         </div>
                     )}
-                    {isByCategory && !viewAll && <BidByCategory setIsByCategory={setIsByCategory} />}
+                    {isByCategory && !viewAll && <BidByCategory setIsByCategory={setIsByCategory} categories={categories} />}
                     <Stack flexDirection="row" justifyContent="space-between" alignItems="center" padding="10px">
                         <Typography component="div" variant="p" color="#013f56" fontWeight="bold">
                             Sellers Near By
