@@ -35,6 +35,13 @@ import Cookies from 'js-cookie';
 import JwtDecode from '~/util/JwtDecode';
 import { ApiConfig } from '~/components/ApiConfig';
 import { ThemeButton, ThemeButton2 } from '~/util/MyComponents';
+import ImageUploading from 'react-images-uploading';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 
 // import keycloak from '~/keycloak';
 
@@ -51,7 +58,8 @@ function Register({ open, close, switchToLogin }) {
         phone: '',
         otp: '',
         address: '',
-        userType: 'seller'
+        userType: 'seller',
+        image: []
     });
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [isTouched, setIsTouched] = useState(false);
@@ -166,6 +174,7 @@ function Register({ open, close, switchToLogin }) {
     };
 
     function saveConsumer() {
+        const formData = new FormData();
         let data = {
             firstName: formValues?.name,
             lastName: formValues?.name,
@@ -174,8 +183,22 @@ function Register({ open, close, switchToLogin }) {
             role: formValues?.userType,
             password: formValues?.otp
         };
+        // const userData = new FormData();
+        // userData.append('firstName', formValues?.name);
+        // userData.append('lastName', formValues?.name);
+        // userData.append('mobile', formValues?.phone);
+        // userData.append('email', formValues?.email);
+        // userData.append('role', formValues?.userType);
+        // userData.append('password', formValues?.otp);
+
+        formData.append('file', formValues.image[0].file);
+        formData.append('request', data);
         axios
-            .post(ApiConfig.saveConsumer, data)
+            .post(ApiConfig.saveConsumer, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
             .then((res) => {
                 userId = res?.data?.id;
                 login(res?.data);
@@ -274,6 +297,11 @@ function Register({ open, close, switchToLogin }) {
             name: 'indivudual'
         }
     ];
+
+    const onChangeImage = (imageList, addUpdateIndex) => {
+        // const selectedImageBlob = imageList[addUpdateIndex].file;
+        setFormValues((prev) => ({ ...prev, ['image']: imageList }));
+    };
 
     return (
         <>
@@ -378,7 +406,61 @@ function Register({ open, close, switchToLogin }) {
                                 ),
                                 1: (
                                     <>
-                                        <Grid item xs={12} sx={{ justifyContent: 'center' }}>
+                                        <Grid item xs={12} sx={{ textAlign: 'center' }}>
+                                            <br></br>
+                                            <ImageUploading
+                                                value={formValues?.image ? formValues?.image : []}
+                                                onChange={onChangeImage}
+                                                maxNumber={1}
+                                                dataURLKey="data_url"
+                                            >
+                                                {({
+                                                    imageList,
+                                                    onImageUpload,
+                                                    onImageRemoveAll,
+                                                    onImageUpdate,
+                                                    onImageRemove,
+                                                    isDragging,
+                                                    dragProps
+                                                }) => (
+                                                    <>
+                                                        {imageList.length > 0 ? (
+                                                            imageList.map((image, index) => (
+                                                                <Badge
+                                                                    key={index}
+                                                                    badgeContent={
+                                                                        <IconButton onClick={() => onImageRemoveAll()}>
+                                                                            <CloseOutlinedIcon sx={{ width: '15px', height: '15px' }} />
+                                                                        </IconButton>
+                                                                    }
+                                                                >
+                                                                    <IconButton>
+                                                                        <Avatar
+                                                                            sx={{
+                                                                                height: '10vh',
+                                                                                width: '10vh'
+                                                                            }}
+                                                                            src={image['data_url']}
+                                                                        ></Avatar>
+                                                                    </IconButton>
+                                                                </Badge>
+                                                            ))
+                                                        ) : (
+                                                            <Tooltip arrow title="Upload Image">
+                                                                <IconButton
+                                                                    style={isDragging ? { color: 'red' } : undefined}
+                                                                    onClick={onImageUpload}
+                                                                    {...dragProps}
+                                                                >
+                                                                    <Avatar src="" sx={{ width: '10vh', height: '10vh' }}>
+                                                                        <PersonRoundedIcon sx={{ width: '8vh', height: '8vh' }} />
+                                                                    </Avatar>
+                                                                </IconButton>
+                                                            </Tooltip>
+                                                        )}
+                                                    </>
+                                                )}
+                                            </ImageUploading>
                                             <TextField
                                                 id="name"
                                                 name="name"

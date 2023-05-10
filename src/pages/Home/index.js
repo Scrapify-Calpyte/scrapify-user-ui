@@ -1,26 +1,12 @@
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Tooltip from '@mui/material/Tooltip';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import GpsFixedIcon from '@mui/icons-material/GpsFixed';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import IconButton from '@mui/material/IconButton';
 import { useState, useEffect, useContext } from 'react';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
-import Divider from '@mui/material/Divider';
 import Popup from './Popup';
 import ProductList from './ProductList';
 import MapComponent from './MapComponent';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import './home.css';
 import { animations } from 'react-animation';
@@ -30,6 +16,10 @@ import { useAxios } from '~/components/useAxios';
 import { ApiConfig } from '~/components/ApiConfig';
 import { toast } from 'react-toastify';
 import BuyerBids from '../BuyerScreen/BuyerBids';
+import { ThemeButton } from '~/util/MyComponents';
+import BidByCategory from './BidByCategory';
+import SellersList from './SellersList';
+import LocateMe from './LocateMe';
 
 function Home() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -48,6 +38,7 @@ function Home() {
     const [consumersData, setConsumersData] = useState([]);
     const [isBid, setIsBid] = useState(false);
     const [selectedConsumerData, setSelectedConsumerData] = useState(null);
+    const [isByCategory, setIsByCategory] = useState(false);
 
     function loadMapData(coordinatesArr) {
         axios
@@ -61,7 +52,7 @@ function Home() {
 
     function getCurrentLocation() {
         navigator.geolocation.getCurrentPosition(
-            (position) => {
+            async (position) => {
                 setLocation({
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
@@ -105,186 +96,70 @@ function Home() {
         setIsBid(isBid);
     }
 
+    const sideBarStyle = {
+        width: matches && sideNav ? '100%' : '300px',
+        height: '92vh',
+        position: 'absolute',
+        boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+        backgroundColor: 'white',
+        overflow: 'auto',
+        justifyContent: 'start',
+        opacity: matches && !sideNav ? 0 : 1,
+        zIndex: matches && !sideNav ? -1 : 2,
+        transition: 'width 300ms ease-in-out'
+    };
+
+    const mapStyle = {
+        height: 'auto',
+        width: '100%',
+        zIndex: 1,
+        marginLeft: matches && !sideNav ? 0 : '300px',
+        animation: animations.popIn
+    };
+
     return (
         <>
             <Stack flexDirection="row">
-                <div style={{ display: matches ? 'block' : 'none', position: 'absolute', zIndex: 2, top: '16vh', left: 10 }}>
-                    <button className="btn1" size="large" onClick={() => setSideNav(true)}>
-                        <span>Filter</span>
-                        <FilterListIcon />
-                    </button>
-                </div>
-                <Box
-                    // style={matches ? { animation: animations.fadeInUp } : {}}
-                    sx={{
-                        width: matches && sideNav ? '100%' : '300px',
-                        height: '92vh',
-                        position: 'absolute',
-                        boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
-                        backgroundColor: 'white',
-                        overflow: 'auto',
-                        opacity: matches && !sideNav ? 0 : 1,
-                        zIndex: matches && !sideNav ? -1 : 2,
-                        transition: 'width 300ms ease-in-out'
-                    }}
-                >
-                    <Box
-                        sx={{
-                            flexGrow: 1,
-                            backgroundColor: 'white',
-                            display: !viewAll ? 'block' : 'none'
-                        }}
+                {matches && (
+                    <ThemeButton
+                        sx={{ position: 'absolute', zIndex: 2, top: '17vh', left: 10, padding: '5px 20px', animation: animations.popIn }}
+                        size="large"
+                        onClick={() => setSideNav(true)}
                     >
-                        <List dense={true}>
-                            <ListItem
-                                secondaryAction={
-                                    <Stack flexDirection="row" gap={2}>
-                                        <Tooltip title="Locate me" arrow>
-                                            <IconButton edge="end" onClick={() => alert('Locate me hitted')}>
-                                                <GpsFixedIcon style={{ color: '#1bd7a0' }} />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <div
-                                            style={{
-                                                flexDirection: 'row',
-                                                justifyContent: 'flex-end',
-                                                display: !matches ? 'none' : 'flex',
-                                                alignItems: 'center'
-                                            }}
-                                        >
-                                            <Tooltip title="Close" arrow>
-                                                <IconButton onClick={() => setSideNav(false)}>
-                                                    <CloseIcon />
-                                                </IconButton>
-                                            </Tooltip>
-                                        </div>
-                                    </Stack>
-                                }
-                            >
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <LocationOnIcon style={{ color: '#013f56' }} />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={<Typography style={{ color: '#013f56', fontWeight: 'bold' }}>Chennai</Typography>}
-                                    secondary={<Typography style={{ color: '#1bd7a0', fontSize: '12px' }}>Change Location</Typography>}
-                                />
-                            </ListItem>
-                        </List>
-                    </Box>
-                    <Box sx={{ display: !viewAll ? 'block' : 'none' }}>
-                        <ProductList products={categories} setProduct={setProduct} />
-                    </Box>
-                    {/* <AnimateOnChange animationIn="fadeInUp" animationOut="fadeOut" durationOut={300}> */}
+                        Filter
+                        <FilterListIcon />
+                    </ThemeButton>
+                )}
+                <Stack sx={sideBarStyle}>
+                    {!isByCategory && (
+                        <div style={{ display: !viewAll ? 'block' : 'none' }}>
+                            <Box>
+                                <LocateMe setSideNav={setSideNav} />
+                            </Box>
+                            <Box sx={{ textAlign: 'center' }}>
+                                <ProductList products={categories} setProduct={setProduct} />
+                                <br></br>
+                                <ThemeButton sx={{ width: '90%' }} onClick={() => setIsByCategory(true)}>
+                                    Bid by Category
+                                </ThemeButton>
+                            </Box>
+                        </div>
+                    )}
+                    {isByCategory && !viewAll && <BidByCategory setIsByCategory={setIsByCategory} />}
                     <Stack flexDirection="row" justifyContent="space-between" alignItems="center" padding="10px">
                         <Typography component="div" variant="p" color="#013f56" fontWeight="bold">
                             Sellers Near By
                         </Typography>
                         <Button onClick={() => setViewAll(!viewAll)}> {!viewAll ? 'View All' : 'Show Less'} </Button>
                     </Stack>
-                    <Box sx={{ flexGrow: 0 }}>
-                        <List>
-                            {consumersData?.length > 0 &&
-                                consumersData.map((data, index) => {
-                                    return (
-                                        <div key={index}>
-                                            <ListItemButton
-                                                key={index}
-                                                selected={selectedIndex === index}
-                                                onClick={(event) => {
-                                                    setSelectedIndex(index);
-                                                    setOpen(true);
-                                                }}
-                                                sx={{
-                                                    padding: 0,
-                                                    width: '100%',
-                                                    borderRight: selectedIndex === index ? 'solid 3px #013f56' : 'default'
-                                                }}
-                                            >
-                                                <ListItemIcon>
-                                                    <Avatar
-                                                        src={data?.seller?.image}
-                                                        variant="square"
-                                                        alt="P"
-                                                        sx={{ height: 50, width: 50 }}
-                                                    ></Avatar>
-                                                </ListItemIcon>
-                                                <div
-                                                    className="container"
-                                                    style={{
-                                                        lineHeight: 1.5,
-                                                        fontSize: '12px',
-                                                        padding: '5px',
-                                                        alignItems: 'space-between'
-                                                    }}
-                                                >
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                        <div style={{ color: '#013f56', fontWeight: 'bold' }}>
-                                                            {data?.seller?.firstName + data?.seller?.lastName}
-                                                        </div>
-                                                        <div style={{ color: 'grey', fontWeight: 'bold' }}>
-                                                            <LocationOnIcon style={{ fontSize: '15px' }} />{' '}
-                                                        </div>
-                                                    </div>
-                                                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                                                        {data?.stock?.length > 0 &&
-                                                            data?.stock?.slice(0, 3).map((product, index) => {
-                                                                return (
-                                                                    <Tooltip key={index} title={product?.name} arrow>
-                                                                        <div style={{ marginRight: '2px' }} className="chip">
-                                                                            {product?.name}
-                                                                        </div>
-                                                                    </Tooltip>
-                                                                );
-                                                            })}
-                                                        {data?.stock.length > 3 ? (
-                                                            <Tooltip title={data?.stock.length - 3 + 'more'} arrow>
-                                                                <div className="chip">{'+ ' + (data?.stock.length - 3) + 'more'}</div>
-                                                            </Tooltip>
-                                                        ) : (
-                                                            <></>
-                                                        )}
-                                                    </div>
-                                                    <div
-                                                        style={{
-                                                            display: 'flex',
-                                                            justifyContent: 'space-between',
-                                                            alignItems: 'center',
-                                                            fontSize: '11px'
-                                                        }}
-                                                    >
-                                                        <div
-                                                            style={{
-                                                                color: '#013f56',
-                                                                fontWeight: 'bold',
-                                                                display: 'flex',
-                                                                alignItems: 'end'
-                                                            }}
-                                                        >
-                                                            <StarRateRoundedIcon sx={{ color: 'orange' }} style={{ fontSize: '20px' }} />
-                                                            &nbsp; {data?.seller?.rating}
-                                                        </div>
-                                                        <div style={{ color: '#1bd7a0' }}>View Details</div>
-                                                    </div>
-                                                </div>
-                                            </ListItemButton>
-                                            <Divider />
-                                        </div>
-                                    );
-                                })}
-                        </List>
-                    </Box>
-                </Box>
-                <Box
-                    sx={{
-                        height: 'auto',
-                        width: '100%',
-                        zIndex: 1,
-                        marginLeft: matches && !sideNav ? 0 : '300px',
-                        animation: animations.popIn
-                    }}
-                >
+                    <SellersList
+                        consumersData={consumersData}
+                        selectedIndex={selectedIndex}
+                        setSelectedIndex={setSelectedIndex}
+                        setOpen={setOpen}
+                    ></SellersList>
+                </Stack>
+                <Box sx={mapStyle}>
                     <MapComponent location={location} consumersData={consumersData} placeBid={placeBid} />
                 </Box>
             </Stack>

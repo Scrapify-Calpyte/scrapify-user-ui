@@ -65,11 +65,10 @@ function MyBids() {
             case 'more':
                 let data = bidStore[selectedTab].find((bid) => bid?.buyer?.id === id);
                 setSelectedBid(data);
-                // setIsMessage(true);
                 setIsDetail(true);
                 break;
             case 'modify':
-                setIsDetail(true);
+                setIsMessage(true);
                 break;
             default:
                 setIsDetail(false);

@@ -28,7 +28,7 @@ import { animations } from 'react-animation';
 import { useEffect } from 'react';
 import { animateScroll as scroll } from 'react-scroll';
 
-function BidDetail({ setIsDetail, bid }) {
+function BidDetail({ setIsDetail, bid, handleAction }) {
     const { colors, fonts } = useContext(ThemeContext);
     const matches = useMediaQuery('(max-width:768px)');
     const [isComplete, setIsComplete] = useState(false);
@@ -215,17 +215,24 @@ function BidDetail({ setIsDetail, bid }) {
                         <Button size="small" sx={{ dimensions: 'fit-content', textTransform: 'none' }} onClick={() => setIsDetail(false)}>
                             Go to Open Bids &nbsp; <NavigateNextIcon />
                         </Button>
-                        <Stack flexDirection="row-reverse" gap={2}>
+                        <Stack flexDirection="row" gap={2} justifyContent="end">
+                            <ThemeButton2
+                                onClick={() => handleAction(null, 'modify')}
+                                startIcon={<EditRoundedIcon />}
+                                sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
+                            >
+                                Modify
+                            </ThemeButton2>
+                            <ThemeButton2
+                                onClick={() => handleAction(null, 'reject')}
+                                startIcon={<ClearRoundedIcon />}
+                                sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
+                            >
+                                Reject
+                            </ThemeButton2>
                             <ThemeButton startIcon={<CheckRoundedIcon />} sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}>
                                 Accept
                             </ThemeButton>
-                            <ThemeButton2 startIcon={<ClearRoundedIcon />} sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}>
-                                Reject
-                            </ThemeButton2>
-
-                            <ThemeButton2 startIcon={<EditRoundedIcon />} sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}>
-                                Modify
-                            </ThemeButton2>
                         </Stack>
                     </div>
                 </Box>
@@ -238,7 +245,8 @@ function BidDetail({ setIsDetail, bid }) {
 
 BidDetail.propTypes = {
     setIsDetail: PropTypes.func.isRequired,
-    bid: PropTypes.any
+    bid: PropTypes.any,
+    handleAction: PropTypes.func
 };
 
 export default BidDetail;
