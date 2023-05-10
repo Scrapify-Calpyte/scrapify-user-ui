@@ -1,16 +1,16 @@
 import Box from '@mui/material/Box';
 import { Avatar, Badge, Stack, Typography, useMediaQuery } from '@mui/material/index';
-import { useContext, useEffect, useState } from 'react';
-import { ThemeContext } from '~/util/ThemeProvider';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { animations } from 'react-animation';
+import { useTheme } from '@mui/material/styles';
 
 export default function Header({ tabChange, count }) {
-    const { colors, fonts } = useContext(ThemeContext);
     const [value, setValue] = useState('open');
     const matches = useMediaQuery('(max-width:768px)');
+    const { palette } = useTheme();
 
     useEffect(() => {}, []);
 
@@ -52,7 +52,7 @@ export default function Header({ tabChange, count }) {
                     animation: animations.fadeIn
                 }}
             >
-                <Typography color={colors.primary} component="div" variant="subtitle1" fontWeight="bold">
+                <Typography color="secondary" component="div" variant="subtitle1" fontWeight="bold">
                     My Bids
                 </Typography>
                 <Tabs
@@ -64,7 +64,7 @@ export default function Header({ tabChange, count }) {
                     onChange={handleChange}
                     TabIndicatorProps={{
                         style: {
-                            backgroundColor: colors.secondary
+                            backgroundColor: palette?.primary?.main
                         }
                     }}
                 >
@@ -78,7 +78,8 @@ export default function Header({ tabChange, count }) {
                                             <Typography
                                                 component="div"
                                                 variant="subtitle2"
-                                                sx={{ textTransform: 'none', color: value === tab?.key && colors.secondary }}
+                                                color={value === tab?.key && 'primary'}
+                                                sx={{ textTransform: 'none' }}
                                             >
                                                 {tab?.value}
                                             </Typography>
@@ -88,7 +89,7 @@ export default function Header({ tabChange, count }) {
                                                     width: 'fit-content',
                                                     minWidth: '20px',
                                                     fontSize: '10px',
-                                                    backgroundColor: value === tab?.key && colors.secondary
+                                                    backgroundColor: value === tab?.key && palette?.primary?.main
                                                 }}
                                             >
                                                 {tab?.count}

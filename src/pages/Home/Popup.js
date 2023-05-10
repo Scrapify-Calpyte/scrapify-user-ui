@@ -10,27 +10,17 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import CloseIcon from '@mui/icons-material/Close';
-import { styled } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { ThemeButton } from '~/util/MyComponents';
-import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material/index';
-
-const CustomBackdrop = styled('div')({
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100vw',
-    height: '100vh',
-    zIndex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
-});
-
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from '@mui/material/index';
+import { useTheme } from '@mui/material/styles';
 export default function Popup({ consumerData, open, setOpen, placeBid }) {
     const matches = useMediaQuery('(max-width:768px)');
     const [data, setData] = useState(null);
+    const { palette } = useTheme();
 
     useEffect(() => {
         setData(consumerData);
@@ -38,17 +28,14 @@ export default function Popup({ consumerData, open, setOpen, placeBid }) {
 
     const tableHeaderStyle = {
         fontWeight: '500',
-        color: '#818694',
-        fontSize: '12px'
+        fontSize: '12px',
+        color: palette.grey.main
     };
 
     const tableBodyStyle = {
-        fontWeight: 600,
+        fontWeight: 'bold',
         fontSize: '15px',
-        lineHeight: ' 24px',
-        leadingTrim: 'both',
-        textEdge: 'cap',
-        color: '#3B4357'
+        color: palette.dark.main
     };
 
     return (
@@ -95,37 +82,26 @@ export default function Popup({ consumerData, open, setOpen, placeBid }) {
                         ></Avatar>
                     </ListItemIcon>
                     <div className="container" style={{ padding: '5px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <div style={{ color: '#013f56', fontWeight: 'bold', fontSize: '18px' }}>
+                        <Stack flexDirection="row" justifyContent="space-between">
+                            <Typography color="secondary" fontWeight="bold">
                                 {data?.seller?.firstName + ' ' + data?.seller?.lastName}
-                            </div>
-                            <div style={{ color: 'grey', fontWeight: 'bold' }}>
-                                <Tooltip title="close" arrow>
-                                    <CloseIcon style={{ fontSize: '20px', color: '#013f56' }} onClick={() => setOpen(false)} />
-                                </Tooltip>
-                            </div>
-                        </div>
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                fontSize: '11px'
-                            }}
-                        >
-                            <div
-                                style={{
-                                    color: '#013f56',
-                                    fontWeight: 'bold',
-                                    display: 'flex',
-                                    alignItems: 'end'
-                                }}
-                            >
+                            </Typography>
+
+                            <Tooltip title="close" arrow>
+                                <IconButton onClick={() => setOpen(false)}>
+                                    <CloseIcon color="secondary" />
+                                </IconButton>
+                            </Tooltip>
+                        </Stack>
+                        <Stack flexDirection="row" justifyContent="space-between" alignItems="center" fontSize="11px">
+                            <Typography color="grey" fontSize="11px">
                                 <StarRateRoundedIcon sx={{ color: 'orange' }} style={{ fontSize: '20px' }} />
                                 &nbsp; 4.0
-                            </div>
-                            <div style={{ color: 'grey' }}>58K Reviews</div>
-                        </div>
+                            </Typography>
+                            <Typography color="grey" fontSize="11px">
+                                58K Reviews
+                            </Typography>
+                        </Stack>
                     </div>
                 </ListItemButton>
             </DialogTitle>
@@ -137,47 +113,6 @@ export default function Popup({ consumerData, open, setOpen, placeBid }) {
                     }}
                 >
                     <Stack>
-                        {/* <Typography variant="p" fontWeight="bold" color="#013f56" component="div">
-                            Scrap To Bid
-                        </Typography> */}
-                        {/* <table className="table">
-                            <thead>
-                                <tr style={{ color: '#013f56' }}>
-                                    <th>ScrapType</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data?.stock?.length > 0 &&
-                                    data?.stock.map((item, index) => {
-                                        return (
-                                            <tr key={index}>
-                                                <td>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                                        <Avatar size="small" variant="square" alt="P"></Avatar>
-                                                        <Typography component="div" variant="p">
-                                                            {item?.name}
-                                                        </Typography>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <Typography component="div" variant="p">
-                                                        {item?.quantity + item?.unit?.name}
-                                                    </Typography>
-                                                </td>
-                                                <td>
-                                                    <Typography component="div" variant="p">
-                                                        {item?.price}
-                                                    </Typography>
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                        );
-                                    })}
-                                <tr></tr>
-                            </tbody>
-                        </table> */}
                         <Box sx={{ width: '100%', overflow: 'auto' }}>
                             <table className="table">
                                 <thead>
@@ -194,7 +129,7 @@ export default function Popup({ consumerData, open, setOpen, placeBid }) {
                                             return (
                                                 <tr key={index} style={{ alignItems: 'center' }}>
                                                     <td style={tableBodyStyle}>
-                                                        <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                                                        <div style={{ display: 'flex', gap: 5 }}>
                                                             <Avatar size="small" variant="rounded" alt="P"></Avatar>
                                                             <Typography component="div" variant="p">
                                                                 {item?.name}
@@ -223,10 +158,9 @@ export default function Popup({ consumerData, open, setOpen, placeBid }) {
                                 </tbody>
                             </table>
                         </Box>
-
                         <br></br>
                         <Divider />
-                        <Typography variant="p" fontWeight="bold" color="#013f56" component="div">
+                        <Typography variant="subtitle1" fontWeight="bold" color="secondary" component="div">
                             Images
                         </Typography>
                         <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', gap: 2 }}>
@@ -244,10 +178,10 @@ export default function Popup({ consumerData, open, setOpen, placeBid }) {
                                 })}
                         </div>
                         <br></br>
-                        <Typography variant="p" fontWeight="bold" color="#013f56" component="div">
+                        <Typography variant="subtitle1" fontWeight="bold" color="secondary" component="div">
                             Seller Location
                         </Typography>
-                        <Typography variant="p" color="#013f56" component="div">
+                        <Typography variant="subtitle2" color="secondary" component="div">
                             {data?.displayLocation?.address}
                         </Typography>
                     </Stack>

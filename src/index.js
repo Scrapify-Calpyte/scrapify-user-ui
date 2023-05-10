@@ -19,7 +19,24 @@ import 'typeface-inter';
 
 const theme = createTheme({
     typography: {
-        fontFamily: 'Cursive'
+        fontFamily: 'Inter ,Cursive , Arial, sans-serif'
+    },
+    palette: {
+        primary: {
+            main: '#1bd7a0' // Set the desired primary color
+        },
+        secondary: {
+            main: '#013f56' // Set the desired secondary color
+        },
+        light: {
+            main: '#FBFCFC'
+        },
+        dark: {
+            main: '#343a40'
+        },
+        grey: {
+            main: '#818694'
+        }
     }
 });
 

@@ -1,18 +1,5 @@
-import {
-    Avatar,
-    Divider,
-    FormHelperText,
-    Grid,
-    InputAdornment,
-    Stack,
-    TextField,
-    Typography,
-    Button,
-    Box,
-    useMediaQuery
-} from '@mui/material/index';
-import { useContext, useState } from 'react';
-import { ThemeContext } from '~/util/ThemeProvider';
+import { Avatar, Divider, FormHelperText, Grid, Stack, Typography, Button, Box, useMediaQuery } from '@mui/material/index';
+import { useState } from 'react';
 import StarIcon from '@mui/icons-material/Star';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
@@ -26,10 +13,7 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import PropTypes from 'prop-types';
 import { animations } from 'react-animation';
 import { useEffect } from 'react';
-import { animateScroll as scroll } from 'react-scroll';
-
 function BidDetail({ setIsDetail, bid, handleAction }) {
-    const { colors, fonts } = useContext(ThemeContext);
     const matches = useMediaQuery('(max-width:768px)');
     const [isComplete, setIsComplete] = useState(false);
 
@@ -58,7 +42,7 @@ function BidDetail({ setIsDetail, bid, handleAction }) {
                                         </Avatar>
                                     </Stack>
                                     <Stack alignItems="start">
-                                        <Typography color={colors.primary} fontWeight="bold" component="div" variant="p">
+                                        <Typography color="secondary" fontWeight="bold" component="div" variant="p">
                                             {bid?.buyer?.firstName + ' ' + bid?.buyer?.lastName}
                                         </Typography>
                                         <Typography color="#818694" sx={{ fontSize: '12px' }} fontWeight="bold" component="div" variant="p">
@@ -66,14 +50,14 @@ function BidDetail({ setIsDetail, bid, handleAction }) {
                                             Location
                                         </Typography>
                                         <Typography
-                                            color="orange"
+                                            color="secondary"
                                             sx={{ fontSize: '12px', display: 'flex' }}
                                             fontWeight="bold"
                                             component="div"
                                             variant="p"
                                         >
-                                            <StarIcon sx={{ fontSize: '12px' }} />
-                                            <p style={{ color: colors.primary }}>4.5</p>
+                                            <StarIcon sx={{ color: 'orange', fontSize: '12px' }} />
+                                            4.5
                                         </Typography>
                                     </Stack>
                                 </Stack>
@@ -133,7 +117,7 @@ function BidDetail({ setIsDetail, bid, handleAction }) {
                                                         </Avatar>
                                                     </Stack>
                                                     <Stack alignItems="start">
-                                                        <Typography color={colors.primary} component="div" variant="p">
+                                                        <Typography color="secondary" component="div" variant="p">
                                                             {proposal?.product?.name}
                                                         </Typography>
                                                         <Typography

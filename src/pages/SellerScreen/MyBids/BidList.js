@@ -7,13 +7,11 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import Box from '@mui/material/Box';
 import { Avatar, Button, Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material/index';
-import { useContext, useEffect, useState } from 'react';
-import { ThemeContext } from '~/util/ThemeProvider';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { animations } from 'react-animation';
 
 function BidList({ bids = [], handleActions }) {
-    const { colors, fonts } = useContext(ThemeContext);
     const matches = useMediaQuery('(max-width:768px)');
     const [isComplete, setIsComplete] = useState(false);
 
@@ -69,7 +67,7 @@ function BidList({ bids = [], handleActions }) {
                                                     </Avatar>
                                                 </Stack>
                                                 <Stack alignItems="start">
-                                                    <Typography color={colors.primary} fontWeight="bold" component="div" variant="p">
+                                                    <Typography color="secondary" fontWeight="bold" component="div" variant="p">
                                                         {data?.buyer?.firstName + ' ' + data?.buyer?.lastName}
                                                     </Typography>
                                                     <Typography
@@ -83,14 +81,14 @@ function BidList({ bids = [], handleActions }) {
                                                         Location
                                                     </Typography>
                                                     <Typography
-                                                        color="orange"
+                                                        color="secondary"
                                                         sx={{ fontSize: '12px', display: 'flex' }}
                                                         fontWeight="bold"
                                                         component="div"
                                                         variant="p"
                                                     >
-                                                        <StarIcon sx={{ fontSize: '12px' }} />
-                                                        <p style={{ color: colors.primary }}>4.5</p>
+                                                        <StarIcon sx={{ color: 'orange', fontSize: '12px' }} />
+                                                        4.5
                                                     </Typography>
                                                 </Stack>
                                             </Stack>

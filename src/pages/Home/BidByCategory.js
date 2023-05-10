@@ -2,15 +2,13 @@ import { ThemeButton } from '~/util/MyComponents';
 import PropTypes from 'prop-types';
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import { Button, FormControl, FormHelperText, InputAdornment, Stack, Typography } from '@mui/material/index';
-import { useContext, useEffect, useState } from 'react';
-import { ThemeContext } from '~/util/ThemeProvider';
+import { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Slider from '@mui/material/Slider';
 import { animations } from 'react-animation';
 
 function BidByCategory({ setIsByCategory, categories = [] }) {
-    const { colors, fonts } = useContext(ThemeContext);
     const [products, setProducts] = useState([]);
     const [formValues, setFormValues] = useState({
         category: '',
@@ -36,7 +34,7 @@ function BidByCategory({ setIsByCategory, categories = [] }) {
         <>
             <Stack padding={2} spacing={1} sx={{ animation: animations.fadeIn, zIndex: 1 }}>
                 <Typography
-                    color={colors.primary}
+                    color="secondary"
                     sx={{ textTransform: 'none' }}
                     component={Button}
                     variant="h6"
@@ -97,7 +95,7 @@ function BidByCategory({ setIsByCategory, categories = [] }) {
                         name="distance"
                         value={formValues?.distance}
                         onChange={(e) => handleChange(e?.target)}
-                        sx={{ color: colors.primary }}
+                        color="secondary"
                         min={10}
                         max={100}
                     />

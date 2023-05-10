@@ -5,12 +5,9 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import { Box, Grid } from '@mui/material/index';
-import { ThemeContext } from '~/util/ThemeProvider';
 import { animations } from 'react-animation';
-import { useContext } from 'react';
 export default function ProductList({ products, setProduct }) {
     const [selectedProduct, setSelectedProduct] = useState([]);
-    const { colors, fonts } = useContext(ThemeContext);
 
     useEffect(() => {}, []);
 
@@ -46,7 +43,7 @@ export default function ProductList({ products, setProduct }) {
                                 >
                                     <Avatar src={img} sx={{ height: '70px', width: '70px' }}></Avatar>
                                 </Box>
-                                <Typography component="div" variant="subtitle2" color={colors?.primary} fontWeight="bold">
+                                <Typography component="div" variant="subtitle2" color="secondary" fontWeight="bold">
                                     {product?.name}
                                 </Typography>
                             </Stack>

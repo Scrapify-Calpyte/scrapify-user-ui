@@ -1,7 +1,6 @@
 import './index.css';
 import { Grid, Stack, Box, Typography, useMediaQuery, Button } from '@mui/material/index';
-import { useContext, useState } from 'react';
-import { ThemeContext } from '~/util/ThemeProvider';
+import { useState } from 'react';
 import InventoryProduct from './InventoryProduct';
 import { useEffect } from 'react';
 import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
@@ -24,7 +23,6 @@ import SelectedProducts from '~/pages/ReusableComponents/Register/SelectedProduc
 import bg from '~/assets/images/bg.png';
 
 function SellerInventory() {
-    const { colors, fonts } = useContext(ThemeContext);
     const matches = useMediaQuery('(max-width:768px)');
     const [formData, setFormData] = useState({});
     const axios = useAxios();
@@ -160,19 +158,17 @@ function SellerInventory() {
                     height: '92vh',
                     display: 'flex',
                     justifyContent: 'center'
-                    // alignItems: 'center',
-                    // backgroundColor: colors.theme,
                 }}
             >
                 <Box sx={{ width: matches ? '100%' : '70%', padding: '2%', animation: animations.popIn }}>
                     <Grid container spacing={1}>
                         <Grid item lg={6} md={6} sm={12} xs={12}>
-                            <Typography fontWeight="bold" fontSize="large" color={colors.primary}>
+                            <Typography fontWeight="bold" fontSize="large" color="secondary">
                                 Scrap Inventory
                             </Typography>
                         </Grid>
                         <Grid item lg={6} md={6} sm={12} xs={12} sx={{ display: 'flex', flexDirection: matches ? 'row' : 'row-reverse' }}>
-                            <Typography fontWeight="bold" color={colors.primary} fontSize="small">
+                            <Typography fontWeight="bold" color="secondary" fontSize="small">
                                 {step === 0 ? '' : ' Estimated Scrap Amt. #200.00'}
                             </Typography>
                         </Grid>
@@ -206,7 +202,8 @@ function SellerInventory() {
                                             })}
                                         <Button
                                             onClick={() => setOpen(true)}
-                                            sx={{ color: colors.primary, fontWeight: 'bold', textTransform: 'none' }}
+                                            color="secondary"
+                                            sx={{ fontWeight: 'bold', textTransform: 'none' }}
                                             size="small"
                                         >
                                             <ControlPointOutlinedIcon /> &nbsp; Add More Products
@@ -254,7 +251,7 @@ function SellerInventory() {
             >
                 <DialogTitle id="alert-dialog-title">
                     <Stack flexDirection="row" justifyContent="space-between">
-                        <Typography fontWeight="bold" color={colors.primary} component="div" variant="subtitle1">
+                        <Typography fontWeight="bold" color="secondary" component="div" variant="subtitle1">
                             {step === 0 ? ' Select Scrap Product' : 'Selected Scrap Products'}
                         </Typography>
                         <IconButton size="small" onClick={() => handleDialog(false)}>

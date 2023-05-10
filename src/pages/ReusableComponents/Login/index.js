@@ -1,23 +1,16 @@
-import { useEffect, useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
-import { Box, FormControl, IconButton, Stack, Tooltip, Typography } from '@mui/material/index';
-import { useMediaQuery } from '@mui/material/index';
-import { ThemeContext } from '~/util/ThemeProvider';
-import { styled } from '@mui/material/styles';
+import { FormControl, IconButton, Stack, Tooltip, Typography } from '@mui/material/index';
 import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import GoogleIcon from '@mui/icons-material/Google';
 import OtpInput from 'react-otp-input';
 import { ToastContainer, toast } from 'react-toastify';
-import Badge from '@mui/material/Badge';
 import CloseIcon from '@mui/icons-material/Close';
-import Register from '../Register/index';
 import { useAxios } from '~/components/useAxios';
 import { AuthContext } from '~/context/AuthProvider/index';
 import Cookies from 'js-cookie';
@@ -26,7 +19,6 @@ import { ApiConfig } from '~/components/ApiConfig';
 import { MyToggleButtonGroup, ThemeButton, ThemeButton2 } from '~/util/MyComponents';
 
 export default function Login({ open, close, switchToRegister }) {
-    const { colors, fonts } = useContext(ThemeContext);
     const [toggle, setToggle] = useState('seller');
     const [step, setStep] = useState(0);
     const axios = useAxios();
@@ -102,15 +94,10 @@ export default function Login({ open, close, switchToRegister }) {
     return (
         <>
             <Dialog
-                // PaperProps={{
-                //     sx: {
-                //     }
-                // }}
                 BackdropProps={{
                     invisible: false
                 }}
                 open={open}
-                // onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
@@ -126,7 +113,8 @@ export default function Login({ open, close, switchToRegister }) {
                         <Typography
                             noWrap
                             component="div"
-                            sx={{ color: colors.secondary, fontSize: '2rem', fontWeight: 'bold', overflow: 'hidden' }}
+                            color="primary"
+                            sx={{ fontSize: '2rem', fontWeight: 'bold', overflow: 'hidden' }}
                         >
                             Scrapify
                         </Typography>
@@ -177,7 +165,8 @@ export default function Login({ open, close, switchToRegister }) {
                                                 onClick={switchToRegister}
                                                 component={Button}
                                                 varient="p"
-                                                sx={{ textTransform: 'none', fontSize: '0.7rem', color: colors.primary }}
+                                                color="secondary"
+                                                sx={{ textTransform: 'none', fontSize: '0.7rem' }}
                                             >
                                                 Don't have an account ? <b>Register Here</b>
                                             </Typography>
@@ -188,12 +177,7 @@ export default function Login({ open, close, switchToRegister }) {
                             1: (
                                 <>
                                     <FormControl style={{ alignItems: 'center' }}>
-                                        <Typography
-                                            id="group-label"
-                                            component="div"
-                                            varient="p"
-                                            sx={{ fontSize: '0.7rem', color: colors.primary }}
-                                        >
+                                        <Typography id="group-label" component="div" varient="p" color="secondary" fontSize="0.7rem">
                                             Verication Code is Sent to <b>+91-{formValues.phone}</b>
                                         </Typography>
                                         <br></br>
@@ -205,7 +189,6 @@ export default function Login({ open, close, switchToRegister }) {
                                                 fontSize: '1rem',
                                                 border: 'none',
                                                 boxShadow: 'none',
-                                                // borderRadius: '4px',
                                                 border: '0.5px solid grey'
                                             }}
                                             id="otp"
@@ -238,7 +221,8 @@ export default function Login({ open, close, switchToRegister }) {
                                                 component={Button}
                                                 onClick={switchToRegister}
                                                 varient="p"
-                                                sx={{ textTransform: 'none', fontSize: '0.7rem', color: colors.primary }}
+                                                color="secondary"
+                                                sx={{ textTransform: 'none', fontSize: '0.7rem' }}
                                             >
                                                 Don't have an account ? <b>&nbsp;Register Here</b>
                                             </Typography>
