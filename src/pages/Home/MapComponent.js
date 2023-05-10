@@ -98,7 +98,14 @@ function MapComponent({ location, consumersData, placeBid }) {
     };
 
     return isLoaded ? (
-        <GoogleMap zoom={8} mapContainerStyle={containerStyle} options={mapOptions} center={location} onLoad={onLoad} onUnmount={onUnmount}>
+        <GoogleMap
+            zoom={12}
+            mapContainerStyle={containerStyle}
+            options={mapOptions}
+            center={location}
+            onLoad={onLoad}
+            onUnmount={onUnmount}
+        >
             {consumersData?.length > 0 &&
                 consumersData.map((marker, index) => (
                     <Marker
