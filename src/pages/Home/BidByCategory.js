@@ -1,7 +1,7 @@
 import { ThemeButton } from '~/util/MyComponents';
 import PropTypes from 'prop-types';
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
-import { Button, FormControl, FormHelperText, InputAdornment, Stack, Typography } from '@mui/material/index';
+import { Button, FormControl, FormHelperText, IconButton, InputAdornment, Stack, Typography } from '@mui/material/index';
 import { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -79,6 +79,7 @@ function BidByCategory({ setIsByCategory, categories = [] }) {
                         onChange={(e) => handleChange(e.target)}
                         size="small"
                         type="number"
+                        margin="normal"
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
