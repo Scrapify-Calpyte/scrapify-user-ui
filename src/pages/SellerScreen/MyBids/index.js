@@ -34,9 +34,17 @@ function MyBids() {
         axios
             .get(ApiConfig.getSellerBids)
             .then((res) => {
-                let openBids = res?.data.filter((bid) => bid?.consumer?.status?.toLowerCase() === 'open');
-                console.log(openBids);
-                setBidStore((prev) => ({ ...prev, ['open']: [...openBids] }));
+                let openBids = res?.data.filter((bid) => bid?.status?.toLowerCase() === 'open');
+                let confirmedBids = res?.data.filter((bid) => bid?.status?.toLowerCase() === 'accepted');
+                let rejectedBids = res?.data.filter((bid) => bid?.status?.toLowerCase() === 'rejected');
+                let modifiedBids = res?.data.filter((bid) => bid?.status?.toLowerCase() === 'modified');
+                setBidStore((prev) => ({
+                    ...prev,
+                    ['open']: [...openBids],
+                    ['modified']: [...modifiedBids],
+                    ['confirmed']: [...confirmedBids],
+                    ['closed']: [...rejectedBids]
+                }));
             })
             .catch((err) => toast.error(err?.message));
     }
@@ -56,6 +64,24 @@ function MyBids() {
         }
     ];
 
+    function acceptBid(id) {
+        axios
+            .put(ApiConfig.acceptBid(id))
+            .then((res) => {
+                getMyBids();
+            })
+            .catch((err) => toast.error(err?.message));
+    }
+
+    function rejectBid(id) {
+        axios
+            .put(ApiConfig.rejectBid(id))
+            .then((res) => {
+                getMyBids();
+            })
+            .catch((err) => toast.error(err?.message));
+    }
+
     function getSelectedBid(id, action) {
         switch (action) {
             case 'more':
@@ -65,6 +91,12 @@ function MyBids() {
                 break;
             case 'modify':
                 setIsMessage(true);
+                break;
+            case 'accept':
+                acceptBid(id);
+                break;
+            case 'reject':
+                rejectBid(id);
                 break;
             default:
                 setIsDetail(false);

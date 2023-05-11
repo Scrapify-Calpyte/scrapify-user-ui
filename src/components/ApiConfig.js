@@ -23,5 +23,14 @@ export const ApiConfig = {
     //findMe
     findMe: 'user/consumer/me',
     //bids
-    getSellerBids: 'order/bid/seller/bids'
+    getSellerBids: 'order/bid/seller/bids',
+    //image
+    imageUrl: 'https://calpyte-scrapify.s3.ap-south-1.amazonaws.com/',
+
+    acceptBid: (id) => {
+        return 'order/bid/' + id + '/accept';
+    },
+    rejectBid: (id) => {
+        return 'order/bid/' + id + '/reject';
+    }
 };

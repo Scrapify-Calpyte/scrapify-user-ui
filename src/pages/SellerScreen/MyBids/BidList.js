@@ -15,6 +15,8 @@ function BidList({ bids = [], handleActions }) {
     const matches = useMediaQuery('(max-width:768px)');
     const [isComplete, setIsComplete] = useState(false);
 
+    useEffect(() => {}, [bids]);
+
     const products = [
         {
             id: 0,
@@ -154,28 +156,28 @@ function BidList({ bids = [], handleActions }) {
                                         <ThemeButton2
                                             startIcon={<MoreHorizOutlinedIcon />}
                                             sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
-                                            onClick={(e) => handleAction(data?.buyer?.id, 'more')}
+                                            onClick={(e) => handleAction(data?.id, 'more')}
                                         >
                                             More details
                                         </ThemeButton2>
                                         <ThemeButton2
                                             startIcon={<EditRoundedIcon />}
                                             sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
-                                            onClick={(e) => handleAction(data?.buyer?.id, 'modify')}
+                                            onClick={(e) => handleAction(data?.id, 'modify')}
                                         >
                                             Modify
                                         </ThemeButton2>
                                         <ThemeButton2
                                             startIcon={<ClearRoundedIcon />}
                                             sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
-                                            onClick={(e) => handleAction(data?.buyer?.id, 'reject')}
+                                            onClick={(e) => handleAction(data?.id, 'reject')}
                                         >
                                             Reject
                                         </ThemeButton2>
                                         <ThemeButton
                                             startIcon={<CheckRoundedIcon />}
                                             sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
-                                            onClick={(e) => handleAction(data?.buyer?.id, 'accept')}
+                                            onClick={(e) => handleAction(data?.id, 'accept')}
                                         >
                                             Accept
                                         </ThemeButton>
