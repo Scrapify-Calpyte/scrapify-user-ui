@@ -37,6 +37,28 @@ const theme = createTheme({
         grey: {
             main: '#818694'
         }
+    },
+    components: {
+        MuiInputBase: {
+            styleOverrides: {
+                root: {
+                    '&.Mui-disabled': {
+                        backgroundColor: '#EAEDED' // Set your desired background color for disabled TextField
+                    },
+                    '& .MuiInputAdornment-root': {
+                        backgroundColor: '#EAEDED',
+                        padding: '19px 14px'
+                    }
+                }
+            }
+        },
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    paddingRight: 0
+                }
+            }
+        }
     }
 });
 

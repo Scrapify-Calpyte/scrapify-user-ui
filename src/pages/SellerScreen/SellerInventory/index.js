@@ -208,7 +208,7 @@ function SellerInventory() {
                                                         inventoryData={inventory}
                                                         onFormDataChange={handleFormDataChange}
                                                         formData={formData}
-                                                        index={inventory?.id}
+                                                        index={inventory?.name}
                                                     />
                                                 );
                                             })}
