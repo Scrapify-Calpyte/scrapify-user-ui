@@ -19,9 +19,7 @@ import 'typeface-inter';
 
 const theme = createTheme({
     typography: {
-        fontFamily: 'Inter Tight, Cursive , Arial, sans-serif',
-        fontWeight: '600',
-        fontSize: '16px'
+        fontFamily: 'Inter Tight, Cursive , Arial, sans-serif'
     },
     palette: {
         primary: {

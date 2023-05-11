@@ -35,12 +35,14 @@ export default function Login({ open, close, switchToRegister }) {
     };
 
     function handleToggle(event, value) {
-        setFormValues({
-            phone: '',
-            otp: ''
-        });
-        setToggle(value);
-        setStep(0);
+        if (value) {
+            setFormValues({
+                phone: '',
+                otp: ''
+            });
+            setToggle(value);
+            setStep(0);
+        }
     }
 
     function handleOTP() {
@@ -100,12 +102,13 @@ export default function Login({ open, close, switchToRegister }) {
                 open={open}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                sx={{ background: '#004159', opacity: '0.9', zindex: '1', maxWidth: '100vw', padding: '5%' }}
-                PaperProps={{
-                    style: {
-                        width: '492px'
-                    }
-                }}
+                sx={{ background: '#004159', opacity: '0.9' }}
+                maxWidth="xs"
+                // PaperProps={{
+                //     style: {
+                //         width: '492px'
+                //     }
+                // }}
                 fullWidth
             >
                 <DialogTitle id="alert-dialog-title">
@@ -125,7 +128,13 @@ export default function Login({ open, close, switchToRegister }) {
                         >
                             Scrapify
                         </Typography>
-                        <MyToggleButtonGroup value={toggle} onChange={handleToggle} exclusive aria-label="Platform">
+                        <MyToggleButtonGroup
+                            sx={{ border: 'solid 2px #134f61' }}
+                            value={toggle}
+                            onChange={handleToggle}
+                            exclusive
+                            aria-label="Platform"
+                        >
                             <ToggleButton size="small" value="seller" sx={{ fontSize: '0.7rem' }}>
                                 Seller
                             </ToggleButton>
