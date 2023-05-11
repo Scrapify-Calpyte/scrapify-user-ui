@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import { Box, Grid } from '@mui/material/index';
 import { animations } from 'react-animation';
+import { ApiConfig } from '~/components/ApiConfig';
+import ImageIcon from '@mui/icons-material/Image';
 export default function ProductList({ products, setProduct }) {
     const [selectedProduct, setSelectedProduct] = useState([]);
 
@@ -31,17 +33,19 @@ export default function ProductList({ products, setProduct }) {
                 products.map((product, index) => {
                     return (
                         <Grid key={index} item lg={4} md={4} sm={4} xs={4} sx={{ justifyContent: 'center' }}>
-                            <Stack alignItems="center" spacing={2}>
+                            <Stack alignItems="center" spacing={1}>
                                 <Box
                                     onClick={() => handleSelectedProduct(index)}
                                     sx={{
                                         border: '1px solid #E5E5E5',
                                         borderRadius: '17px',
-                                        padding: '4%',
+                                        padding: '5%',
                                         boxShadow: selectedProduct.includes(index) ? '0px 4px 4px rgba(0, 0, 0, 0.25)' : 'none'
                                     }}
                                 >
-                                    <Avatar src={img} sx={{ height: '70px', width: '70px' }}></Avatar>
+                                    <Avatar src={ApiConfig.imageUrl + product?.icon} sx={{ height: '70px', width: '70px' }}>
+                                        <ImageIcon />
+                                    </Avatar>
                                 </Box>
                                 <Typography component="div" variant="subtitle2" color="secondary" fontWeight="bold">
                                     {product?.name}

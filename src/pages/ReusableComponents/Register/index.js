@@ -173,23 +173,8 @@ function Register({ open, close, switchToLogin }) {
             role: formValues?.userType,
             password: formValues?.otp
         };
-        const userData = new FormData();
-        userData.append('firstName', formValues?.name);
-        userData.append('lastName', formValues?.name);
-        userData.append('mobile', formValues?.phone);
-        userData.append('email', formValues?.email);
-        userData.append('role', formValues?.userType);
-        userData.append('password', formValues?.otp);
-
-        formData.append('file', formValues.image[0].file);
+        formData.append('file', formValues.image[0]?.file ? formValues.image[0]?.file : null);
         formData.append('request', JSON.stringify(data));
-        // console.log(formData);
-
-        let request = {
-            file: formValues.image[0].file,
-            request: data
-        };
-        // console.log(request);
         axios
             .post(ApiConfig.saveConsumer, formData, {
                 headers: {
@@ -463,19 +448,21 @@ function Register({ open, close, switchToLogin }) {
                                                     </>
                                                 )}
                                             </ImageUploading>
-                                            <TextField
-                                                id="name"
-                                                name="name"
-                                                label="Name"
-                                                value={formValues.name}
-                                                required
-                                                error={isTouched && formValues.name.trim() === ''}
-                                                onChange={(e) => handleChange(e.target)}
-                                                margin="normal"
-                                                fullWidth
-                                                size="small"
-                                            />
-                                            {/* <HelperText>{isTouched && formValues.name.trim() === '' && 'Name is Required'}</HelperText> */}
+                                            <FormControl fullWidth>
+                                                <FormHelperText sx={{ margin: 0 }}>Name *</FormHelperText>
+                                                <TextField
+                                                    sx={{ margin: 0 }}
+                                                    id="name"
+                                                    name="name"
+                                                    value={formValues.name}
+                                                    required
+                                                    error={isTouched && formValues.name.trim() === ''}
+                                                    onChange={(e) => handleChange(e.target)}
+                                                    margin="normal"
+                                                    fullWidth
+                                                    size="small"
+                                                />
+                                            </FormControl>
                                         </Grid>
                                     </>
                                 ),
@@ -483,18 +470,11 @@ function Register({ open, close, switchToLogin }) {
                                     <>
                                         <Grid item xs={12} sx={{ justifyContent: 'center' }}>
                                             <FormControl sx={{ width: '100%', marginTop: '10px' }}>
-                                                <InputLabel
-                                                    sx={{ color: isTouched && formValues.buisnessType.trim() === '' && 'red' }}
-                                                    id="buisnessType"
-                                                >
-                                                    Buisness Type
-                                                </InputLabel>
+                                                <FormHelperText sx={{ margin: 0 }}>Buisness type *</FormHelperText>
                                                 <Select
-                                                    labelId="buisnessType"
                                                     id="buisnessType"
                                                     value={formValues.buisnessType}
                                                     name="buisnessType"
-                                                    label="BuisnessType"
                                                     required
                                                     fullWidth
                                                     error={isTouched && formValues.buisnessType.trim() === ''}
@@ -519,10 +499,11 @@ function Register({ open, close, switchToLogin }) {
                                 3: (
                                     <>
                                         <Grid item xs={12} sx={{ justifyContent: 'center' }}>
+                                            <FormHelperText sx={{ margin: 0 }}>Email</FormHelperText>
                                             <TextField
+                                                sx={{ margin: 0 }}
                                                 id="email"
                                                 name="email"
-                                                label="Email"
                                                 value={formValues.email}
                                                 error={isTouched && !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formValues.email)}
                                                 onChange={(e) => handleChange(e.target)}
