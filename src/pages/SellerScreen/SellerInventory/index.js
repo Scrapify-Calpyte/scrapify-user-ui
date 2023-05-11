@@ -151,17 +151,27 @@ function SellerInventory() {
 
     return (
         <>
+            <div style={{ position: 'fixed', width: '100%', height: '100%' }}>
+                <img src={bg} className="img-fluid" style={{ width: '100%', height: '100%' }} alt="ico"></img>
+            </div>
             <Box
-                style={{ backgroundImage: 'url(' + bg + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', objectFit: 'cover' }}
                 sx={{
                     width: '100%',
                     height: '92vh',
                     display: 'flex',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    overflow: 'hidden'
                 }}
             >
-                <Box sx={{ width: matches ? '100%' : '70%', padding: '2%', animation: animations.fadeInUp }}>
-                    <Grid container spacing={1}>
+                <Box
+                    sx={{
+                        width: matches ? '100%' : '70%',
+                        padding: '2%',
+                        height: '92vh',
+                        animation: animations.fadeInUp
+                    }}
+                >
+                    <Grid container spacing={1} sx={{ height: '8vh' }}>
                         <Grid item lg={6} md={6} sm={12} xs={12}>
                             <Typography fontWeight="bold" fontSize="large" color="secondary">
                                 Scrap Inventory
@@ -185,7 +195,9 @@ function SellerInventory() {
                                             boxShadow: '0px 20px 30px rgba(0, 0, 0, 0.25)',
                                             backgroundColor: 'white',
                                             padding: '2%',
-                                            width: '100%'
+                                            width: '100%',
+                                            maxHeight: '60vh',
+                                            overflow: 'auto'
                                         }}
                                     >
                                         {inventoryData &&
@@ -221,7 +233,7 @@ function SellerInventory() {
                                             boxShadow: '0px 20px 30px rgba(0, 0, 0, 0.25)'
                                         }}
                                     >
-                                        <Button size="small" sx={{ dimensions: 'fit-content', textTransform: 'none' }}>
+                                        <Button color="secondary" size="small" sx={{ dimensions: 'fit-content', textTransform: 'none' }}>
                                             Go to Dashboard &nbsp; <NavigateNextIcon />
                                         </Button>
                                         <Stack flexDirection="row-reverse" gap={2}>
