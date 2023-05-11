@@ -173,16 +173,23 @@ function Register({ open, close, switchToLogin }) {
             role: formValues?.userType,
             password: formValues?.otp
         };
-        // const userData = new FormData();
-        // userData.append('firstName', formValues?.name);
-        // userData.append('lastName', formValues?.name);
-        // userData.append('mobile', formValues?.phone);
-        // userData.append('email', formValues?.email);
-        // userData.append('role', formValues?.userType);
-        // userData.append('password', formValues?.otp);
+        const userData = new FormData();
+        userData.append('firstName', formValues?.name);
+        userData.append('lastName', formValues?.name);
+        userData.append('mobile', formValues?.phone);
+        userData.append('email', formValues?.email);
+        userData.append('role', formValues?.userType);
+        userData.append('password', formValues?.otp);
 
         formData.append('file', formValues.image[0].file);
-        formData.append('request', data);
+        formData.append('request', JSON.stringify(data));
+        // console.log(formData);
+
+        let request = {
+            file: formValues.image[0].file,
+            request: data
+        };
+        // console.log(request);
         axios
             .post(ApiConfig.saveConsumer, formData, {
                 headers: {
