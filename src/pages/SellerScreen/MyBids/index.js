@@ -85,7 +85,7 @@ function MyBids() {
     function getSelectedBid(id, action) {
         switch (action) {
             case 'more':
-                let data = bidStore[selectedTab].find((bid) => bid?.buyer?.id === id);
+                let data = bidStore[selectedTab].find((bid) => bid?.id === id);
                 setSelectedBid(data);
                 setIsDetail(true);
                 break;
