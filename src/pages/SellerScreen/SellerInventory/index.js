@@ -160,7 +160,7 @@ function SellerInventory() {
                     justifyContent: 'center'
                 }}
             >
-                <Box sx={{ width: matches ? '100%' : '70%', padding: '2%', animation: animations.popIn }}>
+                <Box sx={{ width: matches ? '100%' : '70%', padding: '2%', animation: animations.fadeInUp }}>
                     <Grid container spacing={1}>
                         <Grid item lg={6} md={6} sm={12} xs={12}>
                             <Typography fontWeight="bold" fontSize="large" color="secondary">

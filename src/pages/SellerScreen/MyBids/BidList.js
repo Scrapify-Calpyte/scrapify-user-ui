@@ -16,26 +16,6 @@ function BidList({ bids = [], handleActions }) {
     const matches = useMediaQuery('(max-width:768px)');
     const [isComplete, setIsComplete] = useState(false);
 
-    useEffect(() => {}, [bids]);
-
-    const products = [
-        {
-            id: 0,
-            name: 'Bootle',
-            weight: '300kg'
-        },
-        {
-            id: 1,
-            name: 'plastic',
-            weight: '300kg'
-        },
-        {
-            id: 2,
-            name: 'wood',
-            weight: '300kg'
-        }
-    ];
-
     function handleAction(bidId, action) {
         handleActions(bidId, action);
     }
@@ -131,13 +111,7 @@ function BidList({ bids = [], handleActions }) {
                                                     );
                                                 }
                                             })}
-                                        <Grid
-                                            item
-                                            lg={data?.consumer?.proposals?.length < 3 ? (3 - data?.consumer?.proposals?.length) * 2 + 3 : 3}
-                                            md={12}
-                                            sm={12}
-                                            xs={12}
-                                        >
+                                        <Grid item lg={3} md={12} sm={12} xs={12}>
                                             <Box
                                                 sx={{
                                                     border: 'solid 1px #bfc2c9',
