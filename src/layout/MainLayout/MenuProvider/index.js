@@ -66,7 +66,7 @@ export default function MenuProvider() {
                     <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Stack flexDirection="row" alignItems="center" gap={1}>
                             <Hamburger duration={0.5} onToggle={() => setOpen(!open)} rounded toggled={open} size={25} />
-                            <Typography variant="h5" noWrap component="div">
+                            <Typography fontSize="20px" variant="h1" noWrap component="div">
                                 Scrapify
                             </Typography>
                         </Stack>
@@ -85,7 +85,7 @@ export default function MenuProvider() {
                         {authData !== null ? (
                             <Profile userData={authData} logout={logout} />
                         ) : (
-                            <ThemeButton onClick={() => setIsVerify(true)} sx={{ borderRadius: '30px' }}>
+                            <ThemeButton onClick={() => setIsVerify(true)} sx={{ borderRadius: '45px', padding: '5px 30px' }}>
                                 Login
                             </ThemeButton>
                         )}

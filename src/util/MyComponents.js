@@ -39,15 +39,15 @@ export const MyToggleButtonGroup = styled(ToggleButtonGroup)((props) => ({
     backgroundColor: props.theme.palette.light.main,
     border: '1px solid ' + props.theme.palette.light.main,
     padding: '1px',
-    borderRadius: '30px',
+    borderRadius: '40px',
     overflow: 'hidden',
     height: 'fit-content',
     '.MuiToggleButton-root': {
         color: props.theme.palette.secondary.main,
         border: 'none',
         backgroundColor: 'transparent',
-        borderRadius: '30px !important',
-        padding: '6px 10px',
+        borderRadius: '40px !important',
+        padding: '6px 20px',
         width: '100%',
         '&.Mui-selected': {
             backgroundColor: props.theme.palette.secondary.main,

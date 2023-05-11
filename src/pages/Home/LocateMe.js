@@ -13,6 +13,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import './home.css';
 import { useMediaQuery } from '@mui/material/index';
 import PropTypes from 'prop-types';
+import EditIcon from '@mui/icons-material/Edit';
 
 function LocateMe({ setSideNav }) {
     const matches = useMediaQuery('(max-width:768px)');
@@ -24,8 +25,8 @@ function LocateMe({ setSideNav }) {
                     secondaryAction={
                         <Stack flexDirection="row" gap={2}>
                             <Tooltip title="Locate me" arrow>
-                                <IconButton edge="end" onClick={() => alert('Locate me hitted')}>
-                                    <GpsFixedIcon color="primary" />
+                                <IconButton edge="end">
+                                    <EditIcon color="secondary" />
                                 </IconButton>
                             </Tooltip>
                             <div
@@ -45,19 +46,15 @@ function LocateMe({ setSideNav }) {
                         </Stack>
                     }
                 >
-                    <ListItemAvatar>
-                        <Avatar>
-                            <LocationOnIcon color="secondary" />
-                        </Avatar>
-                    </ListItemAvatar>
+                    <LocationOnIcon sx={{ height: '45px', width: '45px' }} color="secondary" />
                     <ListItemText
                         primary={
-                            <Typography color="secondary" fontWeight="bold">
+                            <Typography color="secondary" fontWeight="600" fontSize="18px">
                                 Chennai
                             </Typography>
                         }
                         secondary={
-                            <Typography color="primary" variant="subtitle2">
+                            <Typography color="primary" fontWeight="500" fontSize="14px">
                                 Change Location
                             </Typography>
                         }
