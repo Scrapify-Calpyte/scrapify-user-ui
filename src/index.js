@@ -16,51 +16,7 @@ import { AuthProvider } from './context/AuthProvider/index';
 import { createTheme, ThemeProvider as MUIThemeProvider } from '@mui/material/styles';
 const jwt_decode = require('jwt-decode');
 import 'typeface-inter';
-
-const theme = createTheme({
-    typography: {
-        fontFamily: 'Inter Tight, Cursive , Arial, sans-serif'
-    },
-    palette: {
-        primary: {
-            main: '#1cd8a2' // Set the desired primary color
-        },
-        secondary: {
-            main: '#013F56' // Set the desired secondary color
-        },
-        light: {
-            main: '#FBFCFC'
-        },
-        dark: {
-            main: '#343a40'
-        },
-        grey: {
-            main: '#818694'
-        }
-    },
-    components: {
-        MuiInputBase: {
-            styleOverrides: {
-                root: {
-                    '&.Mui-disabled': {
-                        backgroundColor: '#EAEDED' // Set your desired background color for disabled TextField
-                    },
-                    '& .MuiInputAdornment-root': {
-                        backgroundColor: '#EAEDED',
-                        padding: '19px 14px'
-                    }
-                }
-            }
-        },
-        MuiOutlinedInput: {
-            styleOverrides: {
-                root: {
-                    paddingRight: 0
-                }
-            }
-        }
-    }
-});
+import { theme } from './util/MyComponents';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

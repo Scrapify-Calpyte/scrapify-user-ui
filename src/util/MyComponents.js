@@ -2,6 +2,52 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import MuiAppBar from '@mui/material/AppBar';
+import { createTheme } from '@mui/material/styles';
+
+export const theme = createTheme({
+    typography: {
+        fontFamily: 'Inter Tight, Cursive , Arial, sans-serif'
+    },
+    palette: {
+        primary: {
+            main: '#1cd8a2' // Set the desired primary color
+        },
+        secondary: {
+            main: '#013F56' // Set the desired secondary color
+        },
+        light: {
+            main: '#FBFCFC'
+        },
+        dark: {
+            main: '#343a40'
+        },
+        grey: {
+            main: '#818694'
+        }
+    },
+    components: {
+        MuiInputBase: {
+            styleOverrides: {
+                root: {
+                    '&.Mui-disabled': {
+                        backgroundColor: '#EAEDED' // Set your desired background color for disabled TextField
+                    },
+                    '& .MuiInputAdornment-root': {
+                        backgroundColor: '#EAEDED',
+                        padding: '19px 14px'
+                    }
+                }
+            }
+        },
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    paddingRight: 0
+                }
+            }
+        }
+    }
+});
 
 export const ThemeButton = styled(Button)((props) => ({
     backgroundColor: props.theme.palette.secondary.main,
