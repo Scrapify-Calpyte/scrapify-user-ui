@@ -10,6 +10,7 @@ import { Avatar, Button, Divider, Grid, Stack, Typography, useMediaQuery } from 
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { animations } from 'react-animation';
+import { ApiConfig } from '~/components/ApiConfig';
 
 function BidList({ bids = [], handleActions }) {
     const matches = useMediaQuery('(max-width:768px)');
@@ -64,7 +65,11 @@ function BidList({ bids = [], handleActions }) {
                                             </Stack>
                                             <Stack flexDirection="row" gap={1}>
                                                 <Stack alignItems="center">
-                                                    <Avatar sx={{ width: '60px', height: '60px' }} variant="rounded">
+                                                    <Avatar
+                                                        src={ApiConfig.imageUrl + data?.buyer?.image}
+                                                        sx={{ width: '60px', height: '60px' }}
+                                                        variant="rounded"
+                                                    >
                                                         sd
                                                     </Avatar>
                                                 </Stack>
