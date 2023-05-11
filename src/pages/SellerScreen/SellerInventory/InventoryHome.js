@@ -11,7 +11,14 @@ export default function InventoryHome({ handleDialog }) {
             <Stack
                 alignItems="center"
                 gap={2}
-                sx={{ boxShadow: '0px 20px 30px rgba(0, 0, 0, 0.25)', backgroundColor: 'white', padding: '2%', width: '100%' }}
+                sx={{
+                    boxShadow: '0px 20px 30px rgba(0, 0, 0, 0.25)',
+                    backgroundColor: 'white',
+                    padding: '2%',
+                    width: '100%',
+                    height: '60vh',
+                    overflow: 'auto'
+                }}
             >
                 <div style={{ width: '100%', textAlign: 'center' }}>
                     <img className="img-fluid" style={{ objectFit: 'contain' }} src={img} loading="lazy" alt="ico"></img>
