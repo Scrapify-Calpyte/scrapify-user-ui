@@ -95,11 +95,12 @@ export default function Login({ open, close, switchToRegister }) {
         <>
             <Dialog
                 BackdropProps={{
-                    invisible: false
+                    invisible: true
                 }}
                 open={open}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                sx={{ background: '#004159', opacity: '0.96', zindex: '1' }}
             >
                 <DialogTitle id="alert-dialog-title">
                     <Stack flexDirection="row" justifyContent="end">
