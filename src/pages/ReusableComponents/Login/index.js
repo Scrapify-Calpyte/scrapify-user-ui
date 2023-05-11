@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
-import { FormControl, IconButton, Stack, Tooltip, Typography } from '@mui/material/index';
+import { FormControl, FormHelperText, IconButton, Stack, Tooltip, Typography } from '@mui/material/index';
 import ToggleButton from '@mui/material/ToggleButton';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -100,7 +100,13 @@ export default function Login({ open, close, switchToRegister }) {
                 open={open}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                sx={{ background: '#004159', opacity: '0.96', zindex: '1' }}
+                sx={{ background: '#004159', opacity: '0.9', zindex: '1', maxWidth: '100vw', padding: '5%' }}
+                PaperProps={{
+                    style: {
+                        width: '492px'
+                    }
+                }}
+                fullWidth
             >
                 <DialogTitle id="alert-dialog-title">
                     <Stack flexDirection="row" justifyContent="end">
@@ -129,16 +135,18 @@ export default function Login({ open, close, switchToRegister }) {
                         </MyToggleButtonGroup>
                     </Stack>
                 </DialogTitle>
-                <DialogContent sx={{ alignItems: 'center', textAlign: 'center' }}>
+                <DialogContent sx={{ alignItems: 'center', textAlign: 'center' }} fullWidth>
                     {
                         {
                             0: (
                                 <>
-                                    <FormControl>
+                                    <FormControl fullWidth>
+                                        <FormHelperText style={{ margin: '0' }} className="label-text">
+                                            Phone Number
+                                        </FormHelperText>
                                         <TextField
                                             id="phone"
                                             name="phone"
-                                            label="Phone Number"
                                             inputProps={{ pattern: '^[1-9]{1}[0-9]{9}$' }}
                                             value={formValues.phone}
                                             required
@@ -149,6 +157,7 @@ export default function Login({ open, close, switchToRegister }) {
                                             margin="normal"
                                             fullWidth
                                             size="small"
+                                            style={{ margin: '0', padding: '0' }}
                                         />
                                     </FormControl>
                                     <br></br>

@@ -26,3 +26,12 @@ code {
 .btn1:hover {
   scale : '-1'
 }
+
+.label-text{
+  font-family: 'Inter Tight';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #818694;
+}
