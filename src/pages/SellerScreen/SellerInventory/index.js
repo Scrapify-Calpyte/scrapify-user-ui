@@ -61,7 +61,7 @@ function SellerInventory() {
             .then((res) => {
                 if (res?.data && res?.data?.stock?.length > 0) {
                     setInventoryData(res?.data);
-                    let stockIds = res?.data?.stock.map((s) => s?.id);
+                    let stockIds = res?.data?.stock.map((s) => s?.product?.id);
                     if (stockIds.length > 0) {
                         setCategories((oldArr) =>
                             oldArr.map((old) => {
@@ -87,12 +87,11 @@ function SellerInventory() {
         let stockArr = [];
         inventoryData?.stock?.forEach((stock) => {
             let temp = { ...stock };
-            temp['quantity'] = formData[temp?.id]?.quantity;
-            temp['price'] = formData[temp?.id]?.price;
+            temp['quantity'] = formData[temp?.product?.id]?.quantity;
+            temp['price'] = formData[temp?.product?.id]?.price;
             stockArr.push(temp);
         });
-        console.log(stockArr);
-        // updateStocks({ id: inventoryData?.id, stock: stockArr });
+        updateStocks({ id: inventoryData?.id, stock: stockArr });
     }
 
     function handleDialog(status) {
@@ -127,7 +126,11 @@ function SellerInventory() {
             if (Object.keys(inventoryData)?.length > 0) {
                 (obj.id = inventoryData?.id), (obj.stock = [...inventoryData?.stock, ...stock]);
             } else {
+                stock = stock?.map((s) => {
+                    return { product: s, name: s?.name, quantity: 0, price: 0, unit: null, icon: null };
+                });
                 obj.stock = stock;
+                obj.id = null;
             }
             updateStocks(obj);
         }
@@ -209,7 +212,7 @@ function SellerInventory() {
                                                         inventoryData={inventory}
                                                         onFormDataChange={handleFormDataChange}
                                                         formData={formData}
-                                                        index={inventory?.name}
+                                                        index={inventory?.product?.id}
                                                     />
                                                 );
                                             })}
