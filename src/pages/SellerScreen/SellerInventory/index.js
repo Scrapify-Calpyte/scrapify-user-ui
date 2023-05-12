@@ -123,12 +123,13 @@ function SellerInventory() {
                 stock = [...stock, ...category?.products];
             });
             let obj = {};
+            stock = stock?.map((s) => {
+                return { product: s, name: s?.name, quantity: 0, price: 0, unit: null, icon: null };
+            });
             if (Object.keys(inventoryData)?.length > 0) {
-                (obj.id = inventoryData?.id), (obj.stock = [...inventoryData?.stock, ...stock]);
+                obj.id = inventoryData?.id;
+                obj.stock = [...inventoryData?.stock, ...stock];
             } else {
-                stock = stock?.map((s) => {
-                    return { product: s, name: s?.name, quantity: 0, price: 0, unit: null, icon: null };
-                });
                 obj.stock = stock;
                 obj.id = null;
             }
