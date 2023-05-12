@@ -91,7 +91,8 @@ function SellerInventory() {
             temp['price'] = formData[temp?.id]?.price;
             stockArr.push(temp);
         });
-        updateStocks({ id: inventoryData?.id, stock: stockArr });
+        console.log(stockArr);
+        // updateStocks({ id: inventoryData?.id, stock: stockArr });
     }
 
     function handleDialog(status) {
