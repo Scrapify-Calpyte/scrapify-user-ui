@@ -293,7 +293,6 @@ function Register({ open, close, switchToLogin }) {
                 }}
                 maxWidth="xs"
                 fullWidth
-                sx={{ background: '#004159', opacity: '0.9' }}
                 open={open}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
