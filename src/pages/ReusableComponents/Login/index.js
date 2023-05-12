@@ -165,7 +165,7 @@ export default function Login({ open, close, switchToRegister }) {
                                             margin="normal"
                                             fullWidth
                                             size="small"
-                                            style={{ margin: '0', padding: '0' }}
+                                            sx={{ margin: '0', padding: '0' }}
                                         />
                                     </FormControl>
                                     <br></br>
