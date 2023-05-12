@@ -16,7 +16,7 @@ export default function InventoryHome({ handleDialog }) {
                     backgroundColor: 'white',
                     padding: '2%',
                     width: '100%',
-                    height: '60vh',
+                    height: '70vh',
                     overflow: 'auto'
                 }}
             >
