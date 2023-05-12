@@ -160,7 +160,14 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                                         ))
                                     ) : (
                                         <Tooltip arrow title="Upload Image">
-                                            <Button onClick={onImageUpload} sx={{ backgroundColor: '#f2f6f8' }}>
+                                            <Button
+                                                onClick={onImageUpload}
+                                                sx={{
+                                                    backgroundColor: '#f2f6f8',
+                                                    height: matches ? '10vh' : '10vh',
+                                                    width: matches ? '10vh' : '10vh'
+                                                }}
+                                            >
                                                 <PhotoCameraIcon
                                                     sx={{
                                                         color: (theme) => theme.palette.secondary.main,
@@ -202,7 +209,14 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                                         ))
                                     ) : (
                                         <Tooltip arrow title="Upload Image">
-                                            <Button onClick={onImageUpload} sx={{ backgroundColor: '#f2f6f8' }}>
+                                            <Button
+                                                onClick={onImageUpload}
+                                                sx={{
+                                                    backgroundColor: '#f2f6f8',
+                                                    height: matches ? '10vh' : '10vh',
+                                                    width: matches ? '10vh' : '10vh'
+                                                }}
+                                            >
                                                 <PhotoCameraIcon
                                                     sx={{
                                                         color: (theme) => theme.palette.secondary.main,
