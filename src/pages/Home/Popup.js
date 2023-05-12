@@ -41,7 +41,7 @@ export default function Popup({ consumerData, open, setOpen, placeBid }) {
     return (
         <Dialog
             BackdropProps={{
-                invisible: true
+                invisible: false
             }}
             fullWidth
             maxWidth="sm"
@@ -59,12 +59,12 @@ export default function Popup({ consumerData, open, setOpen, placeBid }) {
                     overflow: 'hidden',
                     position: 'absolute',
                     zIndex: 4,
-                    top: matches ? '8vh' : '12vh',
-                    left: matches ? 0 : '280px'
+                    top: matches && '8vh'
+                    // left: matches ? 0 : '280px'
                 }
             }}
         >
-            <DialogTitle sx={{ padding: '0 5px', margin: 0 }}>
+            <DialogTitle sx={{ padding: '0 5px', margin: 0, backgroundColor: 'white', opacity: 1 }}>
                 <ListItemButton
                     key={1}
                     selected={false}
