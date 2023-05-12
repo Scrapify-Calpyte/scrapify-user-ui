@@ -39,10 +39,19 @@ export const theme = createTheme({
                 }
             }
         },
+        MuiDialog: {
+            styleOverrides: {
+                root: {
+                    background: '#013F56',
+                    opacity: '0.9'
+                }
+            }
+        },
         MuiOutlinedInput: {
             styleOverrides: {
                 root: {
-                    paddingRight: 0
+                    paddingRight: 0,
+                    paddingLeft: 0
                 }
             }
         }
