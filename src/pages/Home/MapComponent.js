@@ -165,7 +165,7 @@ function MapComponent({ location, consumersData, placeBid }) {
                                                 </td>
                                                 <td style={tableBodyStyle}>
                                                     <Typography component="div" variant="p">
-                                                        {item?.quantity + item?.unit?.name}
+                                                        {item?.quantity + ' ' + item?.unit?.name}
                                                     </Typography>
                                                 </td>
                                                 <td style={tableBodyStyle}>
