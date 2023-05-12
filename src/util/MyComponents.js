@@ -59,7 +59,7 @@ export const theme = createTheme({
                     paddingRight: 0,
                     paddingLeft: 0,
                     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#34495E', // Replace with your secondary color value
+                        border: 'solid 1.5px #013F56', // Replace with your secondary color value
                         color: '#34495E'
                     }
                 }

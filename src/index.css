@@ -35,9 +35,3 @@ code {
     line-height: 19px;
     color: #818694;
 }
-
-.MuiDialog-root {
-   background: '#004159';
-   opacity: '0.9';
-   z-index: '1'
-}

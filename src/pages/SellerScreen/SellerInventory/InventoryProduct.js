@@ -11,7 +11,8 @@ import {
     FormHelperText,
     Divider,
     Tooltip,
-    useMediaQuery
+    useMediaQuery,
+    Button
 } from '@mui/material/index';
 import { useEffect } from 'react';
 import img from '~/assets/images/product.png';
@@ -131,85 +132,91 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                     </Grid>
                 </Grid>
                 <Grid item md={9} lg={2} xs={10} sm={10}>
-                    <ImageUploading
-                        value={formData[index]?.image1 ? formData[index]?.image1 : []}
-                        onChange={onChangeImage1}
-                        maxNumber={maxNumber}
-                        dataURLKey="data_url"
-                    >
-                        {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
-                            <>
-                                {imageList.length > 0 ? (
-                                    imageList.map((image, index) => (
-                                        <Badge
-                                            key={index}
-                                            badgeContent={
-                                                <IconButton onClick={() => onImageRemoveAll()}>
-                                                    <CloseOutlinedIcon sx={{ width: '15px', height: '15px' }} />
-                                                </IconButton>
-                                            }
-                                        >
-                                            <Avatar
-                                                sx={{ height: matches ? '10vh' : '5vh', width: matches ? '10vh' : '5vh' }}
-                                                variant="square"
-                                                src={image['data_url']}
-                                            ></Avatar>
-                                        </Badge>
-                                    ))
-                                ) : (
-                                    <Tooltip arrow title="Upload Image">
-                                        <IconButton
-                                            style={isDragging ? { color: 'red' } : undefined}
-                                            onClick={onImageUpload}
-                                            {...dragProps}
-                                        >
-                                            <PhotoCameraIcon sx={{ height: matches ? '10vh' : '3vh', width: matches ? '10vh' : '3vh' }} />
-                                        </IconButton>
-                                    </Tooltip>
-                                )}
-                            </>
-                        )}
-                    </ImageUploading>
-                    &nbsp; &nbsp;
-                    <ImageUploading
-                        value={formData[index]?.image2 ? formData[index]?.image2 : []}
-                        onChange={onChangeImage2}
-                        maxNumber={maxNumber}
-                        dataURLKey="data_url"
-                    >
-                        {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
-                            <>
-                                {imageList.length > 0 ? (
-                                    imageList.map((image, index) => (
-                                        <Badge
-                                            key={index}
-                                            badgeContent={
-                                                <IconButton onClick={() => onImageRemoveAll()}>
-                                                    <CloseOutlinedIcon sx={{ width: '15px', height: '15px' }} />
-                                                </IconButton>
-                                            }
-                                        >
-                                            <Avatar
-                                                sx={{ height: matches ? '10vh' : '5vh', width: matches ? '10vh' : '5vh' }}
-                                                variant="square"
-                                                src={image['data_url']}
-                                            ></Avatar>
-                                        </Badge>
-                                    ))
-                                ) : (
-                                    <Tooltip arrow title="Upload Image">
-                                        <IconButton
-                                            style={isDragging ? { color: 'red' } : undefined}
-                                            onClick={onImageUpload}
-                                            {...dragProps}
-                                        >
-                                            <PhotoCameraIcon sx={{ height: matches ? '10vh' : '3vh', width: matches ? '10vh' : '3vh' }} />
-                                        </IconButton>
-                                    </Tooltip>
-                                )}
-                            </>
-                        )}
-                    </ImageUploading>
+                    <div style={{ display: 'flex', paddingTop: '11px', alignItems: 'stretch' }}>
+                        <ImageUploading
+                            value={formData[index]?.image1 ? formData[index]?.image1 : []}
+                            onChange={onChangeImage1}
+                            maxNumber={maxNumber}
+                            dataURLKey="data_url"
+                        >
+                            {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
+                                <>
+                                    {imageList.length > 0 ? (
+                                        imageList.map((image, index) => (
+                                            <Badge
+                                                key={index}
+                                                badgeContent={
+                                                    <IconButton onClick={() => onImageRemoveAll()}>
+                                                        <CloseOutlinedIcon sx={{ width: '15px', height: '15px' }} />
+                                                    </IconButton>
+                                                }
+                                            >
+                                                <Avatar
+                                                    sx={{ height: matches ? '10vh' : '10vh', width: matches ? '10vh' : '10vh' }}
+                                                    variant="rounded"
+                                                    src={image['data_url']}
+                                                ></Avatar>
+                                            </Badge>
+                                        ))
+                                    ) : (
+                                        <Tooltip arrow title="Upload Image">
+                                            <Button onClick={onImageUpload} sx={{ backgroundColor: '#f2f6f8' }}>
+                                                <PhotoCameraIcon
+                                                    sx={{
+                                                        color: (theme) => theme.palette.secondary.main,
+                                                        height: matches ? '10vh' : '3vh',
+                                                        width: matches ? '10vh' : '3vh'
+                                                    }}
+                                                />
+                                            </Button>
+                                        </Tooltip>
+                                    )}
+                                </>
+                            )}
+                        </ImageUploading>
+                        &nbsp; &nbsp;
+                        <ImageUploading
+                            value={formData[index]?.image2 ? formData[index]?.image2 : []}
+                            onChange={onChangeImage2}
+                            maxNumber={maxNumber}
+                            dataURLKey="data_url"
+                        >
+                            {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
+                                <>
+                                    {imageList.length > 0 ? (
+                                        imageList.map((image, index) => (
+                                            <Badge
+                                                key={index}
+                                                badgeContent={
+                                                    <IconButton onClick={() => onImageRemoveAll()}>
+                                                        <CloseOutlinedIcon sx={{ width: '15px', height: '15px' }} />
+                                                    </IconButton>
+                                                }
+                                            >
+                                                <Avatar
+                                                    sx={{ height: matches ? '10vh' : '10vh', width: matches ? '10vh' : '10vh' }}
+                                                    variant="rounded"
+                                                    src={image['data_url']}
+                                                ></Avatar>
+                                            </Badge>
+                                        ))
+                                    ) : (
+                                        <Tooltip arrow title="Upload Image">
+                                            <Button onClick={onImageUpload} sx={{ backgroundColor: '#f2f6f8' }}>
+                                                <PhotoCameraIcon
+                                                    sx={{
+                                                        color: (theme) => theme.palette.secondary.main,
+                                                        height: matches ? '10vh' : '3vh',
+                                                        width: matches ? '10vh' : '3vh'
+                                                    }}
+                                                />
+                                            </Button>
+                                        </Tooltip>
+                                    )}
+                                </>
+                            )}
+                        </ImageUploading>
+                    </div>
                 </Grid>
                 <Grid item md={3} lg={1} xs={2} sm={2} sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
                     <Tooltip arrow title="Delete">
