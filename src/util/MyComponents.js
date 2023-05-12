@@ -6,7 +6,13 @@ import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({
     typography: {
-        fontFamily: 'Inter Tight, Cursive , Arial, sans-serif'
+        fontFamily: 'Inter Tight, Cursive , Arial, sans-serif',
+        head: {
+            fontSize: '1rem'
+        },
+        subtitle: {
+            fontSize: '0.8rem'
+        }
     },
     palette: {
         primary: {
@@ -51,7 +57,11 @@ export const theme = createTheme({
             styleOverrides: {
                 root: {
                     paddingRight: 0,
-                    paddingLeft: 0
+                    paddingLeft: 0,
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#34495E', // Replace with your secondary color value
+                        color: '#34495E'
+                    }
                 }
             }
         }

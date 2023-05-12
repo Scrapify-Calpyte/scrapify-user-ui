@@ -98,7 +98,7 @@ function Home() {
     }
 
     const sideBarStyle = {
-        width: matches && sideNav ? '100%' : '300px',
+        width: matches && sideNav ? '100%' : '250px',
         height: '92vh',
         position: 'absolute',
         boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
@@ -114,7 +114,7 @@ function Home() {
         height: 'auto',
         width: '100%',
         zIndex: 1,
-        marginLeft: matches && !sideNav ? 0 : '300px',
+        marginLeft: matches && !sideNav ? 0 : '250px',
         animation: animations.popIn
     };
 
@@ -131,6 +131,7 @@ function Home() {
                         <FilterListIcon />
                     </ThemeButton>
                 )}
+
                 <Stack sx={sideBarStyle}>
                     {!isByCategory && (
                         <div style={{ display: !viewAll ? 'block' : 'none' }}>
@@ -148,7 +149,7 @@ function Home() {
                     )}
                     {isByCategory && !viewAll && <BidByCategory setIsByCategory={setIsByCategory} categories={categories} />}
                     <Stack flexDirection="row" justifyContent="space-between" alignItems="center" padding="10px">
-                        <Typography component="div" variant="p" color="secondary" fontWeight="bold">
+                        <Typography component="div" variant="heading6" color="secondary" fontWeight="bold">
                             Sellers Near By
                         </Typography>
                         <Button color="secondary" onClick={() => setViewAll(!viewAll)}>
