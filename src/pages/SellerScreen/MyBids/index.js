@@ -53,17 +53,6 @@ function MyBids() {
         getMyBids();
     }, []);
 
-    const bids = [
-        {
-            id: 0,
-            name: 'asdfhg'
-        },
-        {
-            id: 2,
-            name: 'sdf'
-        }
-    ];
-
     function acceptBid(id) {
         axios
             .put(ApiConfig.acceptBid(id))
