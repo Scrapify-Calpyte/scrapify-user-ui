@@ -13,6 +13,8 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import PropTypes from 'prop-types';
 import { animations } from 'react-animation';
 import { useEffect } from 'react';
+import PhotoIcon from '@mui/icons-material/Photo';
+
 function BidDetail({ setIsDetail, bid, handleAction }) {
     const matches = useMediaQuery('(max-width:768px)');
     const [isComplete, setIsComplete] = useState(false);
@@ -38,7 +40,7 @@ function BidDetail({ setIsDetail, bid, handleAction }) {
                                 <Stack flexDirection="row" gap={1}>
                                     <Stack alignItems="center">
                                         <Avatar sx={{ width: '60px', height: '60px' }} variant="rounded">
-                                            C
+                                            <PhotoIcon />
                                         </Avatar>
                                     </Stack>
                                     <Stack alignItems="start">
@@ -113,7 +115,7 @@ function BidDetail({ setIsDetail, bid, handleAction }) {
                                                 <Stack flexDirection="row" gap={1}>
                                                     <Stack alignItems="center">
                                                         <Avatar sx={{ width: '45px', height: '45px' }} variant="rounded">
-                                                            p
+                                                            <PhotoIcon />
                                                         </Avatar>
                                                     </Stack>
                                                     <Stack alignItems="start">

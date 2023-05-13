@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { animations } from 'react-animation';
 import { ApiConfig } from '~/components/ApiConfig';
+import PhotoIcon from '@mui/icons-material/Photo';
 
 function BidList({ bids = [], handleActions }) {
     const matches = useMediaQuery('(max-width:768px)');
@@ -50,7 +51,7 @@ function BidList({ bids = [], handleActions }) {
                                                         sx={{ width: '60px', height: '60px' }}
                                                         variant="rounded"
                                                     >
-                                                        sd
+                                                        <PhotoIcon />
                                                     </Avatar>
                                                 </Stack>
                                                 <Stack alignItems="start">
@@ -95,7 +96,7 @@ function BidList({ bids = [], handleActions }) {
                                                             >
                                                                 <Stack flexDirection="row" gap={1}>
                                                                     <Avatar sx={{ width: '45px', height: '45px' }} variant="rounded">
-                                                                        sdf
+                                                                        <PhotoIcon />
                                                                     </Avatar>
                                                                     <Stack spacing={0}>
                                                                         <Typography component="div" variant="p">
