@@ -36,10 +36,10 @@ export const theme = createTheme({
             styleOverrides: {
                 root: {
                     '&.Mui-disabled': {
-                        backgroundColor: '#EAEDED' // Set your desired background color for disabled TextField
+                        backgroundColor: '#f2f6f8' // Set your desired background color for disabled TextField
                     },
                     '& .MuiInputAdornment-root': {
-                        backgroundColor: '#EAEDED',
+                        backgroundColor: '#f2f6f8',
                         padding: '19px 14px'
                     }
                 }
@@ -48,7 +48,8 @@ export const theme = createTheme({
         MuiDialog: {
             styleOverrides: {
                 root: {
-                    background : 'rgba(1, 63, 86, 0.9)', 
+                    background : '#013F56DD'
+                    // 'rgba(1, 63, 86, 0.9)', 
                     // opacity: '0.9'
                 }
             }

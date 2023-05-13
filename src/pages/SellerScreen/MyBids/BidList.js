@@ -13,7 +13,7 @@ import { animations } from 'react-animation';
 import { ApiConfig } from '~/components/ApiConfig';
 import PhotoIcon from '@mui/icons-material/Photo';
 
-function BidList({ bids = [], handleActions }) {
+function BidList({ bids = [], handleActions , selectedTab }) {
     const matches = useMediaQuery('(max-width:768px)');
     const [isComplete, setIsComplete] = useState(false);
 
@@ -22,7 +22,7 @@ function BidList({ bids = [], handleActions }) {
     }
     useEffect(() => {
         setTimeout(setIsComplete(true), 300);
-    }, []);
+    }, [selectedTab]);
 
     return (
         <>
@@ -56,7 +56,7 @@ function BidList({ bids = [], handleActions }) {
                                                 </Stack>
                                                 <Stack alignItems="start">
                                                     <Typography color="secondary" fontWeight="bold" component="div" variant="p">
-                                                        {data?.buyer?.firstName + ' ' + data?.buyer?.lastName}
+                                                        {data?.buyer?.firstName}
                                                     </Typography>
                                                     <Typography
                                                         color="#bfc2c9"
@@ -140,27 +140,38 @@ function BidList({ bids = [], handleActions }) {
                                         >
                                             More details
                                         </ThemeButton2>
-                                        <ThemeButton2
-                                            startIcon={<EditRoundedIcon />}
-                                            sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
-                                            onClick={(e) => handleAction(data?.id, 'modify')}
-                                        >
-                                            Modify
-                                        </ThemeButton2>
-                                        <ThemeButton2
-                                            startIcon={<ClearRoundedIcon />}
-                                            sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
-                                            onClick={(e) => handleAction(data?.id, 'reject')}
-                                        >
-                                            Reject
-                                        </ThemeButton2>
-                                        <ThemeButton
-                                            startIcon={<CheckRoundedIcon />}
-                                            sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
-                                            onClick={(e) => handleAction(data?.id, 'accept')}
-                                        >
-                                            Accept
-                                        </ThemeButton>
+                                        {
+                                             ["open", "modified"].includes(selectedTab) &&
+                                                    <ThemeButton2
+                                                    startIcon={<EditRoundedIcon />}
+                                                    sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
+                                                    onClick={(e) => handleAction(data?.id, 'modify')}
+                                                >
+                                                    Modify
+                                            </ThemeButton2>
+                                        }
+                                       
+                                        {
+                                           ["open", "modified", "comfirmed"].includes(selectedTab) &&  
+                                                    <ThemeButton2
+                                                    startIcon={<ClearRoundedIcon />}
+                                                    sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
+                                                    onClick={(e) => handleAction(data?.id, 'reject')}
+                                                >
+                                                    Reject
+                                            </ThemeButton2>
+                                        }
+                                        {
+                                          ["open", "modified"].includes(selectedTab) && 
+                                          <ThemeButton
+                                          startIcon={<CheckRoundedIcon />}
+                                          sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
+                                          onClick={(e) => handleAction(data?.id, 'accept')}
+                                      >
+                                          Accept
+                                      </ThemeButton>
+                                        }
+                                       
                                     </Box>
                                     <Divider />
                                 </Stack>

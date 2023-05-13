@@ -132,7 +132,7 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                     </Grid>
                 </Grid>
                 <Grid item md={9} lg={2} xs={10} sm={10}>
-                    <div style={{ display: 'flex', paddingTop: '11px', alignItems: 'stretch' }}>
+                    <div style={{ display: 'flex', paddingTop: '25px'}}>
                         <ImageUploading
                             value={formData[index]?.image1 ? formData[index]?.image1 : []}
                             onChange={onChangeImage1}
@@ -152,7 +152,7 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                                                 }
                                             >
                                                 <Avatar
-                                                    sx={{ height: matches ? '10vh' : '10vh', width: matches ? '10vh' : '10vh' }}
+                                                    sx={{ height: matches ? '80px' : '40px', width: matches ? '80px' : '40px' }}
                                                     variant="rounded"
                                                     src={image['data_url']}
                                                 ></Avatar>
@@ -164,15 +164,15 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                                                 onClick={onImageUpload}
                                                 sx={{
                                                     backgroundColor: '#f2f6f8',
-                                                    height: matches ? '10vh' : '10vh',
-                                                    width: matches ? '10vh' : '10vh'
+                                                    height: matches ? '80px' : '40px',
+                                                    width: matches ? '80px' : '40px'
                                                 }}
                                             >
                                                 <PhotoCameraIcon
                                                     sx={{
                                                         color: (theme) => theme.palette.secondary.main,
-                                                        height: matches ? '10vh' : '3vh',
-                                                        width: matches ? '10vh' : '3vh'
+                                                        height: matches ? '40px' : '20px',
+                                                        width: matches ? '40px' : '20px'
                                                     }}
                                                 />
                                             </Button>
@@ -201,7 +201,7 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                                                 }
                                             >
                                                 <Avatar
-                                                    sx={{ height: matches ? '10vh' : '10vh', width: matches ? '10vh' : '10vh' }}
+                                                    sx={{ height: matches ? '80px' : '40px', width: matches ? '80px' : '40px' }}
                                                     variant="rounded"
                                                     src={image['data_url']}
                                                 ></Avatar>
@@ -213,15 +213,15 @@ function InventoryProduct({ inventoryData, onFormDataChange, index, formData }) 
                                                 onClick={onImageUpload}
                                                 sx={{
                                                     backgroundColor: '#f2f6f8',
-                                                    height: matches ? '10vh' : '10vh',
-                                                    width: matches ? '10vh' : '10vh'
+                                                    height: matches ? '80px' : '40px',
+                                                    width: matches ? '80px' : '40px'
                                                 }}
                                             >
                                                 <PhotoCameraIcon
                                                     sx={{
                                                         color: (theme) => theme.palette.secondary.main,
-                                                        height: matches ? '10vh' : '3vh',
-                                                        width: matches ? '10vh' : '3vh'
+                                                        height: matches ? '40px' : '20px',
+                                                        width: matches ? '40px' : '20px'
                                                     }}
                                                 />
                                             </Button>

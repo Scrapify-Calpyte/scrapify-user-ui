@@ -135,9 +135,9 @@ function MyBids() {
                 <br></br>
                 <Box sx={{ justifyContent: 'center', width: '100%', display: 'flex', padding: '5px' }}>
                     {isDetail ? (
-                        <BidDetail setIsDetail={setIsDetail} bid={selectedBid} />
+                        <BidDetail setIsDetail={setIsDetail} bid={selectedBid}  handleActions={getSelectedBid} selectedTab={selectedTab}  />
                     ) : (
-                        <BidList bids={bidStore[selectedTab]} handleActions={getSelectedBid} />
+                        <BidList bids={bidStore[selectedTab]} handleActions={getSelectedBid} selectedTab={selectedTab}/>
                     )}
                 </Box>
             </Box>
