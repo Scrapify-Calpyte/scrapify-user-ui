@@ -23,10 +23,10 @@ function LocateMe({ setSideNav }) {
             <List dense={true}>
                 <ListItem
                     secondaryAction={
-                        <Stack flexDirection="row" gap={2}>
+                        <Stack flexDirection="row" gap={1}>
                             <Tooltip title="Locate me" arrow>
                                 <IconButton edge="end">
-                                    <EditIcon color="secondary" />
+                                    <EditIcon size="small" color="secondary" />
                                 </IconButton>
                             </Tooltip>
                             <div
@@ -46,15 +46,15 @@ function LocateMe({ setSideNav }) {
                         </Stack>
                     }
                 >
-                    <LocationOnIcon sx={{ height: '45px', width: '45px' }} color="secondary" />
+                    <LocationOnIcon sx={{ height: '40px', width: '40px' }} color="secondary" />
                     <ListItemText
                         primary={
-                            <Typography color="secondary" fontWeight="600" fontSize="18px">
+                            <Typography color="secondary" component="div" variant="head">
                                 Chennai
                             </Typography>
                         }
                         secondary={
-                            <Typography color="primary" fontWeight="500" fontSize="14px">
+                            <Typography color="primary" component="div" variant="subtitle">
                                 Change Location
                             </Typography>
                         }

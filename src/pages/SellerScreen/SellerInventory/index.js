@@ -61,7 +61,7 @@ function SellerInventory() {
             .then((res) => {
                 if (res?.data && res?.data?.stock?.length > 0) {
                     setInventoryData(res?.data);
-                    let stockIds = res?.data?.stock.map((s) => s?.id);
+                    let stockIds = res?.data?.stock.map((s) => s?.product?.id);
                     if (stockIds.length > 0) {
                         setCategories((oldArr) =>
                             oldArr.map((old) => {
@@ -87,8 +87,8 @@ function SellerInventory() {
         let stockArr = [];
         inventoryData?.stock?.forEach((stock) => {
             let temp = { ...stock };
-            temp['quantity'] = formData[temp?.id]?.quantity;
-            temp['price'] = formData[temp?.id]?.price;
+            temp['quantity'] = formData[temp?.product?.id]?.quantity;
+            temp['price'] = formData[temp?.product?.id]?.price;
             stockArr.push(temp);
         });
         updateStocks({ id: inventoryData?.id, stock: stockArr });
@@ -123,10 +123,15 @@ function SellerInventory() {
                 stock = [...stock, ...category?.products];
             });
             let obj = {};
+            stock = stock?.map((s) => {
+                return { product: s, name: s?.name, quantity: 0, price: 0, unit: null, icon: null };
+            });
             if (Object.keys(inventoryData)?.length > 0) {
-                (obj.id = inventoryData?.id), (obj.stock = [...inventoryData?.stock, ...stock]);
+                obj.id = inventoryData?.id;
+                obj.stock = [...inventoryData?.stock, ...stock];
             } else {
                 obj.stock = stock;
+                obj.id = null;
             }
             updateStocks(obj);
         }
@@ -151,17 +156,27 @@ function SellerInventory() {
 
     return (
         <>
+            <div style={{ position: 'fixed', width: '100%', height: '100%' }}>
+                <img src={bg} className="img-fluid" style={{ width: '100%', height: '100%' }} alt="ico"></img>
+            </div>
             <Box
-                style={{ backgroundImage: 'url(' + bg + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', objectFit: 'cover' }}
                 sx={{
                     width: '100%',
                     height: '92vh',
                     display: 'flex',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    overflow: 'hidden'
                 }}
             >
-                <Box sx={{ width: matches ? '100%' : '70%', padding: '2%', animation: animations.fadeInUp }}>
-                    <Grid container spacing={1}>
+                <Box
+                    sx={{
+                        width: matches ? '100%' : '70%',
+                        padding: '2%',
+                        height: '92vh',
+                        animation: animations.fadeInUp
+                    }}
+                >
+                    <Grid container spacing={1} sx={{ height: '8vh' }}>
                         <Grid item lg={6} md={6} sm={12} xs={12}>
                             <Typography fontWeight="bold" fontSize="large" color="secondary">
                                 Scrap Inventory
@@ -185,7 +200,9 @@ function SellerInventory() {
                                             boxShadow: '0px 20px 30px rgba(0, 0, 0, 0.25)',
                                             backgroundColor: 'white',
                                             padding: '2%',
-                                            width: '100%'
+                                            width: '100%',
+                                            maxHeight: '60vh',
+                                            overflow: 'auto'
                                         }}
                                     >
                                         {inventoryData &&
@@ -196,7 +213,7 @@ function SellerInventory() {
                                                         inventoryData={inventory}
                                                         onFormDataChange={handleFormDataChange}
                                                         formData={formData}
-                                                        index={inventory?.id}
+                                                        index={inventory?.product?.id}
                                                     />
                                                 );
                                             })}
@@ -221,7 +238,7 @@ function SellerInventory() {
                                             boxShadow: '0px 20px 30px rgba(0, 0, 0, 0.25)'
                                         }}
                                     >
-                                        <Button size="small" sx={{ dimensions: 'fit-content', textTransform: 'none' }}>
+                                        <Button color="secondary" size="small" sx={{ dimensions: 'fit-content', textTransform: 'none' }}>
                                             Go to Dashboard &nbsp; <NavigateNextIcon />
                                         </Button>
                                         <Stack flexDirection="row-reverse" gap={2}>

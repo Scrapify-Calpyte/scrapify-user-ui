@@ -6,8 +6,12 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import { Box, Grid } from '@mui/material/index';
 import { animations } from 'react-animation';
+import { ApiConfig } from '~/components/ApiConfig';
+import ImageIcon from '@mui/icons-material/Image';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 export default function ProductList({ products, setProduct }) {
     const [selectedProduct, setSelectedProduct] = useState([]);
+    const [viewMore, setViewMore] = useState(8);
 
     useEffect(() => {}, []);
 
@@ -26,30 +30,69 @@ export default function ProductList({ products, setProduct }) {
     };
 
     return (
-        <Grid container rowSpacing={1} sx={{ animation: animations.fadeInUp }}>
+        <Grid container sx={{ animation: animations.fadeInUp }}>
             {products?.length > 0 &&
-                products.map((product, index) => {
+                products.slice(0, viewMore).map((product, index) => {
                     return (
-                        <Grid key={index} item lg={4} md={4} sm={4} xs={4} sx={{ justifyContent: 'center' }}>
-                            <Stack alignItems="center" spacing={2}>
+                        <Grid
+                            key={index}
+                            item
+                            lg={4}
+                            md={4}
+                            sm={4}
+                            xs={4}
+                            sx={{ justifyContent: 'center', width: '100px', height: '100px' }}
+                        >
+                            <Stack alignItems="center" spacing={0.5}>
                                 <Box
                                     onClick={() => handleSelectedProduct(index)}
                                     sx={{
                                         border: '1px solid #E5E5E5',
-                                        borderRadius: '17px',
-                                        padding: '4%',
+                                        borderRadius: '10px',
+                                        padding: '5%',
+                                        '&:hover': {
+                                            // boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'
+                                            // border: '2px solid #013f56'
+                                        },
                                         boxShadow: selectedProduct.includes(index) ? '0px 4px 4px rgba(0, 0, 0, 0.25)' : 'none'
                                     }}
                                 >
-                                    <Avatar src={img} sx={{ height: '70px', width: '70px' }}></Avatar>
+                                    <Avatar
+                                        variant="rounded"
+                                        src={ApiConfig.imageUrl + product?.icon}
+                                        alt="ico"
+                                        sx={{ height: '50px', width: '50px', borderRadius: '5px' }}
+                                    >
+                                        <ImageIcon />
+                                    </Avatar>
                                 </Box>
-                                <Typography component="div" variant="subtitle2" color="secondary" fontWeight="bold">
+                                <Typography component="div" variant="subtitle" color="secondary" fontWeight="bold">
                                     {product?.name}
                                 </Typography>
                             </Stack>
                         </Grid>
                     );
                 })}
+
+            <Grid item lg={4} md={4} sm={4} xs={4} sx={{ justifyContent: 'center' }}>
+                <Stack alignItems="center" spacing={1}>
+                    <Box
+                        onClick={() => setViewMore((prev) => (prev === 8 ? products?.length : 8))}
+                        sx={{
+                            border: '1px solid #E5E5E5',
+                            borderRadius: '17px',
+                            padding: '5%'
+                        }}
+                    >
+                        <Avatar alt="ico" sx={{ height: '50px', width: '50px' }}>
+                            <MoreHorizIcon sx={{ height: '40px', width: '40px' }} />
+                        </Avatar>
+                    </Box>
+                    <Typography component="div" variant="subtitle" fontSize="0.7rem" color="secondary" fontWeight="bold">
+                        {viewMore === 8 ? 'View More' : 'View Less'}
+                    </Typography>
+                </Stack>
+            </Grid>
         </Grid>
     );
 }

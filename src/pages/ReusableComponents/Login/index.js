@@ -102,7 +102,6 @@ export default function Login({ open, close, switchToRegister }) {
                 open={open}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                sx={{ background: '#004159', opacity: '0.9' }}
                 maxWidth="xs"
                 // PaperProps={{
                 //     style: {
@@ -166,7 +165,7 @@ export default function Login({ open, close, switchToRegister }) {
                                             margin="normal"
                                             fullWidth
                                             size="small"
-                                            style={{ margin: '0', padding: '0' }}
+                                            sx={{ margin: '0', padding: '0' }}
                                         />
                                     </FormControl>
                                     <br></br>

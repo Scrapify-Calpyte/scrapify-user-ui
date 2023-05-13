@@ -43,7 +43,7 @@ function ProductSelection({ checkedValues = [], setCheckedValues, categories = [
 
     return (
         <div style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <TextField label="Search Products" fullWidth margin="normal" onChange={handleSearch} variant="outlined" size="small" />
+            <TextField placeholder="Search Products" fullWidth margin="normal" onChange={handleSearch} variant="outlined" size="small" />
             <div style={{ height: '40vh', overflow: 'auto', padding: '10px', justifyContent: 'center' }}>
                 <Typography sx={{ display: filterArr.length === 0 ? 'block' : 'none' }}>No Record Found !</Typography>
                 {filterArr?.length > 0 &&
