@@ -97,17 +97,12 @@ export default function Login({ open, close, switchToRegister }) {
         <>
             <Dialog
                 BackdropProps={{
-                    invisible: true
+                    invisible: true,
                 }}
                 open={open}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
                 maxWidth="xs"
-                // PaperProps={{
-                //     style: {
-                //         width: '492px'
-                //     }
-                // }}
                 fullWidth
             >
                 <DialogTitle id="alert-dialog-title">

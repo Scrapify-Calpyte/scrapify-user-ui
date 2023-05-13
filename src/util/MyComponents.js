@@ -48,8 +48,8 @@ export const theme = createTheme({
         MuiDialog: {
             styleOverrides: {
                 root: {
-                    background: '#013F56',
-                    opacity: '0.9'
+                    background : 'rgba(1, 63, 86, 0.9)', 
+                    // opacity: '0.9'
                 }
             }
         },
