@@ -45,7 +45,7 @@ function SellersList({ consumersData = [], selectedIndex, setSelectedIndex, setO
                                                 <LocationOnIcon color="grey" style={{ fontSize: '15px' }} />
                                             </Stack>
                                         </Stack>
-                                        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                                        {/* <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                                             {data?.stock?.length > 0 &&
                                                 data?.stock?.slice(0, 3).map((product, index) => {
                                                     return (
@@ -63,14 +63,19 @@ function SellersList({ consumersData = [], selectedIndex, setSelectedIndex, setO
                                             ) : (
                                                 <></>
                                             )}
-                                        </div>
+                                        </div> */}
                                         <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
                                             <Typography color="secondary" fontWeight="bold" fontSize="11px">
                                                 <StarRateRoundedIcon sx={{ color: 'orange', fontSize: '13px' }} />
                                                 &nbsp; 4.0
                                             </Typography>
                                             <Typography color="primary" fontSize="11px">
-                                                View Details
+                                                54k reviews
+                                            </Typography>
+                                        </Stack>
+                                        <Stack flexDirection="row" alignItems="center">
+                                            <Typography color="grey" fontWeight="bold" fontSize="11px">
+                                               Updated 24 hrs ago
                                             </Typography>
                                         </Stack>
                                     </Stack>

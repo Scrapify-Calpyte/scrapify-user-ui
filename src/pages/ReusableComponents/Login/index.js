@@ -97,7 +97,7 @@ export default function Login({ open, close, switchToRegister }) {
         <>
             <Dialog
                 BackdropProps={{
-                    invisible: true,
+                    invisible: false,
                 }}
                 open={open}
                 aria-labelledby="alert-dialog-title"
