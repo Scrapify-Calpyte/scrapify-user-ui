@@ -23,7 +23,7 @@ import LocateMe from './LocateMe';
 import { useTheme } from '@mui/material/styles';
 
 function Home() {
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [selectedIndex, setSelectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
     const matches = useMediaQuery('(max-width:768px)');
     const [sideNav, setSideNav] = useState(false);
@@ -152,9 +152,6 @@ function Home() {
                         <Typography component="div" variant="heading6" color="secondary" fontWeight="bold">
                             Sellers Near By
                         </Typography>
-                        <Button color="secondary" onClick={() => setViewAll(!viewAll)}>
-                            {!viewAll ? 'View All' : 'Show Less'}{' '}
-                        </Button>
                     </Stack>
                     <SellersList
                         consumersData={consumersData}

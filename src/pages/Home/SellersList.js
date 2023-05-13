@@ -19,7 +19,7 @@ function SellersList({ consumersData = [], selectedIndex, setSelectedIndex, setO
                 {consumersData?.length > 0 &&
                     consumersData.map((data, index) => {
                         return (
-                            <div key={index}>
+                            <div key={index} sx={{ padding: '4%' }}>
                                 <ListItemButton
                                     key={index}
                                     selected={selectedIndex === index}
@@ -29,53 +29,45 @@ function SellersList({ consumersData = [], selectedIndex, setSelectedIndex, setO
                                     }}
                                     sx={{
                                         padding: 0,
-                                        width: '100%',
-                                        borderRight: selectedIndex === index ? 'solid 3px ' + palette.secondary.main : 'inherit'
+                                        width: '90%',
+                                        borderRight: selectedIndex === index ? 'solid 3px ' + palette.secondary.main : 'inherit',
+                                        margin: '3%',
+                                        borderRadius: '5px'
                                     }}
                                 >
-                                    <ListItemIcon>
-                                        <Avatar src={data?.seller?.image} variant="square" alt="P" sx={{ height: 50, width: 50 }}></Avatar>
+                                    <ListItemIcon color="black">
+                                        <Avatar
+                                            src={data?.seller?.image}
+                                            variant="square"
+                                            alt="P"
+                                            sx={{ height: 50, width: 50, background: '#EFF3F7' }}
+                                        ></Avatar>
                                     </ListItemIcon>
                                     <Stack alignItems="space-between" width="100%" padding="5px">
                                         <Stack flexDirection="row" justifyContent="space-between">
                                             <Typography color="secondary" fontWeight="bold" variant="subtitle2">
                                                 {data?.seller?.firstName + data?.seller?.lastName}
                                             </Typography>
-                                            <Stack flexDirection="row">
-                                                <LocationOnIcon color="grey" style={{ fontSize: '15px' }} />
-                                            </Stack>
                                         </Stack>
-                                        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                                            {data?.stock?.length > 0 &&
-                                                data?.stock?.slice(0, 3).map((product, index) => {
-                                                    return (
-                                                        <Tooltip key={index} title={product?.name} arrow>
-                                                            <div style={{ marginRight: '2px' }} className="chip">
-                                                                {product?.name}
-                                                            </div>
-                                                        </Tooltip>
-                                                    );
-                                                })}
-                                            {data?.stock.length > 3 ? (
-                                                <Tooltip title={data?.stock.length - 3 + 'more'} arrow>
-                                                    <div className="chip">{'+ ' + (data?.stock.length - 3) + 'more'}</div>
-                                                </Tooltip>
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </div>
                                         <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
                                             <Typography color="secondary" fontWeight="bold" fontSize="11px">
                                                 <StarRateRoundedIcon sx={{ color: 'orange', fontSize: '13px' }} />
                                                 &nbsp; 4.0
                                             </Typography>
-                                            <Typography color="primary" fontSize="11px">
-                                                View Details
+                                        </Stack>
+                                        <Stack flexDirection="row" justifyContent="space-between">
+                                            <Typography
+                                                variant="subtitle2"
+                                                fontSize="10px"
+                                                fontWeight="400"
+                                                color="#818694
+"
+                                            >
+                                                Last posted {data?.lastUpdated}
                                             </Typography>
                                         </Stack>
                                     </Stack>
                                 </ListItemButton>
-                                <Divider />
                             </div>
                         );
                     })}
