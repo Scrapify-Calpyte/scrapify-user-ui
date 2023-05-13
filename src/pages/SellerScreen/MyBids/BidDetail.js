@@ -15,13 +15,17 @@ import { animations } from 'react-animation';
 import { useEffect } from 'react';
 import PhotoIcon from '@mui/icons-material/Photo';
 
-function BidDetail({ setIsDetail, bid, handleAction }) {
+function BidDetail({ setIsDetail, bid, handleActions , selectedTab }) {
     const matches = useMediaQuery('(max-width:768px)');
     const [isComplete, setIsComplete] = useState(false);
 
     useEffect(() => {
         setTimeout(setIsComplete(true), 300);
-    }, []);
+    }, [selectedTab]);
+
+    function handleAction (id, action){
+        handleActions(id, action);
+    }
 
     return (
         <>
@@ -45,7 +49,7 @@ function BidDetail({ setIsDetail, bid, handleAction }) {
                                     </Stack>
                                     <Stack alignItems="start">
                                         <Typography color="secondary" fontWeight="bold" component="div" variant="p">
-                                            {bid?.buyer?.firstName + ' ' + bid?.buyer?.lastName}
+                                            {bid?.buyer?.firstName}
                                         </Typography>
                                         <Typography color="#818694" sx={{ fontSize: '12px' }} fontWeight="bold" component="div" variant="p">
                                             <LocationOnIcon sx={{ fontSize: '12px' }} />
@@ -216,7 +220,7 @@ function BidDetail({ setIsDetail, bid, handleAction }) {
                             >
                                 Reject
                             </ThemeButton2>
-                            <ThemeButton startIcon={<CheckRoundedIcon />} sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}>
+                            <ThemeButton  onClick={() => handleAction(null, 'reject')} startIcon={<CheckRoundedIcon />} sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}>
                                 Accept
                             </ThemeButton>
                         </Stack>

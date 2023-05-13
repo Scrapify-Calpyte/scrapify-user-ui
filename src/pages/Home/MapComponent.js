@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow, Circle } from '@react-google-maps/api';
 import Avatar from '@mui/material/Avatar';
-import { Stack, Typography, Box } from '@mui/material/index';
+import { Stack, Typography, Box, useMediaQuery } from '@mui/material/index';
 import PropTypes from 'prop-types';
 import { ThemeButton, ThemeButton2 } from '~/util/MyComponents';
 import { useTheme } from '@mui/material/styles';
@@ -12,6 +12,7 @@ function MapComponent({ location, consumersData, placeBid }) {
     const [infoOptions, setInfoOptions] = useState({});
     const [isShowMore, setIsShowMore] = useState(false);
     const { palette, typography } = useTheme();
+    const matches = useMediaQuery('(max-width:768px)');
 
     const containerStyle = {
         width: '100%',
@@ -28,7 +29,7 @@ function MapComponent({ location, consumersData, placeBid }) {
     const onLoad = React.useCallback(function callback(map) {
         setInfoOptions({
             pixelOffset: new window.google.maps.Size(0, -30),
-            maxWidth: '30vw'
+            maxWidth: '30px'
         });
         setMap(map);
     }, []);
@@ -118,7 +119,7 @@ function MapComponent({ location, consumersData, placeBid }) {
             {location ? <Marker position={location} /> : <></>}
             {/* <Polyline onLoad={onLoad} path={path} options={options} /> */}
             {selectedMarker && (
-                <InfoWindow
+                <InfoWindow 
                     options={infoOptions}
                     position={{
                         lat: selectedMarker?.displayLocation?.coordinates[0],
@@ -129,7 +130,7 @@ function MapComponent({ location, consumersData, placeBid }) {
                         // handlePopOver(false);
                     }}
                 >
-                    <Stack spacing={2} style={{ width: '100%', maxWidth: '90vw' }}>
+                    <Stack spacing={2} style={{ width: '100%', maxWidth:matches ? '80vw' :  '30vw' }}>
                         <Stack flexDirection="row" gap={1} alignItems="start">
                             <Avatar
                                 src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
@@ -141,7 +142,7 @@ function MapComponent({ location, consumersData, placeBid }) {
                                 <b>{selectedMarker?.seller?.firstName + selectedMarker?.seller?.lastName}</b>
                             </Typography>
                         </Stack>
-                        <table className="table table-responsive" style={{ fontFamily: typography.fontFamily }}>
+                        <table  className="table" style={{ fontFamily: typography.fontFamily , overflow : 'auto' }}>
                             <thead>
                                 <tr>
                                     <td style={tableHeaderStyle}>SCRAP TYPE</td>
