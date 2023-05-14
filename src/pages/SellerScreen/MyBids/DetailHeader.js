@@ -2,9 +2,16 @@ import { Button, Stack, Typography, useMediaQuery } from '@mui/material/index';
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import PropTypes from 'prop-types';
 import { animations } from 'react-animation';
+import { useNavigate } from 'react-router-dom';
+import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 
 function DetailHeader({ setIsDetail, selectedTab }) {
     const matches = useMediaQuery('(max-width:768px)');
+    const navigate = useNavigate();
+
+    function goToInventory() {
+        navigate('/seller/inventory');
+    }
 
     return (
         <>
@@ -27,7 +34,10 @@ function DetailHeader({ setIsDetail, selectedTab }) {
                     </Button>
                 </Stack>
                 <Stack flexDirection="row" alignItems="center" gap={2}>
-                    <Typography>Stock</Typography>
+                    <Typography color="secondary" sx={{ textTransform: 'none' }} component={Button} onClick={goToInventory}>
+                        <DashboardCustomizeIcon />
+                        &nbsp; Stock
+                    </Typography>
                 </Stack>
             </Stack>
         </>

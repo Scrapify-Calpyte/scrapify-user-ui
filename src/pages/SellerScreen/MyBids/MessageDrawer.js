@@ -46,7 +46,7 @@ function MessageDrawer({ open, setOpen, bid, modifyBid }) {
                     </Stack>
                 </Box>
                 <Stack sx={{ backgroundColor: '#f2f6f8', width: '100%', minHeight: '15vh', padding: '3%' }}>
-                    <TextField id="message" placeholder="Type your message here" multiline rows={4} variant="filled" />
+                    <TextField color="secondary" id="message" placeholder="Type your message here" multiline rows={4} variant="filled" />
                     <div style={{ textAlign: 'end' }}>
                         <ThemeButton sx={{ width: '100%', borderRadius: '0' }} onClick={handleModifyBid}>
                             <SendIcon /> &nbsp;Send
