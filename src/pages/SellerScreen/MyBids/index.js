@@ -58,6 +58,7 @@ function MyBids() {
         axios
             .put(ApiConfig.acceptBid(id))
             .then((res) => {
+                toast.success('Bid accepted successfully !');
                 getMyBids();
                 setIsDetail(false);
             })
@@ -68,6 +69,7 @@ function MyBids() {
         axios
             .put(ApiConfig.rejectBid(id))
             .then((res) => {
+                toast.success('Bid rejected successfully !');
                 getMyBids();
                 setIsDetail(false);
             })
@@ -81,6 +83,7 @@ function MyBids() {
                 message: data
             })
             .then((res) => {
+                toast.success('Bid modified successfully !');
                 getMyBids();
                 setIsMessage(false);
                 setIsDetail(false);
