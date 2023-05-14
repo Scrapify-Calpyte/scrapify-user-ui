@@ -164,12 +164,12 @@ export default function Popup({ consumerData, open, setOpen, placeBid }) {
                             Images
                         </Typography>
                         <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', gap: 2 }}>
-                                    <Avatar
-                                            alt="waste"
-                                            src="https://images.unsplash.com/photo-1562077981-4d7eafd44932?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d2FzdGV8ZW58MHx8MHx8&w=1000&q=80"
-                                            variant="square"
-                                            sx={{ height: 75, width: 75 }}
-                                        />
+                            <Avatar
+                                alt="waste"
+                                src="https://images.unsplash.com/photo-1562077981-4d7eafd44932?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d2FzdGV8ZW58MHx8MHx8&w=1000&q=80"
+                                variant="square"
+                                sx={{ height: 75, width: 75 }}
+                            />
                         </div>
                         <br></br>
                         <Typography variant="subtitle1" fontWeight="bold" color="secondary" component="div">

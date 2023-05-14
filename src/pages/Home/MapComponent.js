@@ -119,7 +119,7 @@ function MapComponent({ location, consumersData, placeBid }) {
             {location ? <Marker position={location} /> : <></>}
             {/* <Polyline onLoad={onLoad} path={path} options={options} /> */}
             {selectedMarker && (
-                <InfoWindow 
+                <InfoWindow
                     options={infoOptions}
                     position={{
                         lat: selectedMarker?.displayLocation?.coordinates[0],
@@ -130,7 +130,7 @@ function MapComponent({ location, consumersData, placeBid }) {
                         // handlePopOver(false);
                     }}
                 >
-                    <Stack spacing={2} style={{ width: '100%', maxWidth:matches ? '80vw' :  '30vw' }}>
+                    <Stack spacing={2} style={{ width: '100%', maxWidth: matches ? '80vw' : '30vw' }}>
                         <Stack flexDirection="row" gap={1} alignItems="start">
                             <Avatar
                                 src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/img/avatars/team1.jpg"
@@ -142,7 +142,7 @@ function MapComponent({ location, consumersData, placeBid }) {
                                 <b>{selectedMarker?.seller?.firstName + selectedMarker?.seller?.lastName}</b>
                             </Typography>
                         </Stack>
-                        <table  className="table" style={{ fontFamily: typography.fontFamily , overflow : 'auto' }}>
+                        <table className="table" style={{ fontFamily: typography.fontFamily, overflow: 'auto' }}>
                             <thead>
                                 <tr>
                                     <td style={tableHeaderStyle}>SCRAP TYPE</td>
@@ -190,20 +190,12 @@ function MapComponent({ location, consumersData, placeBid }) {
                                 <Typography variant="subtitle1" fontWeight="bold" color="secondary" component="div">
                                     Images
                                 </Typography>
-                                <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', gap: 2 }}>
-                                    {selectedMarker?.stock?.length > 0 &&
-                                        selectedMarker?.stock.map((p, index) => {
-                                            return (
-                                                <Avatar
-                                                    key={index}
-                                                    alt="waste"
-                                                    src="https://images.unsplash.com/photo-1562077981-4d7eafd44932?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d2FzdGV8ZW58MHx8MHx8&w=1000&q=80"
-                                                    variant="rounded"
-                                                    sx={{ height: 75, width: 75 }}
-                                                />
-                                            );
-                                        })}
-                                </div>
+                                <Avatar
+                                    alt="waste"
+                                    src="https://images.unsplash.com/photo-1562077981-4d7eafd44932?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d2FzdGV8ZW58MHx8MHx8&w=1000&q=80"
+                                    variant="rounded"
+                                    sx={{ height: 75, width: 75 }}
+                                />
                                 <Typography variant="subtitle1" fontWeight="bold" color="secondary" component="div">
                                     Seller Location
                                 </Typography>
