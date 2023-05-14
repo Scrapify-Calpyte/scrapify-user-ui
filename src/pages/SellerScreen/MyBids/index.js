@@ -142,7 +142,8 @@ function MyBids() {
                         <DetailHeader setIsDetail={setIsDetail} selectedTab={selectedTab} />
                     ) : (
                         <Header
-                            tabChange={tabChange}
+                            setSelectedTab={setSelectedTab}
+                            selectedTab={selectedTab}
                             count={{
                                 open: bidStore?.open?.length,
                                 modified: bidStore?.modified?.length,

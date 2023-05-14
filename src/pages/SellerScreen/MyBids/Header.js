@@ -9,8 +9,7 @@ import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 
-export default function Header({ tabChange, count }) {
-    const [value, setValue] = useState('open');
+export default function Header({ selectedTab, setSelectedTab, count }) {
     const matches = useMediaQuery('(max-width:768px)');
     const { palette } = useTheme();
     const navigate = useNavigate();
@@ -18,8 +17,7 @@ export default function Header({ tabChange, count }) {
     useEffect(() => {}, []);
 
     function handleChange(e, newValue) {
-        setValue(newValue);
-        tabChange(newValue);
+        setSelectedTab(newValue);
     }
 
     function goToInventory() {
@@ -72,7 +70,7 @@ export default function Header({ tabChange, count }) {
                     variant="scrollable"
                     scrollButtons={true}
                     allowScrollButtonsMobile
-                    value={value}
+                    value={selectedTab}
                     onChange={handleChange}
                     TabIndicatorProps={{
                         style: {
@@ -90,7 +88,7 @@ export default function Header({ tabChange, count }) {
                                             <Typography
                                                 component="div"
                                                 variant="subtitle2"
-                                                color={value === tab?.key && 'primary'}
+                                                color={selectedTab === tab?.key && 'primary'}
                                                 sx={{ textTransform: 'none' }}
                                             >
                                                 {tab?.value}
@@ -101,7 +99,7 @@ export default function Header({ tabChange, count }) {
                                                     width: 'fit-content',
                                                     minWidth: '20px',
                                                     fontSize: '10px',
-                                                    backgroundColor: value === tab?.key && palette?.primary?.main
+                                                    backgroundColor: selectedTab === tab?.key && palette?.primary?.main
                                                 }}
                                             >
                                                 {tab?.count}
