@@ -32,5 +32,8 @@ export const ApiConfig = {
     },
     rejectBid: (id) => {
         return 'order/bid/' + id + '/reject';
+    },
+    modifyBid: (id) => {
+        return `order/bid/${id}/seller/modify`;
     }
 };

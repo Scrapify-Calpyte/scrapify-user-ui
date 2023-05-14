@@ -3,7 +3,7 @@ import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRound
 import PropTypes from 'prop-types';
 import { animations } from 'react-animation';
 
-function DetailHeader({ setIsDetail }) {
+function DetailHeader({ setIsDetail, selectedTab }) {
     const matches = useMediaQuery('(max-width:768px)');
 
     return (
@@ -22,8 +22,8 @@ function DetailHeader({ setIsDetail }) {
                         <ArrowBackIosNewRoundedIcon />
                         &nbsp; BID 0010
                     </Typography>
-                    <Button variant="contained" color="primary" size="small">
-                        open
+                    <Button variant="contained" color="primary" sx={{ color: 'white' }} size="small">
+                        {selectedTab.toUpperCase()}
                     </Button>
                 </Stack>
                 <Stack flexDirection="row" alignItems="center" gap={2}>
