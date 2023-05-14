@@ -1,22 +1,29 @@
 import Box from '@mui/material/Box';
-import { Avatar, Badge, Stack, Typography, useMediaQuery } from '@mui/material/index';
+import { Avatar, Badge, Button, Stack, Typography, useMediaQuery } from '@mui/material/index';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { animations } from 'react-animation';
 import { useTheme } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 
 export default function Header({ tabChange, count }) {
     const [value, setValue] = useState('open');
     const matches = useMediaQuery('(max-width:768px)');
     const { palette } = useTheme();
+    const navigate = useNavigate();
 
     useEffect(() => {}, []);
 
     function handleChange(e, newValue) {
         setValue(newValue);
         tabChange(newValue);
+    }
+
+    function goToInventory() {
+        navigate('/seller/inventory');
     }
 
     let tabs = [
@@ -52,9 +59,14 @@ export default function Header({ tabChange, count }) {
                     animation: animations.fadeIn
                 }}
             >
-                <Typography color="secondary" component="div" variant="subtitle1" fontWeight="bold">
-                    My Bids
-                </Typography>
+                <Stack flexDirection="row" justifyContent="space-between">
+                    <Typography color="secondary" component="div" variant="subtitle1" fontWeight="bold">
+                        My Bids
+                    </Typography>
+                    <Typography color="secondary" sx={{ textTransform: 'none' }} component={Button} onClick={goToInventory}>
+                        <DashboardCustomizeIcon /> &nbsp; Stock
+                    </Typography>
+                </Stack>
                 <Tabs
                     sx={{ maxWidth: '95vw' }}
                     variant="scrollable"
