@@ -54,10 +54,12 @@ function MyBids() {
     }, []);
 
     function acceptBid(id) {
+        alert(id);
         axios
             .put(ApiConfig.acceptBid(id))
             .then((res) => {
                 getMyBids();
+                setIsDetail(false);
             })
             .catch((err) => toast.error(err?.message));
     }
@@ -67,18 +69,36 @@ function MyBids() {
             .put(ApiConfig.rejectBid(id))
             .then((res) => {
                 getMyBids();
+                setIsDetail(false);
+            })
+            .catch((err) => toast.error(err?.message));
+    }
+
+    function modifyBid(id, data) {
+        axios
+            .put(ApiConfig.modifyBid(id), {
+                id: id,
+                message: data
+            })
+            .then((res) => {
+                getMyBids();
+                setIsMessage(false);
+                setIsDetail(false);
             })
             .catch((err) => toast.error(err?.message));
     }
 
     function getSelectedBid(id, action) {
+        let data = null;
         switch (action) {
             case 'more':
-                let data = bidStore[selectedTab].find((bid) => bid?.id === id);
+                data = bidStore[selectedTab].find((bid) => bid?.id === id);
                 setSelectedBid(data);
                 setIsDetail(true);
                 break;
             case 'modify':
+                data = bidStore[selectedTab].find((bid) => bid?.id === id);
+                setSelectedBid(data);
                 setIsMessage(true);
                 break;
             case 'accept':
@@ -119,7 +139,7 @@ function MyBids() {
                     }}
                 >
                     {isDetail ? (
-                        <DetailHeader setIsDetail={setIsDetail} />
+                        <DetailHeader setIsDetail={setIsDetail} selectedTab={selectedTab} />
                     ) : (
                         <Header
                             tabChange={tabChange}
@@ -135,13 +155,13 @@ function MyBids() {
                 <br></br>
                 <Box sx={{ justifyContent: 'center', width: '100%', display: 'flex', padding: '5px' }}>
                     {isDetail ? (
-                        <BidDetail setIsDetail={setIsDetail} bid={selectedBid}  handleActions={getSelectedBid} selectedTab={selectedTab}  />
+                        <BidDetail setIsDetail={setIsDetail} bid={selectedBid} handleActions={getSelectedBid} selectedTab={selectedTab} />
                     ) : (
-                        <BidList bids={bidStore[selectedTab]} handleActions={getSelectedBid} selectedTab={selectedTab}/>
+                        <BidList bids={bidStore[selectedTab]} handleActions={getSelectedBid} selectedTab={selectedTab} />
                     )}
                 </Box>
             </Box>
-            <MessageDrawer open={isMessage} setOpen={setIsMessage} />
+            {isMessage && <MessageDrawer open={isMessage} setOpen={setIsMessage} bid={selectedBid} modifyBid={modifyBid} />}
         </>
     );
 }

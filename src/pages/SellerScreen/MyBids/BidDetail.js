@@ -15,17 +15,17 @@ import { animations } from 'react-animation';
 import { useEffect } from 'react';
 import PhotoIcon from '@mui/icons-material/Photo';
 
-function BidDetail({ setIsDetail, bid, handleActions , selectedTab }) {
+function BidDetail({ setIsDetail, bid, handleActions, selectedTab }) {
     const matches = useMediaQuery('(max-width:768px)');
     const [isComplete, setIsComplete] = useState(false);
 
     useEffect(() => {
         setTimeout(setIsComplete(true), 300);
-    }, [selectedTab]);
+    }, []);
 
-    function handleAction (id, action){
-        handleActions(id, action);
-    }
+    // function handleAction(id, action) {
+    //     handleActions(id, action);
+    // }
 
     return (
         <>
@@ -206,23 +206,34 @@ function BidDetail({ setIsDetail, bid, handleActions , selectedTab }) {
                             Go to Open Bids &nbsp; <NavigateNextIcon />
                         </Button>
                         <Stack flexDirection="row" gap={2} justifyContent="end">
-                            <ThemeButton2
-                                onClick={() => handleAction(null, 'modify')}
-                                startIcon={<EditRoundedIcon />}
-                                sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
-                            >
-                                Modify
-                            </ThemeButton2>
-                            <ThemeButton2
-                                onClick={() => handleAction(null, 'reject')}
-                                startIcon={<ClearRoundedIcon />}
-                                sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
-                            >
-                                Reject
-                            </ThemeButton2>
-                            <ThemeButton  onClick={() => handleAction(null, 'reject')} startIcon={<CheckRoundedIcon />} sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}>
-                                Accept
-                            </ThemeButton>
+                            {['open', 'modified'].includes(selectedTab) && (
+                                <ThemeButton2
+                                    onClick={() => handleActions(bid?.id, 'modify')}
+                                    startIcon={<EditRoundedIcon />}
+                                    sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
+                                >
+                                    Modify
+                                </ThemeButton2>
+                            )}
+                            {['open', 'modified', 'confirmed'].includes(selectedTab) && (
+                                <ThemeButton2
+                                    onClick={() => handleActions(bid?.id, 'reject')}
+                                    startIcon={<ClearRoundedIcon />}
+                                    sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
+                                >
+                                    Reject
+                                </ThemeButton2>
+                            )}
+
+                            {['open', 'modified'].includes(selectedTab) && (
+                                <ThemeButton
+                                    onClick={() => handleActions(bid?.id, 'accept')}
+                                    startIcon={<CheckRoundedIcon />}
+                                    sx={{ padding: '2px 20px 2px 10px', fontWeight: 'bold' }}
+                                >
+                                    Accept
+                                </ThemeButton>
+                            )}
                         </Stack>
                     </div>
                 </Box>
